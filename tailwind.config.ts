@@ -13,12 +13,23 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+        display: ['Anton', 'Bebas Neue', 'Inter', 'sans-serif'],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        flow: {
+          yellow: "hsl(var(--flow-yellow))",
+          cream: "hsl(var(--flow-cream))",
+          ink: "hsl(var(--flow-ink))",
+          water: "hsl(var(--flow-water))",
+          orange: "hsl(var(--flow-orange))",
+        },
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
