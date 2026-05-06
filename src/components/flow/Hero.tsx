@@ -44,11 +44,12 @@ export const Hero = () => {
           className="relative z-10 w-[78vw] max-w-[420px] h-auto select-none"
         />
 
-        <motion.div
+        <motion.a
+          href="#packs"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 1.2 }}
-          className="absolute bottom-10 flex flex-col items-center gap-2 text-flow-ink/55"
+          className="absolute bottom-10 flex flex-col items-center gap-2 text-flow-ink/55 hover:text-flow-ink transition-colors"
         >
           <span className="font-sans text-[10px] uppercase tracking-[0.4em]">role para descobrir</span>
           <motion.span
@@ -56,7 +57,7 @@ export const Hero = () => {
             transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
             className="font-sans text-base"
           >↓</motion.span>
-        </motion.div>
+        </motion.a>
       </div>
 
       {/* Bloco 2: conteúdo */}
@@ -122,9 +123,9 @@ export const Hero = () => {
           </div>
         </div>
 
-        <motion.div style={{ opacity: textOpacity }} className="hidden md:block absolute bottom-6 left-1/2 -translate-x-1/2 font-sans text-[10px] uppercase tracking-[0.4em] text-flow-ink/50">
+        <motion.a href="#packs" style={{ opacity: textOpacity }} className="hidden md:block absolute bottom-6 left-1/2 -translate-x-1/2 font-sans text-[10px] uppercase tracking-[0.4em] text-flow-ink/50 hover:text-flow-ink transition-colors">
           scroll ↓
-        </motion.div>
+        </motion.a>
       </div>
     </section>
     </>
