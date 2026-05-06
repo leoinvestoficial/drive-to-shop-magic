@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CartDrawer } from "./CartDrawer";
+import logo from "@/assets/brand/drive/flow-logo-1.svg";
 
 export const Header = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -19,14 +20,14 @@ export const Header = () => {
           <Link to="/" className="flex items-center gap-2 text-flow-ink">
             <AnimatePresence>
               {scrolled && (
-                <motion.span
+                <motion.img
+                  src={logo}
+                  alt="flow"
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0 }}
-                  className="font-display text-2xl lowercase tracking-tight leading-none"
-                >
-                  flow
-                </motion.span>
+                  className="h-7 w-auto"
+                />
               )}
             </AnimatePresence>
           </Link>

@@ -15,7 +15,7 @@ export default {
     extend: {
       fontFamily: {
         sans: ['Helvena', 'Inter', 'system-ui', 'sans-serif'],
-        display: ['Helvena', 'Inter', 'sans-serif'],
+        display: ['Halfre', 'Helvena', 'serif'],
         accent: ['Halfre', 'Helvena', 'serif'],
       },
       colors: {
