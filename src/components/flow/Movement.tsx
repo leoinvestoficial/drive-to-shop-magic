@@ -8,22 +8,22 @@ export const Movement = () => {
   const ref = useRef<HTMLElement>(null);
   const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const imgY = useTransform(scrollYProgress, [0, 1], [reduce ? 0 : -80, reduce ? 0 : 80]);
+  const imgY = useTransform(scrollYProgress, [0, 1], [reduce ? 0 : -60, reduce ? 0 : 60]);
   const imgScale = useTransform(scrollYProgress, [0, 1], [1.15, 1]);
 
   return (
     <section ref={ref} id="movement" className="relative bg-flow-ink text-flow-cream overflow-hidden">
-      <div className="relative h-[110vh] md:h-screen">
+      <div className="relative min-h-[85svh] md:h-screen">
         <motion.div style={{ y: imgY, scale: imgScale }} className="absolute inset-0">
           <img src={runners} alt="Atletas em movimento" loading="lazy" className="w-full h-full object-cover opacity-60" />
         </motion.div>
-        <div className="absolute inset-0 bg-gradient-to-b from-flow-ink/40 via-transparent to-flow-ink" />
+        <div className="absolute inset-0 bg-gradient-to-b from-flow-ink/50 via-transparent to-flow-ink" />
 
-        <div className="relative z-10 h-full flex flex-col justify-between p-6 md:p-16">
-          <p className="text-[10px] uppercase tracking-[0.4em] text-flow-yellow">/ 01 · movimento</p>
+        <div className="relative z-10 min-h-[85svh] md:h-full flex flex-col justify-between p-5 py-16 md:p-16 gap-10">
+          <p className="font-sans text-[10px] uppercase tracking-[0.4em] text-flow-yellow"><span className="tabular-nums">/ 01</span> · movimento</p>
 
           <div className="max-w-3xl">
-            <h2 className="font-display lowercase leading-[0.9] text-5xl sm:text-7xl md:text-8xl tracking-tight">
+            <h2 className="font-display lowercase leading-[0.9] text-[3.25rem] sm:text-7xl md:text-8xl tracking-tight">
               {words.map((w, i) => (
                 <motion.span
                   key={w}
@@ -39,7 +39,7 @@ export const Movement = () => {
             </h2>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6 max-w-4xl">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 max-w-4xl">
             {["Energia controlada", "Hidratação inteligente", "Sem excessos"].map((t, i) => (
               <motion.p
                 key={t}
@@ -47,7 +47,7 @@ export const Movement = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.2 + i * 0.1 }}
-                className="text-sm uppercase tracking-widest text-flow-cream/70 border-l border-flow-yellow pl-4"
+                className="font-sans text-xs md:text-sm uppercase tracking-widest text-flow-cream/70 border-l border-flow-yellow pl-4"
               >
                 {t}
               </motion.p>

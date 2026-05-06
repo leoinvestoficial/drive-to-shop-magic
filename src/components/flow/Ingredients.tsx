@@ -7,11 +7,11 @@ const rows = [
 ];
 
 export const Ingredients = () => (
-  <section id="science" className="bg-flow-ink text-flow-cream py-20 md:py-28 px-6">
+  <section id="science" className="bg-flow-ink text-flow-cream py-16 md:py-28 px-5 md:px-6">
     <div className="max-w-6xl mx-auto">
-      <div className="grid md:grid-cols-12 gap-8 mb-12">
-        <p className="md:col-span-3 font-sans text-[10px] uppercase tracking-[0.4em] text-flow-yellow">/ 03 · composição</p>
-        <h2 className="md:col-span-9 font-display lowercase text-4xl sm:text-6xl leading-[0.95] tracking-tight">
+      <div className="grid md:grid-cols-12 gap-4 md:gap-8 mb-10 md:mb-12">
+        <p className="md:col-span-3 font-sans text-[10px] uppercase tracking-[0.4em] text-flow-yellow"><span className="tabular-nums">/ 03</span> · composição</p>
+        <h2 className="md:col-span-9 font-display lowercase text-[2.5rem] sm:text-5xl md:text-6xl leading-[0.95] tracking-tight">
           composição limpa.<br/><span className="text-flow-cream/40">decisões claras.</span>
         </h2>
       </div>
@@ -24,12 +24,14 @@ export const Ingredients = () => (
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ delay: i * 0.08, duration: 0.6 }}
-            className="grid grid-cols-12 gap-4 py-6 md:py-8 border-b border-flow-cream/15 items-baseline"
+            className="flex flex-col md:grid md:grid-cols-12 gap-2 md:gap-4 py-6 md:py-8 border-b border-flow-cream/15 md:items-baseline"
           >
-            <span className="col-span-1 font-sans text-[10px] uppercase tracking-widest text-flow-cream/40">0{i + 1}</span>
-            <span className="col-span-11 md:col-span-4 font-display lowercase text-2xl md:text-3xl tracking-tight">{r.ingredient}</span>
-            <span className="col-span-6 md:col-span-4 font-sans text-sm text-flow-cream/60 col-start-2 md:col-start-auto">{r.function}</span>
-            <span className="col-span-6 md:col-span-3 font-sans text-sm uppercase tracking-widest text-flow-yellow text-right">{r.benefit}</span>
+            <div className="flex items-baseline gap-3 md:contents">
+              <span className="md:col-span-1 font-sans text-[10px] uppercase tracking-widest text-flow-cream/40 tabular-nums">0{i + 1}</span>
+              <span className="md:col-span-4 font-display lowercase text-2xl md:text-3xl tracking-tight">{r.ingredient}</span>
+            </div>
+            <span className="md:col-span-4 font-sans text-sm text-flow-cream/60 pl-7 md:pl-0">{r.function}</span>
+            <span className="md:col-span-3 font-sans text-[10px] md:text-sm uppercase tracking-widest text-flow-yellow md:text-right pl-7 md:pl-0">{r.benefit}</span>
           </motion.div>
         ))}
       </div>
