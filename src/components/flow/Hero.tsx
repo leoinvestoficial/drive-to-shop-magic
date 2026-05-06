@@ -70,7 +70,7 @@ export const Hero = () => {
         >
           <p className="font-sans text-[10px] uppercase tracking-[0.4em] text-flow-ink/60 mb-3">/ lançamento · edição <span className="tabular-nums">01</span> · <span className="tabular-nums">2026</span></p>
           <h1 className="font-display lowercase text-[2.5rem] leading-[0.95] mb-4 tracking-tight">
-            sua hidratação<br/>funcional <span className="text-flow-ink/45">chegou.</span>
+            sua hidratação<br/>funcional <span className="text-flow-green">chegou.</span>
           </h1>
           <p className="font-sans text-base text-flow-ink/65 mb-6">
             Três packs · condição especial de lançamento · frete grátis no misto.
@@ -105,7 +105,7 @@ export const Hero = () => {
           <motion.div style={{ opacity: textOpacity }} className="absolute left-5 right-5 md:right-auto md:left-12 bottom-12 md:bottom-16 md:max-w-sm z-20">
             <p className="font-sans text-[10px] uppercase tracking-[0.4em] text-flow-ink/60 mb-3">/ lançamento · edição <span className="tabular-nums">01</span> · <span className="tabular-nums">2026</span></p>
             <h1 className="font-display lowercase text-[2.25rem] sm:text-4xl md:text-5xl leading-[0.95] mb-3 tracking-tight">
-              sua hidratação<br/>funcional <span className="text-flow-ink/45">chegou.</span>
+              sua hidratação<br/>funcional <span className="text-flow-green">chegou.</span>
             </h1>
             <p className="font-sans text-sm md:text-base text-flow-ink/65 mb-5 md:mb-6">
               Três packs · condição especial de lançamento · frete grátis no misto.

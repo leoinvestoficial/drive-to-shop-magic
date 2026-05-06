@@ -20,7 +20,7 @@ export const LaunchPacks = () => (
             <span className="tabular-nums">/ 02</span> · packs do lançamento
           </p>
           <h2 className="font-display lowercase text-[2.5rem] sm:text-5xl md:text-6xl leading-[0.9] tracking-tight">
-            três packs. <span className="text-flow-ink/40">um preço.</span>
+            três packs. <span className="text-flow-green">um preço.</span>
           </h2>
         </div>
         <p className="font-sans md:max-w-xs text-sm text-flow-ink/60">
