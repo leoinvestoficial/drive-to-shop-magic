@@ -1,6 +1,6 @@
 import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import { useRef } from "react";
-import productHero from "@/assets/brand/product-hero.jpg";
+import productHero from "@/assets/brand/can-yellow.jpg";
 
 const benefits = [
   { n: "01", title: "Hidratação funcional", text: "Eletrólitos balanceados para reposição contínua." },
@@ -21,7 +21,7 @@ export const StickyProduct = () => {
     <section ref={ref} id="benefits" className="relative bg-flow-cream text-flow-ink">
       <div className="max-w-7xl mx-auto px-6 pt-24 pb-12">
         <p className="text-[10px] uppercase tracking-[0.4em] text-flow-ink/50 mb-3">/ 02 · benefícios</p>
-        <h2 className="font-display uppercase text-5xl sm:text-7xl leading-[0.9] max-w-3xl">tudo o que você precisa.<br/><span className="text-flow-ink/40">nada além.</span></h2>
+        <h2 className="font-display lowercase text-5xl sm:text-7xl leading-[0.9] max-w-3xl tracking-tight">tudo o que você precisa.<br/><span className="text-flow-ink/40">nada além.</span></h2>
       </div>
 
       <div className="relative grid lg:grid-cols-2 max-w-7xl mx-auto px-6 gap-12">
@@ -53,7 +53,7 @@ export const StickyProduct = () => {
                 <span className="font-display text-5xl text-flow-yellow">{b.n}</span>
                 <span className="text-[10px] uppercase tracking-[0.3em] text-flow-ink/40">flow é</span>
               </div>
-              <h3 className="font-display uppercase text-3xl sm:text-4xl mb-3">{b.title}</h3>
+              <h3 className="font-display lowercase text-3xl sm:text-4xl mb-3 tracking-tight">{b.title}</h3>
               <p className="text-flow-ink/60 max-w-md text-base">{b.text}</p>
             </motion.div>
           ))}

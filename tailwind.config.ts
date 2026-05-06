@@ -14,8 +14,9 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        display: ['Anton', 'Bebas Neue', 'Inter', 'sans-serif'],
+        sans: ['Helvena', 'Inter', 'system-ui', 'sans-serif'],
+        display: ['Helvena', 'Inter', 'sans-serif'],
+        accent: ['Halfre', 'Helvena', 'serif'],
       },
       colors: {
         border: "hsl(var(--border))",
