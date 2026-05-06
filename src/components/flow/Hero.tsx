@@ -15,9 +15,9 @@ export const Hero = () => {
   const textOpacity = useTransform(scrollYProgress, [0, 0.4], [1, 0]);
 
   return (
-    <section ref={ref} className="relative h-[88svh] md:h-[120vh] bg-flow-cream text-flow-ink">
-      <div className="sticky top-0 h-[88svh] md:h-screen overflow-hidden flex flex-col">
-        <div className="flex-1 relative flex items-center justify-center pt-10 md:pt-0">
+    <section ref={ref} className="relative h-[78svh] md:h-[120vh] bg-flow-cream text-flow-ink">
+      <div className="sticky top-0 h-[78svh] md:h-screen overflow-hidden flex flex-col">
+        <div className="flex-1 relative flex items-start md:items-center justify-center pt-24 md:pt-0">
           <motion.img
             src={grafismo} alt="" aria-hidden
             style={{ rotate: ringRot, scale: ringScale, opacity: 0.18 }}
@@ -26,7 +26,7 @@ export const Hero = () => {
           <motion.img
             src={logo} alt="flow — bebida funcional"
             style={{ scale: logoScale, y: logoY }}
-            className="relative z-10 w-[68vw] md:w-[78vw] max-w-[820px] h-auto select-none origin-center -mt-32 md:mt-0"
+            className="relative z-10 w-[80vw] md:w-[78vw] max-w-[820px] h-auto select-none origin-top md:origin-center mt-0"
           />
 
           <motion.div style={{ opacity: textOpacity }} className="absolute left-5 right-5 md:right-auto md:left-12 bottom-12 md:bottom-16 md:max-w-sm z-20">
