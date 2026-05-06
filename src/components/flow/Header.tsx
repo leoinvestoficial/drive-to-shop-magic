@@ -18,7 +18,7 @@ export const Header = () => {
       <div className={`transition-colors duration-500 ${scrolled ? "bg-flow-cream/95 backdrop-blur-md border-b border-flow-ink/10" : "bg-flow-cream/70 backdrop-blur-sm md:bg-transparent md:backdrop-blur-none"}`}>
         <div className="max-w-7xl mx-auto flex items-center justify-between h-16 md:h-20 px-4 md:px-6">
           <Link to="/" className="flex items-center text-flow-ink" aria-label="FLOW">
-            <img src={logo} alt="flow" className="h-9 md:h-14 w-auto" />
+            <img src={logo} alt="flow" className="h-12 md:h-14 w-auto" />
           </Link>
           <nav className="hidden md:flex items-center gap-10 font-sans text-[10px] uppercase tracking-[0.3em] text-flow-ink">
             <a href="#packs" className="hover:text-flow-yellow transition-colors">Packs</a>

@@ -1,75 +1,37 @@
-## O que vou ajustar
+## Ajustes mobile — hero e logos
 
-### 1. Cupom: R$ 10 → 10% OFF
-No `LeadCaptureModal.tsx`:
-- Título passa a ser "10% off no seu primeiro pack."
-- Eyebrow continua "/ cupom de lançamento"
-- Texto do toast de sucesso atualizado: "Cupom FLOW10 a caminho no seu e-mail."
-- Subtexto explica: "válido em qualquer pack do lançamento"
+### 1. Hero (`src/components/flow/Hero.tsx`)
+Reduzir o espaço em branco acima do logo no mobile e trazer todo o bloco "flow / sua hidratação funcional" para mais perto do topo.
 
-### 2. Tipografia de números/preços (varredura completa)
-Hoje a Halfre (display) está sendo aplicada em alguns números e fica estranho. Regra nova e estrita:
+- Trocar `pt-20 md:pt-0` por `pt-10 md:pt-0` no container central (menos respiro acima do logo no mobile).
+- Trocar `-mt-20 md:mt-0` no `<motion.img>` do logo por `-mt-32 md:mt-0`, puxando o logo mais para cima no mobile.
+- Subir o bloco de texto/CTA: trocar `bottom-8 md:bottom-16` por `bottom-12 md:bottom-16` e reduzir altura da seção no mobile de `h-[100svh]` para `h-[88svh]` (tanto no `<section>` quanto no `sticky`), eliminando o vazio entre o CTA e o início da próxima seção.
+- Reduzir levemente o grafismo no mobile de `w-[140vmin]` para `w-[120vmin]` para não sobrar área vazia ao redor.
 
-> **Qualquer número, preço, cifrão, %, "R$", "10x", quantidade ou unidade usa `font-sans` (Helvena). Halfre fica reservada APENAS para títulos editoriais em letras.**
+### 2. Header (`src/components/flow/Header.tsx`)
+O logo está visualmente menor que o botão "cupom 10%" e o ícone da sacola.
 
-Arquivos que vou auditar e corrigir:
+- Aumentar o logo no mobile de `h-9` para `h-12` (`h-12 md:h-14`), ficando proporcional ao botão de cupom e ao ícone do carrinho.
 
+### 3. Footer (`src/components/flow/Footer.tsx`)
+Mesma lógica do header — logo do rodapé pequeno demais no mobile.
+
+- Aumentar de `h-12 md:h-16` para `h-16 md:h-20`.
+
+### Resultado esperado no mobile (390px)
 ```text
-src/components/flow/LaunchPacks.tsx     → preço "R$ 50,00", "por", "6 latas", "3+3"
-src/components/flow/Hero.tsx            → "3 packs · R$ 50", numeração de eyebrow "01"
-src/components/flow/Ingredients.tsx     → numeração "01 / 02 / 03", quantidades de minerais
-src/components/flow/Movement.tsx        → qualquer número/estatística
-src/components/flow/FAQ.tsx             → menções de preço/quantidade
-src/components/flow/Footer.tsx          → ano, telefone, qualquer número
-src/components/flow/Header.tsx          → badges numéricos se houver
-src/components/flow/LeadCaptureModal.tsx→ "10%", "R$"
+┌─────────────────────────┐
+│ [LOGO]      cupom 🛒    │  ← logo maior, alinhado
+├─────────────────────────┤
+│                         │
+│      ✺ grafismo ✺      │
+│        F L O W         │  ← logo principal mais alto
+│                         │
+│  / lançamento ed. 01    │
+│  sua hidratação         │
+│  funcional chegou.      │
+│  [ver os packs] [10%]   │
+└─────────────────────────┘
 ```
 
-Em cada um troco `font-display` por `font-sans` em qualquer span/elemento que contenha número, e adiciono a classe `tabular-nums` para alinhar dígitos.
-
-### 3. Leads → Google Sheets (no seu Drive)
-
-Hoje os leads vão pro `localStorage` (se perdem). Vou plugar de verdade no **Google Sheets** via connector oficial. Fluxo:
-
-```text
-[ pop-up ]  →  [ edge function: submit-lead ]  →  [ Google Sheets API via gateway ]
-                       │
-                       └─ fallback localStorage se a chamada falhar
-```
-
-Passos:
-1. **Conectar o Google Sheets** (você autoriza com a conta Google que tem o Drive).
-2. **Você cria a planilha** no seu Drive (ex: "FLOW — Leads Lançamento") com a primeira linha:
-   `data | nome | email | telefone | origem`
-   E me passa o **ID da planilha** (parte da URL entre `/d/` e `/edit`).
-3. Crio a edge function `submit-lead` que faz `POST .../values/Leads!A:E:append` no gateway do Google Sheets, validando entrada com Zod.
-4. `LeadCaptureModal.tsx` passa a chamar `supabase.functions.invoke('submit-lead', ...)` em vez de salvar local.
-5. Toast de sucesso real só após confirmação da API; em caso de erro, mensagem clara + fallback localStorage.
-
-**Lovable Cloud** precisa estar ligado pra rodar a edge function (é onde a chave do connector vive). Se ainda não estiver, ativo na execução.
-
----
-
-## Arquivos afetados
-
-```text
-src/components/flow/LeadCaptureModal.tsx   (10% + chamada à edge function)
-src/components/flow/LaunchPacks.tsx        (tipografia preços)
-src/components/flow/Hero.tsx               (tipografia números)
-src/components/flow/Ingredients.tsx        (tipografia 01/02/03 + quantidades)
-src/components/flow/Movement.tsx           (auditar)
-src/components/flow/FAQ.tsx                (auditar)
-src/components/flow/Footer.tsx             (auditar)
-src/components/flow/Header.tsx             (auditar)
-supabase/functions/submit-lead/index.ts    (NOVO)
-supabase/config.toml                       (registrar a função)
-```
-
----
-
-## Preciso de você antes de executar
-
-1. **Confirma ativar Lovable Cloud?** (necessário pra edge function que fala com o Sheets)
-2. **Autoriza a conexão com Google Sheets?** (vou abrir o picker do connector na execução)
-3. **ID da planilha** que você vai criar no Drive (ou me autoriza criar uma do zero via API com o nome "FLOW — Leads Lançamento" e te devolver o link)
-4. **Código do cupom**: uso `FLOW10` ou prefere outro nome? E quer que eu já crie esse cupom de 10% no Shopify (`shopify--create_discount_code`)?
+Sem mudanças em outras seções, fontes ou conteúdo.

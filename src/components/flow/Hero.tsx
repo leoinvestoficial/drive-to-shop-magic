@@ -15,21 +15,21 @@ export const Hero = () => {
   const textOpacity = useTransform(scrollYProgress, [0, 0.4], [1, 0]);
 
   return (
-    <section ref={ref} className="relative h-[100svh] md:h-[120vh] bg-flow-cream text-flow-ink">
-      <div className="sticky top-0 h-[100svh] md:h-screen overflow-hidden flex flex-col">
-        <div className="flex-1 relative flex items-center justify-center pt-20 md:pt-0">
+    <section ref={ref} className="relative h-[88svh] md:h-[120vh] bg-flow-cream text-flow-ink">
+      <div className="sticky top-0 h-[88svh] md:h-screen overflow-hidden flex flex-col">
+        <div className="flex-1 relative flex items-center justify-center pt-10 md:pt-0">
           <motion.img
             src={grafismo} alt="" aria-hidden
             style={{ rotate: ringRot, scale: ringScale, opacity: 0.18 }}
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[140vmin] h-[140vmin] md:w-[110vmin] md:h-[110vmin] pointer-events-none select-none"
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[120vmin] h-[120vmin] md:w-[110vmin] md:h-[110vmin] pointer-events-none select-none"
           />
           <motion.img
             src={logo} alt="flow — bebida funcional"
             style={{ scale: logoScale, y: logoY }}
-            className="relative z-10 w-[68vw] md:w-[78vw] max-w-[820px] h-auto select-none origin-center -mt-20 md:mt-0"
+            className="relative z-10 w-[68vw] md:w-[78vw] max-w-[820px] h-auto select-none origin-center -mt-32 md:mt-0"
           />
 
-          <motion.div style={{ opacity: textOpacity }} className="absolute left-5 right-5 md:right-auto md:left-12 bottom-8 md:bottom-16 md:max-w-sm z-20">
+          <motion.div style={{ opacity: textOpacity }} className="absolute left-5 right-5 md:right-auto md:left-12 bottom-12 md:bottom-16 md:max-w-sm z-20">
             <p className="font-sans text-[10px] uppercase tracking-[0.4em] text-flow-ink/60 mb-3">/ lançamento · edição <span className="tabular-nums">01</span> · <span className="tabular-nums">2026</span></p>
             <h1 className="font-display lowercase text-[2.25rem] sm:text-4xl md:text-5xl leading-[0.95] mb-3 tracking-tight">
               sua hidratação<br/>funcional <span className="text-flow-ink/45">chegou.</span>
