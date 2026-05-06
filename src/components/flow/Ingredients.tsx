@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 
 const rows = [
-  { ingredient: "Eletrólitos", function: "Sódio · potássio · magnésio", benefit: "Reposição hídrica" },
+  { ingredient: "Eletrólitos", function: "Sódio · potássio · magnésio · zinco", benefit: "Reposição hídrica" },
   { ingredient: "Cafeína natural", function: "Extrato de guaraná", benefit: "Energia limpa" },
   { ingredient: "Aromas naturais", function: "Sem extratos artificiais", benefit: "Sabor leve" },
 ];
@@ -10,7 +10,7 @@ export const Ingredients = () => (
   <section id="science" className="bg-flow-ink text-flow-cream py-20 md:py-28 px-6">
     <div className="max-w-6xl mx-auto">
       <div className="grid md:grid-cols-12 gap-8 mb-12">
-        <p className="md:col-span-3 text-[10px] uppercase tracking-[0.4em] text-flow-yellow">/ 03 · composição</p>
+        <p className="md:col-span-3 font-sans text-[10px] uppercase tracking-[0.4em] text-flow-yellow">/ 03 · composição</p>
         <h2 className="md:col-span-9 font-display lowercase text-4xl sm:text-6xl leading-[0.95] tracking-tight">
           composição limpa.<br/><span className="text-flow-cream/40">decisões claras.</span>
         </h2>
