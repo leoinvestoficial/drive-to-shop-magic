@@ -15,13 +15,15 @@ export const LaunchPacks = () => (
     <div className="max-w-7xl mx-auto">
       <div className="flex flex-wrap items-end justify-between gap-6 mb-12">
         <div>
-          <p className="font-sans text-[10px] uppercase tracking-[0.4em] text-flow-ink/50 mb-3">/ 02 · packs do lançamento</p>
+          <p className="font-sans text-[10px] uppercase tracking-[0.4em] text-flow-ink/50 mb-3">
+            <span className="tabular-nums">/ 02</span> · packs do lançamento
+          </p>
           <h2 className="font-display lowercase text-4xl md:text-6xl leading-[0.9] tracking-tight">
             três packs. <span className="text-flow-ink/40">um preço.</span>
           </h2>
         </div>
         <p className="font-sans max-w-xs text-sm text-flow-ink/60">
-          Condição de lançamento: <span className="text-flow-ink font-semibold">R$ 50,00</span> em qualquer pack. Frete grátis no misto.
+          Condição de lançamento: <span className="text-flow-ink font-semibold tabular-nums">R$ 50,00</span> em qualquer pack. Frete grátis no misto.
         </p>
       </div>
 
@@ -61,7 +63,7 @@ export const LaunchPacks = () => (
               <div className="mt-auto flex items-end justify-between">
                 <div>
                   <p className="font-sans text-[10px] uppercase tracking-widest text-flow-ink/40">por</p>
-                  <p className="font-sans font-semibold text-3xl leading-none tracking-tight">R$ 50,00</p>
+                  <p className="font-sans font-semibold text-3xl leading-none tracking-tight tabular-nums">R$ 50,00</p>
                 </div>
                 <button
                   onClick={openLeadCapture}
