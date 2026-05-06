@@ -1,6 +1,6 @@
 import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import { useRef } from "react";
-import cyclist from "@/assets/brand/athlete-cyclist.jpg";
+import runners from "@/assets/brand/runners-track.jpg";
 
 const words = ["ritmo.", "respiração.", "movimento.", "flow."];
 
@@ -15,7 +15,7 @@ export const Movement = () => {
     <section ref={ref} id="movement" className="relative bg-flow-ink text-flow-cream overflow-hidden">
       <div className="relative h-[110vh] md:h-screen">
         <motion.div style={{ y: imgY, scale: imgScale }} className="absolute inset-0">
-          <img src={cyclist} alt="Ciclista ao amanhecer" loading="lazy" className="w-full h-full object-cover opacity-60" />
+          <img src={runners} alt="Atletas em movimento" loading="lazy" className="w-full h-full object-cover opacity-60" />
         </motion.div>
         <div className="absolute inset-0 bg-gradient-to-b from-flow-ink/40 via-transparent to-flow-ink" />
 

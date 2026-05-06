@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
-import runner from "@/assets/brand/community-runner.jpg";
-import swimmer from "@/assets/brand/community-swimmer.jpg";
-import focus from "@/assets/brand/community-focus.jpg";
-import cyclist from "@/assets/brand/athlete-cyclist.jpg";
+import runner from "@/assets/brand/stairs-runner.jpg";
+import swimmer from "@/assets/brand/water-pour.jpg";
+import focus from "@/assets/brand/glass-lemon.jpg";
+import cyclist from "@/assets/brand/pullups.jpg";
 
 const items = [
   { img: runner, tag: "@isa.runs", caption: "5km antes do trabalho." },

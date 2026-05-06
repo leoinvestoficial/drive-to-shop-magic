@@ -1,9 +1,9 @@
 import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import { useRef } from "react";
-import ritualHand from "@/assets/brand/ritual-hand.jpg";
-import cyclist from "@/assets/brand/athlete-cyclist.jpg";
-import focus from "@/assets/brand/community-focus.jpg";
-import runner from "@/assets/brand/community-runner.jpg";
+import ritualHand from "@/assets/brand/water-pour.jpg";
+import cyclist from "@/assets/brand/runners-track.jpg";
+import focus from "@/assets/brand/glass-lemon.jpg";
+import runner from "@/assets/brand/stairs-runner.jpg";
 
 const moments = [
   { time: "06:00", label: "antes do treino", img: runner, text: "Hidratação leve. Foco antes do esforço." },
