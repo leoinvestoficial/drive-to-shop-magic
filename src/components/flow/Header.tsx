@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CartDrawer } from "./CartDrawer";
 import logo from "@/assets/brand/drive/flow-logo-1.svg";
+import { openLeadCapture } from "./LeadCaptureModal";
 
 export const Header = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -31,13 +32,20 @@ export const Header = () => {
               )}
             </AnimatePresence>
           </Link>
-          <nav className="hidden md:flex items-center gap-10 text-[10px] uppercase tracking-[0.3em] text-flow-ink">
-            <a href="#benefits" className="hover:text-flow-yellow transition-colors">Benefícios</a>
-            <a href="#science" className="hover:text-flow-yellow transition-colors">Ciência</a>
-            <a href="#ritual" className="hover:text-flow-yellow transition-colors">Como usar</a>
-            <a href="#products" className="hover:text-flow-yellow transition-colors">Comprar</a>
+          <nav className="hidden md:flex items-center gap-10 font-sans text-[10px] uppercase tracking-[0.3em] text-flow-ink">
+            <a href="#packs" className="hover:text-flow-yellow transition-colors">Packs</a>
+            <a href="#science" className="hover:text-flow-yellow transition-colors">Composição</a>
+            <a href="#faq" className="hover:text-flow-yellow transition-colors">FAQ</a>
           </nav>
-          <CartDrawer />
+          <div className="flex items-center gap-3">
+            <button
+              onClick={openLeadCapture}
+              className="hidden sm:inline-flex items-center bg-flow-ink text-flow-cream px-4 py-2 font-sans text-[10px] uppercase tracking-[0.25em] font-semibold hover:bg-flow-yellow hover:text-flow-ink transition-colors"
+            >
+              entrar no grupo
+            </button>
+            <CartDrawer />
+          </div>
         </div>
       </div>
     </header>

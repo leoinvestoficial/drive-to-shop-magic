@@ -2,6 +2,7 @@ import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion
 import { useRef } from "react";
 import grafismo from "@/assets/brand/drive/grafismo-2.svg";
 import logo from "@/assets/brand/drive/flow-logo-1.svg";
+import { openLeadCapture } from "./LeadCaptureModal";
 
 export const Hero = () => {
   const ref = useRef<HTMLElement>(null);
@@ -14,7 +15,7 @@ export const Hero = () => {
   const textOpacity = useTransform(scrollYProgress, [0, 0.4], [1, 0]);
 
   return (
-    <section ref={ref} className="relative h-[160vh] bg-flow-cream text-flow-ink">
+    <section ref={ref} className="relative h-[120vh] bg-flow-cream text-flow-ink">
       <div className="sticky top-0 h-screen overflow-hidden flex flex-col">
         <div className="flex-1 relative flex items-center justify-center">
           {/* Concentric ring grafismo from brandbook */}
@@ -35,18 +36,21 @@ export const Hero = () => {
 
           {/* Side text */}
           <motion.div style={{ opacity: textOpacity }} className="absolute left-6 md:left-12 bottom-12 md:bottom-16 max-w-xs z-20">
-            <p className="text-[10px] uppercase tracking-[0.4em] text-flow-ink/60 mb-3">/ FLOW · bebidas funcionais</p>
-            <p className="font-sans lowercase text-xl md:text-2xl leading-[1.1] mb-6 tracking-tight">stay in flow.<br/><span className="text-flow-ink/50">your movement is our identity.</span></p>
+            <p className="font-sans text-[10px] uppercase tracking-[0.4em] text-flow-ink/60 mb-3">/ lançamento · edição 01 · 2026</p>
+            <p className="font-sans lowercase text-xl md:text-2xl leading-[1.15] mb-6 tracking-tight">
+              3 packs · <span className="font-semibold">R$ 50</span>.<br/>
+              <span className="text-flow-ink/55">frete grátis no misto.</span>
+            </p>
             <div className="flex gap-3">
-              <a href="#products" className="inline-flex items-center bg-flow-ink text-flow-cream px-6 py-3 text-[10px] uppercase tracking-[0.25em] font-semibold hover:bg-flow-yellow hover:text-flow-ink transition-colors">comprar agora</a>
-              <a href="#movement" className="inline-flex items-center border border-flow-ink/30 px-6 py-3 text-[10px] uppercase tracking-[0.25em] hover:border-flow-ink transition-colors">explorar</a>
+              <button onClick={openLeadCapture} className="inline-flex items-center bg-flow-ink text-flow-cream px-6 py-3 text-[10px] uppercase tracking-[0.25em] font-semibold hover:bg-flow-yellow hover:text-flow-ink transition-colors">entrar no grupo</button>
+              <a href="#packs" className="inline-flex items-center border border-flow-ink/30 px-6 py-3 text-[10px] uppercase tracking-[0.25em] hover:border-flow-ink transition-colors">ver os packs</a>
             </div>
           </motion.div>
 
           {/* Top metadata */}
-          <div className="absolute top-6 right-6 md:top-10 md:right-12 text-[10px] uppercase tracking-[0.3em] text-flow-ink/50 text-right z-20">
-            <p>edição 01 · 2026</p>
-            <p className="mt-1">your movement is our identity</p>
+          <div className="absolute top-6 right-6 md:top-10 md:right-12 font-sans text-[10px] uppercase tracking-[0.3em] text-flow-ink/50 text-right z-20">
+            <p>lançamento meteoro</p>
+            <p className="mt-1 text-flow-yellow">vagas limitadas</p>
           </div>
         </div>
 
