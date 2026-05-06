@@ -13,9 +13,8 @@
 /* FLOW brand fonts (from FLOW/FONTES) */
 @font-face {
   font-family: 'Helvena';
-  src: url('/fonts/Helvena-Variable.ttf') format('truetype-variations'),
-       url('/fonts/Helvena-Variable.ttf') format('truetype');
-  font-weight: 100 900;
+  src: url('/fonts/Helvena-Semibold.otf') format('opentype');
+  font-weight: 600;
   font-style: normal;
   font-display: swap;
 }

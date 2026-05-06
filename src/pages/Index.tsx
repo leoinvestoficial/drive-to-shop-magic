@@ -1,7 +1,6 @@
 import { Header } from "@/components/flow/Header";
 import { Hero } from "@/components/flow/Hero";
 import { Movement } from "@/components/flow/Movement";
-import { StickyProduct } from "@/components/flow/StickyProduct";
 import { Ingredients } from "@/components/flow/Ingredients";
 import { Ritual } from "@/components/flow/Ritual";
 import { Products } from "@/components/flow/Products";
@@ -15,7 +14,6 @@ const Index = () => (
     <main className="flex-1">
       <Hero />
       <Movement />
-      <StickyProduct />
       <Ingredients />
       <Ritual />
       <Products />
