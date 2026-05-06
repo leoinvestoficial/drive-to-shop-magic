@@ -2,6 +2,12 @@ import logo from "@/assets/brand/drive/flow-logo-1.svg";
 
 export const Footer = () => (
   <footer className="bg-flow-ink text-flow-cream py-12 md:py-16 px-5 md:px-6 border-t border-flow-cream/10">
+    <div className="max-w-7xl mx-auto flex justify-center mb-10 md:mb-12">
+      <a href="#packs" className="flex flex-col items-center gap-2 text-flow-cream/60 hover:text-flow-yellow transition-colors">
+        <span className="font-sans text-[10px] uppercase tracking-[0.4em]">ver os packs</span>
+        <span className="font-sans text-base">↑</span>
+      </a>
+    </div>
     <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-12">
       <div>
         <img src={logo} alt="FLOW" className="h-16 md:h-20 w-auto mb-4 md:mb-6 [filter:invert(1)]" />
