@@ -24,7 +24,7 @@ export const Ritual = () => {
         <div className="px-6 md:px-16 pt-12 md:pt-20 mb-8 flex justify-between items-end">
           <div>
             <p className="text-[10px] uppercase tracking-[0.4em] text-flow-ink/50 mb-3">/ 04 · ritual</p>
-            <h2 className="font-display uppercase text-4xl md:text-6xl leading-[0.9]">um dia em <span className="text-flow-ink/40">flow.</span></h2>
+            <h2 className="font-display lowercase text-4xl md:text-6xl leading-[0.9] tracking-tight">um dia em <span className="text-flow-ink/40">flow.</span></h2>
           </div>
           <p className="hidden md:block text-[10px] uppercase tracking-[0.3em] text-flow-ink/40">arraste · scroll →</p>
         </div>
@@ -40,7 +40,7 @@ export const Ritual = () => {
                   <span className="font-display text-7xl md:text-9xl text-flow-ink leading-none">{m.time}</span>
                   <div>
                     <p className="text-[10px] uppercase tracking-[0.3em] text-flow-ink/50 mb-2">/ 0{i + 1}</p>
-                    <h3 className="font-display uppercase text-3xl md:text-4xl mb-4">{m.label}</h3>
+                    <h3 className="font-display lowercase text-3xl md:text-4xl mb-4 tracking-tight">{m.label}</h3>
                     <p className="text-flow-ink/60 max-w-xs">{m.text}</p>
                   </div>
                 </div>

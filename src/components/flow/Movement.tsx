@@ -23,7 +23,7 @@ export const Movement = () => {
           <p className="text-[10px] uppercase tracking-[0.4em] text-flow-yellow">/ 01 · movimento</p>
 
           <div className="max-w-3xl">
-            <h2 className="font-display uppercase leading-[0.9] text-5xl sm:text-7xl md:text-8xl">
+            <h2 className="font-display lowercase leading-[0.9] text-5xl sm:text-7xl md:text-8xl tracking-tight">
               {words.map((w, i) => (
                 <motion.span
                   key={w}

@@ -17,7 +17,7 @@ export const Community = () => (
       <div className="flex flex-wrap items-end justify-between gap-6 mb-16">
         <div>
           <p className="text-[10px] uppercase tracking-[0.4em] text-flow-yellow mb-3">/ 06 · comunidade</p>
-          <h2 className="font-display uppercase text-4xl md:text-6xl leading-[0.9] max-w-2xl">performance real.<br/><span className="text-flow-cream/40">rotinas reais.</span></h2>
+          <h2 className="font-display lowercase text-4xl md:text-6xl leading-[0.9] max-w-2xl tracking-tight">performance real.<br/><span className="text-flow-cream/40">rotinas reais.</span></h2>
         </div>
         <p className="text-flow-cream/60 max-w-sm text-sm">Pessoas que vivem em movimento. Sem pose, sem filtro. Apenas ritmo.</p>
       </div>

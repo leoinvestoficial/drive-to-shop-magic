@@ -1,6 +1,7 @@
 import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import { useRef } from "react";
-import productHero from "@/assets/brand/product-hero.jpg";
+import productHero from "@/assets/brand/can-yellow.jpg";
+import grafismo from "@/assets/brand/drive/grafismo-2.svg";
 
 export const Hero = () => {
   const ref = useRef<HTMLElement>(null);
@@ -16,12 +17,20 @@ export const Hero = () => {
     <section ref={ref} className="relative h-[180vh] bg-flow-cream text-flow-ink">
       <div className="sticky top-0 h-screen overflow-hidden flex flex-col">
         <div className="flex-1 relative grid grid-cols-12 items-center">
+          {/* Concentric ring grafismo from brandbook */}
+          <motion.img
+            src={grafismo}
+            alt=""
+            aria-hidden
+            style={{ rotate: productRot, opacity: 0.08 }}
+            className="absolute -left-32 -bottom-32 w-[120vmin] h-[120vmin] pointer-events-none select-none"
+          />
           {/* Giant FLOW logotype */}
           <motion.div
             style={{ scale: logoScale, y: logoY }}
             className="absolute inset-0 flex items-center justify-center pointer-events-none origin-center"
           >
-            <span className="font-display uppercase leading-none text-flow-ink select-none" style={{ fontSize: "clamp(8rem, 32vw, 28rem)", letterSpacing: "-0.04em" }}>
+            <span className="font-display lowercase leading-none text-flow-ink select-none" style={{ fontSize: "clamp(8rem, 32vw, 28rem)", letterSpacing: "-0.06em" }}>
               flow
             </span>
           </motion.div>
@@ -33,7 +42,7 @@ export const Hero = () => {
           >
             <img
               src={productHero}
-              alt="FLOW lata branca com faixa amarelo lima"
+              alt="FLOW lata fresh lemon"
               width={520}
               height={780}
               className="h-[55vh] md:h-[80vh] w-auto object-contain drop-shadow-[0_40px_60px_rgba(0,0,0,0.25)]"
@@ -43,7 +52,7 @@ export const Hero = () => {
           {/* Side text */}
           <motion.div style={{ opacity: textOpacity }} className="absolute left-6 md:left-12 bottom-12 md:bottom-16 max-w-xs z-20">
             <p className="text-[10px] uppercase tracking-[0.4em] text-flow-ink/60 mb-3">/ FLOW · bebidas funcionais</p>
-            <p className="font-display uppercase text-2xl md:text-3xl leading-[0.95] mb-6">stay in flow.<br/><span className="text-flow-ink/50">funcional para o seu ritmo.</span></p>
+            <p className="font-display lowercase text-2xl md:text-3xl leading-[0.95] mb-6 tracking-tight">stay in flow.<br/><span className="text-flow-ink/50">your movement is our identity.</span></p>
             <div className="flex gap-3">
               <a href="#products" className="inline-flex items-center bg-flow-ink text-flow-cream px-6 py-3 text-[10px] uppercase tracking-[0.25em] font-semibold hover:bg-flow-yellow hover:text-flow-ink transition-colors">comprar agora</a>
               <a href="#movement" className="inline-flex items-center border border-flow-ink/30 px-6 py-3 text-[10px] uppercase tracking-[0.25em] hover:border-flow-ink transition-colors">explorar</a>

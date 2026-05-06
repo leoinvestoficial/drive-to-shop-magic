@@ -13,7 +13,7 @@ export const Ingredients = () => (
     <div className="max-w-6xl mx-auto">
       <div className="grid md:grid-cols-12 gap-8 mb-20">
         <p className="md:col-span-3 text-[10px] uppercase tracking-[0.4em] text-flow-yellow">/ 03 · ciência</p>
-        <h2 className="md:col-span-9 font-display uppercase text-4xl sm:text-6xl leading-[0.95]">
+        <h2 className="md:col-span-9 font-display lowercase text-4xl sm:text-6xl leading-[0.95] tracking-tight">
           composição limpa.<br/><span className="text-flow-cream/40">decisões claras.</span>
         </h2>
       </div>
@@ -29,7 +29,7 @@ export const Ingredients = () => (
             className="grid grid-cols-12 gap-4 py-6 md:py-8 border-b border-flow-cream/15 items-baseline"
           >
             <span className="col-span-1 text-[10px] uppercase tracking-widest text-flow-cream/40">0{i + 1}</span>
-            <span className="col-span-11 md:col-span-4 font-display uppercase text-2xl md:text-3xl">{r.ingredient}</span>
+            <span className="col-span-11 md:col-span-4 font-display lowercase text-2xl md:text-3xl tracking-tight">{r.ingredient}</span>
             <span className="col-span-6 md:col-span-4 text-sm text-flow-cream/60 col-start-2 md:col-start-auto">{r.function}</span>
             <span className="col-span-6 md:col-span-3 text-sm uppercase tracking-widest text-flow-yellow text-right">{r.benefit}</span>
           </motion.div>
