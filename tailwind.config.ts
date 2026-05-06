@@ -30,6 +30,7 @@ export default {
           ink: "hsl(var(--flow-ink))",
           water: "hsl(var(--flow-water))",
           orange: "hsl(var(--flow-orange))",
+          green: "hsl(var(--flow-green))",
         },
         primary: {
           DEFAULT: "hsl(var(--primary))",
