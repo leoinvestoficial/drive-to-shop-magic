@@ -1,37 +1,74 @@
-## Ajustes mobile — hero e logos
+## Avaliação
 
-### 1. Hero (`src/components/flow/Hero.tsx`)
-Reduzir o espaço em branco acima do logo no mobile e trazer todo o bloco "flow / sua hidratação funcional" para mais perto do topo.
+Vendo o print, o problema é claro: no mobile a logo gigante "flow" do motion fica sobreposta ao headline ("sua hidratação funcional chegou") e ao selo "Bebidas Funcionais", criando aquela bagunça visual. Isso acontece porque no desktop a logo escala/sobe com o scroll e há espaço lateral sobrando — no mobile não há.
 
-- Trocar `pt-20 md:pt-0` por `pt-10 md:pt-0` no container central (menos respiro acima do logo no mobile).
-- Trocar `-mt-20 md:mt-0` no `<motion.img>` do logo por `-mt-32 md:mt-0`, puxando o logo mais para cima no mobile.
-- Subir o bloco de texto/CTA: trocar `bottom-8 md:bottom-16` por `bottom-12 md:bottom-16` e reduzir altura da seção no mobile de `h-[100svh]` para `h-[88svh]` (tanto no `<section>` quanto no `sticky`), eliminando o vazio entre o CTA e o início da próxima seção.
-- Reduzir levemente o grafismo no mobile de `w-[140vmin]` para `w-[120vmin]` para não sobrar área vazia ao redor.
+Entre as duas opções, recomendo a **Opção A (tela de boas-vindas)** por 3 motivos:
 
-### 2. Header (`src/components/flow/Header.tsx`)
-O logo está visualmente menor que o botão "cupom 10%" e o ícone da sacola.
+1. É o padrão de marcas premium de bebida no mobile (Liquid Death, Recess, Olipop) — abre com identidade pura, sem ruído.
+2. Resolve o conflito de sobreposição na origem em vez de ficar empurrando elementos pra caber.
+3. Cria um momento de respiro/branding antes do conteúdo comercial, o que combina com o tom "stay in flow".
 
-- Aumentar o logo no mobile de `h-9` para `h-12` (`h-12 md:h-14`), ficando proporcional ao botão de cupom e ao ícone do carrinho.
+A Opção B (ajustar o banner atual) sempre vai ser um remendo: ou diminui muito a logo (perde impacto) ou esconde o headline (perde conversão).
 
-### 3. Footer (`src/components/flow/Footer.tsx`)
-Mesma lógica do header — logo do rodapé pequeno demais no mobile.
+## Plano — Hero mobile redesenhado
 
-- Aumentar de `h-12 md:h-16` para `h-16 md:h-20`.
+### Estrutura no mobile (`< md`)
 
-### Resultado esperado no mobile (390px)
 ```text
-┌─────────────────────────┐
-│ [LOGO]      cupom 🛒    │  ← logo maior, alinhado
-├─────────────────────────┤
-│                         │
-│      ✺ grafismo ✺      │
-│        F L O W         │  ← logo principal mais alto
-│                         │
-│  / lançamento ed. 01    │
-│  sua hidratação         │
-│  funcional chegou.      │
-│  [ver os packs] [10%]   │
-└─────────────────────────┘
+┌─────────────────────────────┐
+│  Header (fixo)              │
+├─────────────────────────────┤
+│                             │
+│        [grafismo bem        │
+│         sutil ao fundo]     │
+│                             │
+│           flow              │  ← logo grande, centralizada
+│       Bebidas Funcionais    │
+│                             │
+│                             │
+│        scroll ↓             │  ← indicador animado
+└─────────────────────────────┘
+   ↓ usuário rola ↓
+┌─────────────────────────────┐
+│ / lançamento · edição 01    │
+│                             │
+│ sua hidratação              │
+│ funcional chegou.           │
+│                             │
+│ Três packs · condição...    │
+│                             │
+│ [ ver os packs ]            │
+│ [ cupom de 10% ]            │
+│                             │
+│ edição limitada             │
+│ enquanto durar o estoque    │
+└─────────────────────────────┘
 ```
 
-Sem mudanças em outras seções, fontes ou conteúdo.
+No **desktop nada muda** — mantém o layout atual com a logo escalando no scroll e o texto à esquerda.
+
+### Mudanças técnicas (`Hero.tsx`)
+
+1. Separar comportamento mobile vs desktop com classes responsivas (sem duplicar componente):
+   - Mobile: section vira `min-h-[100svh]` simples (sem sticky/scroll-scaling), conteúdo de texto fica em um segundo bloco abaixo (`min-h-[100svh]` também) que entra com fade-in quando visível.
+   - Desktop (`md:`): mantém sticky + scroll-driven scaling exatamente como está hoje.
+
+2. Bloco 1 mobile (boas-vindas):
+   - Fundo `bg-flow-cream`, grafismo com `opacity-10` bem grande atrás.
+   - Logo `flow` centralizada, ~`w-[70vw]`, com fade-in suave no mount.
+   - Selo "Bebidas Funcionais" pequeno abaixo (já vem no SVG, então pode ficar só a logo mesmo).
+   - Indicador "scroll ↓" pulsando no rodapé.
+   - Tag "edição 01 · 2026" discreta no topo.
+
+3. Bloco 2 mobile (conteúdo):
+   - Headline, parágrafo, CTAs e badge "edição limitada" — todos visíveis sem sobreposição.
+   - Entrada com `whileInView` fade + slide-up do framer-motion.
+   - "edição limitada / enquanto durar o estoque" passa a ficar aqui (no mobile), eliminando o conflito do canto superior direito.
+
+4. Animações respeitam `useReducedMotion` (já é o padrão do componente).
+
+### Arquivo afetado
+
+- `src/components/flow/Hero.tsx` — reorganização responsiva, nenhum outro componente precisa mudar.
+
+Aprova pra eu implementar?
