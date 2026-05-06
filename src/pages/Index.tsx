@@ -1,23 +1,29 @@
 import { Header } from "@/components/flow/Header";
 import { Hero } from "@/components/flow/Hero";
-import { Pillars } from "@/components/flow/Pillars";
-import { Manifesto } from "@/components/flow/Manifesto";
+import { Movement } from "@/components/flow/Movement";
+import { StickyProduct } from "@/components/flow/StickyProduct";
+import { Ingredients } from "@/components/flow/Ingredients";
+import { Ritual } from "@/components/flow/Ritual";
 import { Products } from "@/components/flow/Products";
+import { Community } from "@/components/flow/Community";
+import { FAQ } from "@/components/flow/FAQ";
 import { Footer } from "@/components/flow/Footer";
 
-const Index = () => {
-  return (
-    <div className="min-h-screen flex flex-col bg-background">
-      <Header />
-      <main className="flex-1">
-        <Hero />
-        <Products />
-        <Pillars />
-        <Manifesto />
-      </main>
-      <Footer />
-    </div>
-  );
-};
+const Index = () => (
+  <div className="min-h-screen flex flex-col bg-flow-cream">
+    <Header />
+    <main className="flex-1">
+      <Hero />
+      <Movement />
+      <StickyProduct />
+      <Ingredients />
+      <Ritual />
+      <Products />
+      <Community />
+      <FAQ />
+    </main>
+    <Footer />
+  </div>
+);
 
 export default Index;
