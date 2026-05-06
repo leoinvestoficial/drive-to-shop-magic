@@ -1,46 +1,67 @@
-import heroRunner from "@/assets/brand/hero-runner.jpg";
-
-const Marquee = () => {
-  const items = ["stay in flow", "your movement is our identity", "água funcional", "energia limpa", "stay in flow", "zero excessos"];
-  return (
-    <div className="bg-flow-yellow text-flow-ink overflow-hidden border-y border-flow-ink/10">
-      <div className="flex marquee whitespace-nowrap py-3">
-        {[...items, ...items].map((t, i) => (
-          <span key={i} className="inline-flex items-center font-display uppercase text-xl tracking-tight px-8">
-            {t} <span className="ml-8 opacity-40">/</span>
-          </span>
-        ))}
-      </div>
-    </div>
-  );
-};
+import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
+import { useRef } from "react";
+import productHero from "@/assets/brand/product-hero.jpg";
 
 export const Hero = () => {
+  const ref = useRef<HTMLElement>(null);
+  const reduce = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
+  const logoScale = useTransform(scrollYProgress, [0, 0.6], [1, reduce ? 1 : 0.15]);
+  const logoY = useTransform(scrollYProgress, [0, 0.6], [0, reduce ? 0 : -200]);
+  const productY = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : -120]);
+  const productRot = useTransform(scrollYProgress, [0, 1], [-4, reduce ? -4 : 6]);
+  const textOpacity = useTransform(scrollYProgress, [0, 0.4], [1, 0]);
+
   return (
-    <section className="relative bg-flow-ink text-flow-cream overflow-hidden">
-      <div className="grid lg:grid-cols-2 min-h-[88vh]">
-        <div className="relative order-2 lg:order-1 flex items-center px-6 sm:px-12 lg:px-20 py-16">
-          <div className="max-w-xl animate-flow-rise">
-            <p className="text-xs uppercase tracking-[0.4em] text-flow-yellow mb-6">/ FLOW · 2026</p>
-            <h1 className="font-display uppercase text-balance leading-[0.85] text-6xl sm:text-7xl lg:text-8xl mb-8">
-              stay in <span className="text-flow-yellow">flow</span>
-            </h1>
-            <p className="text-lg text-flow-cream/70 mb-10 max-w-md">
-              Bebidas funcionais para quem vive em movimento. Energia limpa, ingredientes naturais, zero excessos.
-              <span className="block mt-3 text-flow-cream/50 text-sm uppercase tracking-widest">your movement is our identity.</span>
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <a href="#products" className="inline-flex items-center gap-3 bg-flow-yellow text-flow-ink px-8 py-4 text-xs uppercase tracking-widest font-semibold hover:bg-flow-cream transition-colors">Comprar agora</a>
-              <a href="#manifesto" className="inline-flex items-center gap-3 border border-flow-cream/30 text-flow-cream px-8 py-4 text-xs uppercase tracking-widest hover:border-flow-cream transition-colors">Manifesto</a>
+    <section ref={ref} className="relative h-[180vh] bg-flow-cream text-flow-ink">
+      <div className="sticky top-0 h-screen overflow-hidden flex flex-col">
+        <div className="flex-1 relative grid grid-cols-12 items-center">
+          {/* Giant FLOW logotype */}
+          <motion.div
+            style={{ scale: logoScale, y: logoY }}
+            className="absolute inset-0 flex items-center justify-center pointer-events-none origin-center"
+          >
+            <span className="font-display uppercase leading-none text-flow-ink select-none" style={{ fontSize: "clamp(8rem, 32vw, 28rem)", letterSpacing: "-0.04em" }}>
+              flow
+            </span>
+          </motion.div>
+
+          {/* Product can */}
+          <motion.div
+            style={{ y: productY, rotate: productRot }}
+            className="col-span-12 md:col-start-8 md:col-span-4 relative z-10 flex justify-center md:justify-end pr-6 md:pr-12"
+          >
+            <img
+              src={productHero}
+              alt="FLOW lata branca com faixa amarelo lima"
+              width={520}
+              height={780}
+              className="h-[55vh] md:h-[80vh] w-auto object-contain drop-shadow-[0_40px_60px_rgba(0,0,0,0.25)]"
+            />
+          </motion.div>
+
+          {/* Side text */}
+          <motion.div style={{ opacity: textOpacity }} className="absolute left-6 md:left-12 bottom-12 md:bottom-16 max-w-xs z-20">
+            <p className="text-[10px] uppercase tracking-[0.4em] text-flow-ink/60 mb-3">/ FLOW · bebidas funcionais</p>
+            <p className="font-display uppercase text-2xl md:text-3xl leading-[0.95] mb-6">stay in flow.<br/><span className="text-flow-ink/50">funcional para o seu ritmo.</span></p>
+            <div className="flex gap-3">
+              <a href="#products" className="inline-flex items-center bg-flow-ink text-flow-cream px-6 py-3 text-[10px] uppercase tracking-[0.25em] font-semibold hover:bg-flow-yellow hover:text-flow-ink transition-colors">comprar agora</a>
+              <a href="#movement" className="inline-flex items-center border border-flow-ink/30 px-6 py-3 text-[10px] uppercase tracking-[0.25em] hover:border-flow-ink transition-colors">explorar</a>
             </div>
+          </motion.div>
+
+          {/* Top metadata */}
+          <div className="absolute top-6 right-6 md:top-10 md:right-12 text-[10px] uppercase tracking-[0.3em] text-flow-ink/50 text-right z-20">
+            <p>edição 01 · 2026</p>
+            <p className="mt-1">your movement is our identity</p>
           </div>
         </div>
-        <div className="relative order-1 lg:order-2 min-h-[40vh] lg:min-h-full">
-          <img src={heroRunner} alt="Atleta em movimento" width={1920} height={1280} className="absolute inset-0 w-full h-full object-cover object-center" />
-          <div className="absolute inset-0 bg-gradient-to-l from-transparent via-flow-ink/20 to-flow-ink lg:bg-gradient-to-r lg:from-flow-ink/40 lg:via-transparent lg:to-transparent" />
-        </div>
+
+        {/* Scroll cue */}
+        <motion.div style={{ opacity: textOpacity }} className="absolute bottom-6 left-1/2 -translate-x-1/2 text-[10px] uppercase tracking-[0.4em] text-flow-ink/50">
+          scroll ↓
+        </motion.div>
       </div>
-      <Marquee />
     </section>
   );
 };
