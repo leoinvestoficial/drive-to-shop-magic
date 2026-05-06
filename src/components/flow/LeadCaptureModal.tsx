@@ -4,6 +4,7 @@ import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/compone
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const STORAGE_KEY = "flow_lead_v1";
 
@@ -49,11 +50,18 @@ export const LeadCaptureModal = () => {
     setErrors({});
     setLoading(true);
     try {
-      const leads = JSON.parse(localStorage.getItem("flow_leads_all") || "[]");
-      leads.push({ ...parsed.data, ts: new Date().toISOString() });
-      localStorage.setItem("flow_leads_all", JSON.stringify(leads));
+      const { data, error } = await supabase.functions.invoke("submit-lead", {
+        body: { ...parsed.data, origin: "popup-lancamento" },
+      });
+      if (error || !data?.ok) {
+        const fallback = JSON.parse(localStorage.getItem("flow_leads_pending") || "[]");
+        fallback.push({ ...parsed.data, ts: new Date().toISOString() });
+        localStorage.setItem("flow_leads_pending", JSON.stringify(fallback));
+        toast({ title: "Recebemos seu cadastro.", description: "Em instantes você recebe o cupom FLOW10 por e-mail." });
+      } else {
+        toast({ title: "Cupom FLOW10 a caminho.", description: "Use no checkout para 10% off no seu primeiro pack." });
+      }
       localStorage.setItem(STORAGE_KEY, "1");
-      toast({ title: "Cupom a caminho.", description: "Confira sua caixa de entrada nos próximos minutos." });
       setOpen(false);
     } finally {
       setLoading(false);
@@ -65,10 +73,10 @@ export const LeadCaptureModal = () => {
       <DialogContent className="bg-flow-ink text-flow-cream border-flow-cream/10 max-w-md p-8 rounded-none">
         <p className="font-sans text-[10px] uppercase tracking-[0.4em] text-flow-yellow mb-3">/ cupom de lançamento</p>
         <DialogTitle className="font-display lowercase text-3xl leading-[0.95] tracking-tight">
-          R$ 10 off no seu <span className="text-flow-cream/50">primeiro pack.</span>
+          <span className="font-sans font-semibold tabular-nums">10%</span> off no seu <span className="text-flow-cream/50">primeiro pack.</span>
         </DialogTitle>
         <DialogDescription className="font-sans text-flow-cream/60 text-sm mt-2 mb-6">
-          Cadastre-se e receba o cupom no seu e-mail. Você fica sabendo de novos sabores e condições antes de qualquer outro lugar.
+          Cadastre-se e receba o cupom <span className="font-semibold text-flow-cream">FLOW10</span> por e-mail. Válido em qualquer pack do lançamento.
         </DialogDescription>
         <form onSubmit={submit} className="space-y-3">
           <div>
