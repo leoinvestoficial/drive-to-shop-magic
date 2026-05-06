@@ -1,9 +1,12 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 const faqs = [
+  { q: "O que é a FLOW?", a: "FLOW é uma bebida funcional brasileira pensada para hidratar, energizar e manter o foco — sem açúcar adicionado e com ingredientes naturais." },
   { q: "Como funciona a condição de lançamento?", a: "Quem se cadastra recebe o cupom FLOW10 (10% off) por e-mail e fica sabendo dos próximos lotes antes do público geral." },
   { q: "Tem cafeína?", a: "Sim. Cafeína natural extraída do guaraná, em dose moderada. Energia limpa, sem pico." },
   { q: "Tem açúcar?", a: "Zero açúcar adicionado. Aromas naturais, sem extratos artificiais." },
+  { q: "Quem pode consumir?", a: "Adultos saudáveis. Não recomendado para gestantes, lactantes, menores de 16 anos e pessoas sensíveis à cafeína. Em caso de dúvida, consulte um profissional de saúde." },
+  { q: "Qual a diferença para um energético?", a: "FLOW combina hidratação funcional, eletrólitos e cafeína natural em dose moderada. Não é um energético tradicional: é energia limpa sem pico nem queda." },
   { q: "Qual o prazo de entrega?", a: "2 a 5 dias úteis para todo Brasil. Frete grátis no pack misto." },
 ];
 

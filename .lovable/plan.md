@@ -1,74 +1,54 @@
-## Avaliação
+## Objetivo
 
-Vendo o print, o problema é claro: no mobile a logo gigante "flow" do motion fica sobreposta ao headline ("sua hidratação funcional chegou") e ao selo "Bebidas Funcionais", criando aquela bagunça visual. Isso acontece porque no desktop a logo escala/sobe com o scroll e há espaço lateral sobrando — no mobile não há.
+Criar páginas institucionais (políticas, termos, FAQ, contato) acessíveis pelo rodapé e atualizar os dados de contato com `contato@bebaflow.com` e WhatsApp `71 99947-0825`.
 
-Entre as duas opções, recomendo a **Opção A (tela de boas-vindas)** por 3 motivos:
+## Páginas novas (rotas em `src/pages/legal/`)
 
-1. É o padrão de marcas premium de bebida no mobile (Liquid Death, Recess, Olipop) — abre com identidade pura, sem ruído.
-2. Resolve o conflito de sobreposição na origem em vez de ficar empurrando elementos pra caber.
-3. Cria um momento de respiro/branding antes do conteúdo comercial, o que combina com o tom "stay in flow".
+Cada página usa o mesmo layout: `Header` no topo, container centralizado com tipografia da marca (Halfre/Helvena, fundo `flow-cream`, texto `flow-ink`), `Footer` no fim. Conteúdo padrão com placeholders editáveis.
 
-A Opção B (ajustar o banner atual) sempre vai ser um remendo: ou diminui muito a logo (perde impacto) ou esconde o headline (perde conversão).
+1. `/politica-de-privacidade` — Coleta de dados (nome, e-mail, telefone), uso dos dados, cookies, direitos LGPD, contato do encarregado.
+2. `/termos-de-uso` — Regras do site, responsabilidade do usuário, propriedade intelectual, foro.
+3. `/politica-de-entrega` — Prazo (2–5 dias úteis), frete (grátis no pack misto), regiões atendidas (todo Brasil).
+4. `/politica-de-troca-e-devolucao` — Prazo de 7 dias (CDC), condições (produto lacrado), processo de reembolso.
+5. `/politica-de-cancelamento` — Janela de cancelamento antes do envio, reembolso parcial/total, prazos.
+6. `/faq` — Reaproveita a seção `FAQ.tsx` ampliada: o que é a FLOW, tem cafeína, quem pode consumir, diferença para energético, prazo de entrega.
+7. `/contato` — WhatsApp clicável (`https://wa.me/5571999470825`), e-mail (`mailto:contato@bebaflow.com`), Instagram `@flow.bebidas`.
 
-## Plano — Hero mobile redesenhado
+Todas com `Helmet`/`<title>` simples e `meta description` curta.
 
-### Estrutura no mobile (`< md`)
+## Rodapé (`Footer.tsx`)
+
+Reorganizar em 4 colunas no desktop, empilhadas no mobile:
 
 ```text
-┌─────────────────────────────┐
-│  Header (fixo)              │
-├─────────────────────────────┤
-│                             │
-│        [grafismo bem        │
-│         sutil ao fundo]     │
-│                             │
-│           flow              │  ← logo grande, centralizada
-│       Bebidas Funcionais    │
-│                             │
-│                             │
-│        scroll ↓             │  ← indicador animado
-└─────────────────────────────┘
-   ↓ usuário rola ↓
-┌─────────────────────────────┐
-│ / lançamento · edição 01    │
-│                             │
-│ sua hidratação              │
-│ funcional chegou.           │
-│                             │
-│ Três packs · condição...    │
-│                             │
-│ [ ver os packs ]            │
-│ [ cupom de 10% ]            │
-│                             │
-│ edição limitada             │
-│ enquanto durar o estoque    │
-└─────────────────────────────┘
+[ Logo + tagline ]  [ Lançamento ]  [ Institucional ]  [ Contato ]
+                     Packs            Privacidade        WhatsApp
+                     Composição       Termos de Uso      contato@bebaflow.com
+                     FAQ              Entrega            @flow.bebidas
+                                      Troca/Devolução
+                                      Cancelamento
 ```
 
-No **desktop nada muda** — mantém o layout atual com a logo escalando no scroll e o texto à esquerda.
+- Atualizar e-mail para `contato@bebaflow.com`.
+- WhatsApp como link `https://wa.me/5571999470825` exibindo `(71) 99947-0825`.
+- FAQ vira link para `/faq` (mantém a seção na home com `id="faq"` também).
 
-### Mudanças técnicas (`Hero.tsx`)
+## Roteamento (`src/App.tsx`)
 
-1. Separar comportamento mobile vs desktop com classes responsivas (sem duplicar componente):
-   - Mobile: section vira `min-h-[100svh]` simples (sem sticky/scroll-scaling), conteúdo de texto fica em um segundo bloco abaixo (`min-h-[100svh]` também) que entra com fade-in quando visível.
-   - Desktop (`md:`): mantém sticky + scroll-driven scaling exatamente como está hoje.
+Registrar as 7 novas rotas no `<Routes>` antes do `NotFound`.
 
-2. Bloco 1 mobile (boas-vindas):
-   - Fundo `bg-flow-cream`, grafismo com `opacity-10` bem grande atrás.
-   - Logo `flow` centralizada, ~`w-[70vw]`, com fade-in suave no mount.
-   - Selo "Bebidas Funcionais" pequeno abaixo (já vem no SVG, então pode ficar só a logo mesmo).
-   - Indicador "scroll ↓" pulsando no rodapé.
-   - Tag "edição 01 · 2026" discreta no topo.
+## Detalhes técnicos
 
-3. Bloco 2 mobile (conteúdo):
-   - Headline, parágrafo, CTAs e badge "edição limitada" — todos visíveis sem sobreposição.
-   - Entrada com `whileInView` fade + slide-up do framer-motion.
-   - "edição limitada / enquanto durar o estoque" passa a ficar aqui (no mobile), eliminando o conflito do canto superior direito.
+- Criar `src/components/legal/LegalPage.tsx` (wrapper com Header/Footer/title/intro) para evitar repetição.
+- Tipografia: `font-display lowercase` para títulos, `font-sans` para corpo, `prose`-like spacing manual usando classes Tailwind (sem plugin novo).
+- Datas/versão: rodapé de cada política mostra "atualizado em maio/2026".
+- Sem alterações de banco/backend.
 
-4. Animações respeitam `useReducedMotion` (já é o padrão do componente).
+## Arquivos afetados
 
-### Arquivo afetado
-
-- `src/components/flow/Hero.tsx` — reorganização responsiva, nenhum outro componente precisa mudar.
-
-Aprova pra eu implementar?
+- novo: `src/components/legal/LegalPage.tsx`
+- novo: `src/pages/legal/Privacidade.tsx`, `Termos.tsx`, `Entrega.tsx`, `TrocaDevolucao.tsx`, `Cancelamento.tsx`, `Contato.tsx`
+- novo: `src/pages/Faq.tsx` (página dedicada reaproveitando `FAQ.tsx`)
+- editado: `src/App.tsx` (rotas)
+- editado: `src/components/flow/Footer.tsx` (nova estrutura + contatos)
+- editado: `src/components/flow/FAQ.tsx` (perguntas adicionais)
