@@ -5,7 +5,6 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
 
-const WHATSAPP_GROUP_URL = "https://chat.whatsapp.com/PLACEHOLDER";
 const STORAGE_KEY = "flow_lead_v1";
 
 const schema = z.object({
@@ -34,7 +33,7 @@ export const LeadCaptureModal = () => {
   useEffect(() => {
     externalOpen = () => setOpen(true);
     if (localStorage.getItem(STORAGE_KEY)) return;
-    const t = setTimeout(() => setOpen(true), 4000);
+    const t = setTimeout(() => setOpen(true), 6000);
     return () => clearTimeout(t);
   }, []);
 
@@ -54,9 +53,8 @@ export const LeadCaptureModal = () => {
       leads.push({ ...parsed.data, ts: new Date().toISOString() });
       localStorage.setItem("flow_leads_all", JSON.stringify(leads));
       localStorage.setItem(STORAGE_KEY, "1");
-      toast({ title: "Você está dentro.", description: "Abrindo o grupo do lançamento…" });
+      toast({ title: "Cupom a caminho.", description: "Confira sua caixa de entrada nos próximos minutos." });
       setOpen(false);
-      setTimeout(() => window.open(WHATSAPP_GROUP_URL, "_blank"), 600);
     } finally {
       setLoading(false);
     }
@@ -65,12 +63,12 @@ export const LeadCaptureModal = () => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="bg-flow-ink text-flow-cream border-flow-cream/10 max-w-md p-8 rounded-none">
-        <p className="text-[10px] uppercase tracking-[0.4em] text-flow-yellow mb-3">/ lançamento meteoro</p>
+        <p className="font-sans text-[10px] uppercase tracking-[0.4em] text-flow-yellow mb-3">/ cupom de lançamento</p>
         <DialogTitle className="font-display lowercase text-3xl leading-[0.95] tracking-tight">
-          entre no grupo. <span className="text-flow-cream/50">leve a condição.</span>
+          R$ 10 off no seu <span className="text-flow-cream/50">primeiro pack.</span>
         </DialogTitle>
-        <DialogDescription className="text-flow-cream/60 text-sm mt-2 mb-6">
-          Pack de 6 latas por R$ 50. Frete grátis no misto. Liberado primeiro pra quem entra agora.
+        <DialogDescription className="font-sans text-flow-cream/60 text-sm mt-2 mb-6">
+          Cadastre-se e receba o cupom no seu e-mail. Você fica sabendo de novos sabores e condições antes de qualquer outro lugar.
         </DialogDescription>
         <form onSubmit={submit} className="space-y-3">
           <div>
@@ -80,7 +78,7 @@ export const LeadCaptureModal = () => {
               onChange={(e) => setForm({ ...form, name: e.target.value })}
               className="bg-transparent border-flow-cream/20 text-flow-cream placeholder:text-flow-cream/40 rounded-none h-12"
             />
-            {errors.name && <p className="text-flow-yellow text-xs mt-1">{errors.name}</p>}
+            {errors.name && <p className="font-sans text-flow-yellow text-xs mt-1">{errors.name}</p>}
           </div>
           <div>
             <Input
@@ -90,7 +88,7 @@ export const LeadCaptureModal = () => {
               onChange={(e) => setForm({ ...form, email: e.target.value })}
               className="bg-transparent border-flow-cream/20 text-flow-cream placeholder:text-flow-cream/40 rounded-none h-12"
             />
-            {errors.email && <p className="text-flow-yellow text-xs mt-1">{errors.email}</p>}
+            {errors.email && <p className="font-sans text-flow-yellow text-xs mt-1">{errors.email}</p>}
           </div>
           <div>
             <Input
@@ -100,17 +98,17 @@ export const LeadCaptureModal = () => {
               onChange={(e) => setForm({ ...form, phone: maskPhone(e.target.value) })}
               className="bg-transparent border-flow-cream/20 text-flow-cream placeholder:text-flow-cream/40 rounded-none h-12"
             />
-            {errors.phone && <p className="text-flow-yellow text-xs mt-1">{errors.phone}</p>}
+            {errors.phone && <p className="font-sans text-flow-yellow text-xs mt-1">{errors.phone}</p>}
           </div>
           <Button
             type="submit"
             disabled={loading}
-            className="w-full h-12 rounded-none bg-flow-yellow text-flow-ink hover:bg-flow-cream uppercase tracking-[0.25em] text-[10px] font-bold"
+            className="w-full h-12 rounded-none bg-flow-yellow text-flow-ink hover:bg-flow-cream font-sans uppercase tracking-[0.25em] text-[10px] font-bold"
           >
-            {loading ? "enviando…" : "quero entrar no grupo"}
+            {loading ? "enviando…" : "quero meu cupom"}
           </Button>
-          <p className="text-[10px] uppercase tracking-widest text-flow-cream/40 text-center pt-2">
-            ao entrar você aceita receber mensagens do lançamento
+          <p className="font-sans text-[10px] uppercase tracking-widest text-flow-cream/40 text-center pt-2">
+            ao se cadastrar você aceita receber comunicações da flow
           </p>
         </form>
       </DialogContent>
