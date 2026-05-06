@@ -4,7 +4,7 @@ export const Footer = () => (
   <footer className="bg-flow-ink text-flow-cream py-12 md:py-16 px-5 md:px-6 border-t border-flow-cream/10">
     <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-12">
       <div>
-        <img src={logo} alt="FLOW" className="h-12 md:h-16 w-auto mb-4 md:mb-6 [filter:invert(1)]" />
+        <img src={logo} alt="FLOW" className="h-16 md:h-20 w-auto mb-4 md:mb-6 [filter:invert(1)]" />
         <p className="font-sans text-sm text-flow-cream/60 max-w-xs">Bebidas funcionais. Movimento contínuo. Stay in flow.</p>
       </div>
       <div>
