@@ -12,6 +12,7 @@ import TrocaDevolucao from "./pages/legal/TrocaDevolucao.tsx";
 import Cancelamento from "./pages/legal/Cancelamento.tsx";
 import Contato from "./pages/legal/Contato.tsx";
 import FaqPage from "./pages/Faq.tsx";
+import Product from "./pages/Product.tsx";
 
 const queryClient = new QueryClient();
 
@@ -23,6 +24,7 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/pack/:id" element={<Product />} />
           <Route path="/faq" element={<FaqPage />} />
           <Route path="/contato" element={<Contato />} />
           <Route path="/politica-de-privacidade" element={<Privacidade />} />

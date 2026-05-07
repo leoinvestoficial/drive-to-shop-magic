@@ -20,7 +20,7 @@ export const Movement = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-flow-ink/50 via-transparent to-flow-ink" />
 
         <div className="relative z-10 min-h-[85svh] md:h-full flex flex-col justify-between p-5 py-16 md:p-16 gap-10">
-          <p className="font-sans text-[10px] uppercase tracking-[0.4em] text-flow-yellow"><span className="tabular-nums">/ 01</span> · movimento</p>
+          <p className="font-sans text-[10px] uppercase tracking-[0.4em] text-flow-yellow">movimento</p>
 
           <div className="max-w-3xl">
             <h2 className="font-display lowercase leading-[0.9] text-[3.25rem] sm:text-7xl md:text-8xl tracking-tight">

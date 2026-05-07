@@ -14,7 +14,7 @@ export const FAQ = () => (
   <section id="faq" className="bg-flow-cream text-flow-ink py-16 md:py-28 px-5 md:px-6">
     <div className="max-w-4xl mx-auto">
       <div className="grid md:grid-cols-12 gap-4 md:gap-8 mb-8 md:mb-10">
-        <p className="md:col-span-3 font-sans text-[10px] uppercase tracking-[0.4em] text-flow-ink/50"><span className="tabular-nums">/ 05</span> · faq</p>
+        <p className="md:col-span-3 font-sans text-[10px] uppercase tracking-[0.4em] text-flow-ink/50">faq</p>
         <h2 className="md:col-span-9 font-display lowercase text-[2.5rem] sm:text-5xl md:text-6xl leading-[0.9] tracking-tight">
           perguntas <span className="text-flow-green">frequentes.</span>
         </h2>
