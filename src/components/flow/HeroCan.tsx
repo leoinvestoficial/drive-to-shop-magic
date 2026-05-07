@@ -1,4 +1,4 @@
-import { motion, useReducedMotion, MotionValue, useTransform } from "framer-motion";
+import { motion, useReducedMotion, MotionValue, useTransform, useMotionValue } from "framer-motion";
 import canSrc from "@/assets/brand/can-flow.svg";
 
 interface HeroCanProps {
@@ -8,8 +8,8 @@ interface HeroCanProps {
 
 export const HeroCan = ({ scrollYProgress, className = "" }: HeroCanProps) => {
   const reduce = useReducedMotion();
-  // tilt reativo ao scroll (não move sozinho fora do float)
-  const tiltSource = scrollYProgress ?? new MotionValue<number>();
+  const fallback = useMotionValue(0);
+  const tiltSource = scrollYProgress ?? fallback;
   const rotate = useTransform(tiltSource, [0, 1], [reduce ? 0 : -4, reduce ? 0 : 2]);
 
   return (
