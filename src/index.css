@@ -152,4 +152,29 @@
     100% { transform: scale(2.4); opacity: 0; }
   }
   .animate-ripple { animation: ripple 2.4s ease-out infinite; }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    will-change: opacity, transform;
+  }
+  .reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+  .shimmer-cta { position: relative; overflow: hidden; isolation: isolate; }
+  .shimmer-cta::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, transparent 0%, transparent 35%, hsl(var(--flow-yellow) / 0.55) 50%, transparent 65%, transparent 100%);
+    background-size: 200% 100%;
+    animation: shimmer 3s linear infinite;
+    pointer-events: none;
+    mix-blend-mode: screen;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .shimmer-cta::after { display: none; }
+  }
 }
