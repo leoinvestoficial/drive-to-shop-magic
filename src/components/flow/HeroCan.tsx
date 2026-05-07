@@ -4,9 +4,10 @@ import canSrc from "@/assets/brand/can-flow.svg";
 interface HeroCanProps {
   scrollYProgress?: MotionValue<number>;
   className?: string;
+  imgClassName?: string;
 }
 
-export const HeroCan = ({ scrollYProgress, className = "" }: HeroCanProps) => {
+export const HeroCan = ({ scrollYProgress, className = "", imgClassName = "" }: HeroCanProps) => {
   const reduce = useReducedMotion();
   const fallback = useMotionValue(0);
   const tiltSource = scrollYProgress ?? fallback;
@@ -24,7 +25,7 @@ export const HeroCan = ({ scrollYProgress, className = "" }: HeroCanProps) => {
         src={canSrc}
         alt="lata flow — bebida funcional"
         loading="eager"
-        className={`w-full h-auto drop-shadow-[0_30px_40px_rgba(15,15,15,0.25)] ${reduce ? "" : "animate-float"}`}
+        className={`${imgClassName || "w-full h-auto"} drop-shadow-[0_30px_40px_rgba(15,15,15,0.25)] ${reduce ? "" : "animate-float"}`}
       />
     </motion.div>
   );

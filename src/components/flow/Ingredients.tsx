@@ -39,19 +39,32 @@ const IngredientRow = ({ r, i }: { r: typeof rows[number]; i: number }) => {
         transform: "translateX(-40px)",
         transition: "opacity 0.7s ease, transform 0.7s ease",
       }}
-      className="reveal-x flex flex-col md:grid md:grid-cols-12 gap-2 md:gap-4 py-6 md:py-8 border-b border-flow-cream/15 md:items-center"
+      className="reveal-x py-4 md:py-8 md:grid md:grid-cols-12 md:gap-4 md:items-center border-b border-[#222] md:border-flow-cream/15"
     >
-      <div className="flex items-center gap-3 md:contents">
-        <span className="md:col-span-1 font-sans text-[10px] uppercase tracking-widest text-flow-cream/40 tabular-nums">
-          <CountUp to={i + 1} />
-        </span>
-        <div className="md:col-span-4 flex items-center gap-3">
+      {/* Mobile compact card */}
+      <div className="md:hidden flex flex-col gap-2">
+        <div className="flex items-center gap-3">
+          <span className="font-sans text-[11px] uppercase tracking-widest text-flow-cream/40 tabular-nums">
+            <CountUp to={i + 1} />
+          </span>
           <DrawIcon d={r.icon} delay={i * 0.12} />
-          <span className="font-display lowercase text-2xl md:text-3xl tracking-tight">{r.ingredient}</span>
+          <span className="font-display lowercase text-[20px] tracking-tight">{r.ingredient}</span>
         </div>
+        <p className="font-sans text-[13px] text-[#888] pl-9">{r.function}</p>
+        <span className="self-start ml-9 font-sans text-[10px] uppercase tracking-[0.2em] text-flow-yellow border border-flow-yellow/30 px-2 py-1">
+          {r.benefit}
+        </span>
       </div>
-      <span className="md:col-span-4 font-sans text-sm text-flow-cream/60 pl-7 md:pl-0">{r.function}</span>
-      <span className="md:col-span-3 font-sans text-[10px] md:text-sm uppercase tracking-widest text-flow-yellow md:text-right pl-7 md:pl-0 inline-block animate-highlight-pulse px-2 py-1">
+      {/* Desktop layout */}
+      <span className="hidden md:inline md:col-span-1 font-sans text-[10px] uppercase tracking-widest text-flow-cream/40 tabular-nums">
+        <CountUp to={i + 1} />
+      </span>
+      <div className="hidden md:flex md:col-span-4 items-center gap-3">
+        <DrawIcon d={r.icon} delay={i * 0.12} />
+        <span className="font-display lowercase text-3xl tracking-tight">{r.ingredient}</span>
+      </div>
+      <span className="hidden md:inline md:col-span-4 font-sans text-sm text-flow-cream/60">{r.function}</span>
+      <span className="hidden md:inline md:col-span-3 font-sans text-sm uppercase tracking-widest text-flow-yellow text-right animate-highlight-pulse px-2 py-1">
         {r.benefit}
       </span>
     </div>
@@ -62,9 +75,9 @@ export const Ingredients = () => (
   <section id="science" className="bg-flow-ink text-flow-cream py-16 md:py-28 px-5 md:px-6 overflow-hidden">
     <style>{`.reveal-x.is-visible { opacity: 1 !important; transform: translateX(0) !important; }`}</style>
     <div className="max-w-6xl mx-auto">
-      <div className="grid md:grid-cols-12 gap-4 md:gap-8 mb-10 md:mb-12">
+      <div className="grid md:grid-cols-12 gap-3 md:gap-8 mb-6 md:mb-12">
         <p className="md:col-span-3 font-sans text-[10px] uppercase tracking-[0.4em] text-flow-yellow">composição</p>
-        <h2 className="md:col-span-9 font-display lowercase text-[2.5rem] sm:text-5xl md:text-6xl leading-[0.95] tracking-tight">
+        <h2 className="md:col-span-9 font-display lowercase text-[28px] sm:text-5xl md:text-6xl leading-[1.05] md:leading-[0.95] tracking-tight">
           composição limpa.<br/><span className="text-flow-cream/40">decisões claras.</span>
         </h2>
       </div>
@@ -112,7 +125,7 @@ export const Ingredients = () => (
         </motion.div>
       </div>
 
-      <p className="font-sans text-xs text-flow-cream/40 mt-8 max-w-md">
+      <p className="font-sans text-[12px] font-normal text-[#555] mt-8 max-w-md">
         Composição funcional. Não substitui alimentação balanceada nem orientação médica.
       </p>
     </div>

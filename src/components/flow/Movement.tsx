@@ -45,8 +45,8 @@ export const Movement = () => {
   const mediaScale = useTransform(scrollYProgress, [0, 1], [1.15, 1]);
 
   return (
-    <section ref={ref} id="movement" className="relative bg-flow-ink text-flow-cream overflow-hidden">
-      <div className="relative min-h-[85svh] md:h-screen">
+    <section ref={ref} id="movement" className="relative bg-flow-ink text-flow-cream overflow-x-hidden overflow-y-hidden">
+      <div className="relative min-h-[70vh] md:h-screen">
         <motion.div style={{ y: mediaY, scale: mediaScale }} className="absolute inset-0">
           <video
             autoPlay
@@ -85,7 +85,10 @@ export const Movement = () => {
           <p className="font-sans text-[10px] uppercase tracking-[0.4em] text-flow-yellow">movimento</p>
 
           <div className="max-w-3xl">
-            <h2 className="font-display lowercase leading-[0.9] text-[3.25rem] sm:text-7xl md:text-8xl tracking-tight">
+            <h2
+              className="font-display lowercase leading-[0.9] sm:text-7xl md:text-8xl tracking-tight break-words"
+              style={{ fontSize: "clamp(36px, 12vw, 80px)" }}
+            >
               {words.map((w, i) => (
                 <Word
                   key={w}
@@ -99,7 +102,7 @@ export const Movement = () => {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 max-w-4xl">
+          <div className="grid grid-cols-1 md:grid-cols-3 md:gap-6 max-w-4xl">
             {["Energia controlada", "Hidratação inteligente", "Sem excessos"].map((t, i) => (
               <motion.div
                 key={t}
@@ -107,16 +110,19 @@ export const Movement = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.3 + i * 0.15, duration: 0.6 }}
-                className="relative pl-4"
+                className="relative pl-4 py-4 md:py-0 border-t border-white/15 md:border-0 first:border-t-0 md:first:border-0 flex items-center gap-2"
               >
                 <motion.span
                   initial={{ scaleY: 0 }}
                   whileInView={{ scaleY: 1 }}
                   viewport={{ once: true }}
                   transition={{ delay: 0.3 + i * 0.15, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                  className="absolute left-0 top-0 bottom-0 w-px bg-flow-yellow origin-top"
+                  className="absolute left-0 top-2 bottom-2 md:top-0 md:bottom-0 w-px bg-flow-yellow origin-top"
                 />
-                <p className="font-sans text-xs md:text-sm uppercase tracking-widest text-flow-cream/70">{t}</p>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-flow-yellow shrink-0 md:hidden" aria-hidden>
+                  <circle cx="12" cy="12" r="3" /><path d="M12 2v4M12 18v4M2 12h4M18 12h4" />
+                </svg>
+                <p className="font-sans text-[12px] md:text-sm uppercase tracking-[2px] md:tracking-widest text-flow-cream/70">{t}</p>
               </motion.div>
             ))}
           </div>

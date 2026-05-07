@@ -54,8 +54,8 @@ export const FAQ = () => {
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Buscar pergunta..."
-          className="w-full bg-transparent border border-flow-ink/20 focus:border-flow-ink py-3 pl-10 pr-4 font-sans text-sm outline-none transition-colors placeholder:text-flow-ink/40"
+          placeholder="buscar..."
+          className="w-full box-border h-11 bg-transparent border border-flow-ink/20 focus:border-flow-ink pl-10 pr-4 font-sans text-[16px] md:text-sm outline-none transition-colors placeholder:text-flow-ink/40"
         />
       </div>
 
@@ -72,7 +72,7 @@ export const FAQ = () => {
           return (
             <AccordionItem key={f.idx} value={value} className="border-b border-flow-ink/15">
               <AccordionTrigger className="text-left font-display lowercase text-lg md:text-2xl py-5 md:py-6 hover:no-underline hover:text-flow-yellow tracking-tight">
-                <span className="flex gap-4 md:gap-6 items-baseline pr-2">
+                <span className="flex gap-2 md:gap-6 items-baseline pr-2">
                   <span
                     className={`font-sans text-xs tracking-widest tabular-nums shrink-0 transition-colors ${
                       isOpen ? "text-flow-yellow" : "text-flow-ink/40"
@@ -83,10 +83,18 @@ export const FAQ = () => {
                   <span>{highlight(f.q, query)}</span>
                 </span>
               </AccordionTrigger>
-              <AccordionContent className="font-sans text-flow-ink/65 text-sm md:text-base pl-9 md:pl-12 pb-6 md:pb-8 max-w-2xl">
+              <AccordionContent className="font-sans text-flow-ink/65 text-sm md:text-base pl-7 md:pl-12 pb-6 md:pb-8 max-w-2xl">
                 <span className="block animate-in fade-in slide-in-from-top-1 duration-300">
                   {highlight(f.a, query)}
                 </span>
+                <a
+                  href="https://wa.me/5571999470825"
+                  target="_blank"
+                  rel="noopener"
+                  className="mt-3 inline-block font-sans text-[13px] text-flow-yellow hover:underline"
+                >
+                  Ainda com dúvida? → fale pelo WhatsApp
+                </a>
               </AccordionContent>
             </AccordionItem>
           );

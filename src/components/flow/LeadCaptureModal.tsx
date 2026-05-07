@@ -9,6 +9,7 @@ import { supabase } from "@/integrations/supabase/client";
 import canSrc from "@/assets/brand/can-flow.svg";
 
 const STORAGE_KEY = "flow_lead_v1";
+const SESSION_KEY = "flow_lead_session_v1";
 
 const schema = z.object({
   name: z.string().trim().min(2, "Informe seu nome").max(80),
@@ -31,11 +32,19 @@ export const LeadCaptureModal = () => {
   useEffect(() => {
     externalOpen = () => setOpen(true);
     if (localStorage.getItem(STORAGE_KEY)) return;
-    // 8s após carregamento OU exit intent (movimento do mouse para fora pela borda superior)
-    const t = setTimeout(() => setOpen(true), 8000);
+    // Apenas na home, e somente 1x por sessão
+    const isHome = typeof window !== "undefined" && (window.location.pathname === "/" || window.location.pathname === "");
+    if (!isHome) return;
+    if (sessionStorage.getItem(SESSION_KEY)) return;
+    const trigger = () => {
+      if (sessionStorage.getItem(SESSION_KEY)) return;
+      sessionStorage.setItem(SESSION_KEY, "1");
+      setOpen(true);
+    };
+    const t = setTimeout(trigger, 8000);
     const onExitIntent = (e: MouseEvent) => {
-      if (e.clientY <= 0 && !localStorage.getItem(STORAGE_KEY)) {
-        setOpen(true);
+      if (e.clientY <= 0) {
+        trigger();
         document.removeEventListener("mouseleave", onExitIntent);
       }
     };
@@ -78,7 +87,19 @@ export const LeadCaptureModal = () => {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="bg-flow-ink text-flow-cream border-flow-cream/10 max-w-3xl p-0 rounded-none overflow-hidden">
+      <DialogContent
+        className="bg-flow-ink text-flow-cream border-flow-cream/10 max-w-3xl p-0 overflow-y-auto
+          rounded-none
+          max-md:left-0 max-md:right-0 max-md:top-auto max-md:bottom-0 max-md:translate-x-0 max-md:translate-y-0
+          max-md:w-full max-md:max-w-full max-md:rounded-t-[20px] max-md:rounded-b-none max-md:max-h-[90vh]
+          max-md:data-[state=open]:slide-in-from-bottom-full max-md:data-[state=closed]:slide-out-to-bottom-full
+          max-md:data-[state=open]:slide-in-from-left-0 max-md:data-[state=closed]:slide-out-to-left-0
+          max-md:data-[state=open]:slide-in-from-top-auto max-md:data-[state=closed]:slide-out-to-top-auto"
+      >
+        {/* Drag handle (mobile) */}
+        <div className="md:hidden w-full flex justify-center pt-3 pb-1 sticky top-0 bg-flow-ink z-10">
+          <span className="block" style={{ width: 40, height: 4, background: "#444", borderRadius: 2 }} />
+        </div>
         <AnimatePresence>
           {open && (
             <motion.div
@@ -102,7 +123,7 @@ export const LeadCaptureModal = () => {
               </div>
 
               {/* Lado direito: formulário */}
-              <div className="p-8 md:p-10 flex flex-col">
+              <div className="px-5 pb-6 pt-4 md:p-10 flex flex-col">
                 <p className="font-sans text-[10px] uppercase tracking-[0.4em] text-flow-yellow mb-3">/ cupom de lançamento</p>
                 <DialogTitle className="font-display lowercase text-3xl md:text-4xl leading-[0.95] tracking-tight">
                   <span className="font-sans font-semibold tabular-nums">10%</span> off no seu <span className="text-flow-cream/50">primeiro pack.</span>
@@ -117,7 +138,7 @@ export const LeadCaptureModal = () => {
                       placeholder="seu nome"
                       value={form.name}
                       onChange={(e) => setForm({ ...form, name: e.target.value })}
-                      className="bg-transparent border-flow-cream/20 text-flow-cream placeholder:text-flow-cream/40 rounded-none h-12"
+                      className="w-full bg-transparent border-flow-cream/20 text-flow-cream placeholder:text-flow-cream/40 rounded-none h-[52px] text-[16px]"
                     />
                     {errors.name && <p className="font-sans text-flow-yellow text-xs mt-1">{errors.name}</p>}
                   </div>
@@ -127,7 +148,7 @@ export const LeadCaptureModal = () => {
                       placeholder="seu melhor e-mail"
                       value={form.email}
                       onChange={(e) => setForm({ ...form, email: e.target.value })}
-                      className="bg-transparent border-flow-cream/20 text-flow-cream placeholder:text-flow-cream/40 rounded-none h-12"
+                      className="w-full bg-transparent border-flow-cream/20 text-flow-cream placeholder:text-flow-cream/40 rounded-none h-[52px] text-[16px]"
                     />
                     {errors.email && <p className="font-sans text-flow-yellow text-xs mt-1">{errors.email}</p>}
                   </div>
@@ -135,7 +156,7 @@ export const LeadCaptureModal = () => {
                   <Button
                     type="submit"
                     disabled={loading}
-                    className="w-full h-12 rounded-none bg-flow-yellow text-flow-ink hover:bg-flow-cream font-sans uppercase tracking-[0.25em] text-[10px] font-bold animate-pulse-cta"
+                    className="w-full h-[52px] rounded-none bg-flow-yellow text-flow-ink hover:bg-flow-cream font-sans uppercase tracking-[0.25em] text-[11px] font-bold animate-pulse-cta"
                   >
                     {loading ? "enviando…" : "quero meu cupom"}
                   </Button>
