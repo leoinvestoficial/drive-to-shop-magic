@@ -121,6 +121,19 @@ export default {
           "0%, 100%": { opacity: "1" },
           "50%": { opacity: "0" },
         },
+        "draw-in": {
+          "0%": { strokeDashoffset: "100" },
+          "100%": { strokeDashoffset: "0" },
+        },
+        "highlight-pulse": {
+          "0%": { backgroundColor: "hsl(var(--flow-yellow) / 0)" },
+          "30%": { backgroundColor: "hsl(var(--flow-yellow) / 0.3)" },
+          "100%": { backgroundColor: "hsl(var(--flow-yellow) / 0)" },
+        },
+        "grow-x": {
+          "0%": { transform: "scaleX(0)" },
+          "100%": { transform: "scaleX(1)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -132,6 +145,9 @@ export default {
         "pulse-cta": "pulse-cta 2s ease-in-out infinite",
         "pulse-ring": "pulse-ring 1.8s ease-out infinite",
         "caret-blink": "caret-blink 1s step-end infinite",
+        "draw-in": "draw-in 1.2s ease-out forwards",
+        "highlight-pulse": "highlight-pulse 0.6s ease-out",
+        "grow-x": "grow-x 0.6s ease-out forwards",
       },
     },
   },
