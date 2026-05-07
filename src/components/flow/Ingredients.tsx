@@ -75,9 +75,9 @@ export const Ingredients = () => (
   <section id="science" className="bg-flow-ink text-flow-cream py-16 md:py-28 px-5 md:px-6 overflow-hidden">
     <style>{`.reveal-x.is-visible { opacity: 1 !important; transform: translateX(0) !important; }`}</style>
     <div className="max-w-6xl mx-auto">
-      <div className="grid md:grid-cols-12 gap-4 md:gap-8 mb-10 md:mb-12">
+      <div className="grid md:grid-cols-12 gap-3 md:gap-8 mb-6 md:mb-12">
         <p className="md:col-span-3 font-sans text-[10px] uppercase tracking-[0.4em] text-flow-yellow">composição</p>
-        <h2 className="md:col-span-9 font-display lowercase text-[2.5rem] sm:text-5xl md:text-6xl leading-[0.95] tracking-tight">
+        <h2 className="md:col-span-9 font-display lowercase text-[28px] sm:text-5xl md:text-6xl leading-[1.05] md:leading-[0.95] tracking-tight">
           composição limpa.<br/><span className="text-flow-cream/40">decisões claras.</span>
         </h2>
       </div>
@@ -125,7 +125,7 @@ export const Ingredients = () => (
         </motion.div>
       </div>
 
-      <p className="font-sans text-xs text-flow-cream/40 mt-8 max-w-md">
+      <p className="font-sans text-[12px] font-normal text-[#555] mt-8 max-w-md">
         Composição funcional. Não substitui alimentação balanceada nem orientação médica.
       </p>
     </div>
