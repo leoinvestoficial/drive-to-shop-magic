@@ -9,10 +9,12 @@ export const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [progress, setProgress] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [visible, setVisible] = useState(false);
   useEffect(() => {
     const onScroll = () => {
       const y = window.scrollY;
       setScrolled(y > 80);
+      setVisible(y >= window.innerHeight * 0.7);
       const docH = document.documentElement.scrollHeight - window.innerHeight;
       setProgress(docH > 0 ? Math.min(100, (y / docH) * 100) : 0);
     };
@@ -32,7 +34,14 @@ export const Header = () => {
   ];
 
   return (
-    <header className="fixed top-0 inset-x-0 z-50">
+    <header
+      className="fixed top-0 inset-x-0 z-[100] transition-[opacity,visibility] duration-[400ms] ease-out"
+      style={{
+        opacity: visible ? 1 : 0,
+        visibility: visible ? "visible" : "hidden",
+        pointerEvents: visible ? "auto" : "none",
+      }}
+    >
       <div
         className={`transition-all duration-500 ${
           scrolled
