@@ -1,4 +1,5 @@
 import { Link, useParams, Navigate } from "react-router-dom";
+import { ArrowLeft, MessageCircle } from "lucide-react";
 import { Header } from "@/components/flow/Header";
 import { Footer } from "@/components/flow/Footer";
 import { LeadCaptureModal, openLeadCapture } from "@/components/flow/LeadCaptureModal";
@@ -19,10 +20,12 @@ const Product = () => {
       <Header />
       <main className="flex-1 pt-24 md:pt-32 pb-16 md:pb-24 px-5 md:px-6">
         <div className="max-w-6xl mx-auto">
-          <Link to="/#packs" className="font-sans text-[10px] uppercase tracking-[0.4em] text-flow-ink/50 hover:text-flow-ink transition-colors">← voltar aos packs</Link>
+          <Link to="/#packs" className="inline-flex items-center gap-1.5 font-sans text-[13px] text-[#999] hover:text-flow-ink transition-colors">
+            <ArrowLeft size={14} strokeWidth={1.5} /> voltar
+          </Link>
 
           <div className="mt-8 grid md:grid-cols-2 gap-8 md:gap-14 items-start">
-            <div className="relative aspect-square md:aspect-[4/5] overflow-hidden bg-background border border-flow-ink/10">
+            <div className="relative w-full aspect-square md:aspect-[4/5] overflow-hidden bg-[#f5f3ee] md:bg-background border border-flow-ink/10 rounded-2xl md:rounded-none">
               <img src={pack.img} alt={pack.name} className="absolute inset-0 w-full h-full object-cover" />
               {pack.highlight && (
                 <span className="absolute top-4 left-4 bg-flow-yellow text-flow-ink font-sans text-[9px] uppercase tracking-[0.3em] px-3 py-1.5 font-bold">
@@ -38,33 +41,29 @@ const Product = () => {
               </h1>
               <p className="font-sans text-sm uppercase tracking-widest text-flow-ink/55 mb-6">{pack.subtitle}</p>
 
-              <p className="font-sans text-[15px] leading-relaxed text-flow-ink/80 mb-8">
-                {pack.description}
-              </p>
-
-              <ul className="font-sans text-sm text-flow-ink/75 space-y-2 border-t border-flow-ink/10 pt-6 mb-8">
+              <ul className="font-sans text-[14px] text-flow-ink/80 border-t border-flow-ink/10 pt-6 mb-8 flex flex-col gap-2">
                 {pack.details.map((d) => (
-                  <li key={d} className="flex items-start gap-3">
-                    <span className="inline-block w-1.5 h-1.5 bg-flow-yellow mt-2 shrink-0" />
+                  <li key={d} className="flex items-start gap-2">
+                    <span className="text-flow-green font-bold mt-0.5 shrink-0">✓</span>
                     <span>{d}</span>
                   </li>
                 ))}
               </ul>
 
               <div className="flex items-end justify-between border-t border-flow-ink/10 pt-6 mb-6">
-                <div>
-                  <p className="font-sans text-[10px] uppercase tracking-widest text-flow-ink/40">por</p>
-                  <p className="font-sans font-semibold text-4xl leading-none tracking-tight tabular-nums">{pack.price}</p>
-                  {pack.freeShip && (
-                    <p className="font-sans text-[10px] uppercase tracking-[0.3em] text-flow-ink/60 mt-2">frete grátis incluso</p>
-                  )}
+                <div className="flex items-baseline gap-2 whitespace-nowrap">
+                  <span className="font-sans text-[11px] uppercase tracking-widest text-flow-ink/40">por</span>
+                  <span className="font-sans font-bold text-[32px] leading-none tracking-tight tabular-nums">{pack.price}</span>
                 </div>
+                  {pack.freeShip && (
+                    <p className="font-sans text-[10px] uppercase tracking-[0.3em] text-flow-ink/60">frete grátis</p>
+                  )}
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-3">
+              <div className="flex flex-col gap-2">
                 <button
                   onClick={openLeadCapture}
-                  className="flex-1 inline-flex items-center justify-center bg-flow-ink text-flow-cream px-6 py-4 font-sans text-[10px] uppercase tracking-[0.25em] font-semibold hover:bg-flow-yellow hover:text-flow-ink transition-colors"
+                  className="w-full h-[56px] rounded-lg inline-flex items-center justify-center bg-[#0A0A0A] text-white font-sans text-[11px] uppercase tracking-[0.25em] font-semibold hover:bg-flow-yellow hover:text-flow-ink transition-colors"
                 >
                   comprar agora
                 </button>
@@ -72,13 +71,14 @@ const Product = () => {
                   href="https://wa.me/5571999470825"
                   target="_blank"
                   rel="noreferrer"
-                  className="flex-1 inline-flex items-center justify-center border border-flow-ink/30 px-6 py-4 font-sans text-[10px] uppercase tracking-[0.25em] hover:border-flow-ink transition-colors"
+                  className="w-full h-[48px] inline-flex items-center justify-center gap-2 border border-[#0A0A0A] text-[#0A0A0A] font-sans text-[11px] uppercase tracking-[0.25em] hover:bg-flow-ink hover:text-flow-cream transition-colors"
                 >
+                  <MessageCircle size={18} strokeWidth={1.5} />
                   pedir pelo whatsapp
                 </a>
               </div>
 
-              <p className="font-sans text-[10px] uppercase tracking-[0.3em] text-flow-ink/40 mt-6">
+              <p className="font-sans text-[10px] uppercase tracking-[0.3em] text-flow-ink/40 mt-4">
                 edição limitada · enquanto durar o estoque
               </p>
             </div>
