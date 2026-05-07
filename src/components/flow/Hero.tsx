@@ -60,7 +60,7 @@ const ScrollIndicator = ({ opacity }: { opacity?: any }) => (
 );
 
 export const Hero = () => {
-  const ref = useRef<HTMLElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const logoScale = useTransform(scrollYProgress, [0, 0.8], [1, reduce ? 1 : 0.55]);
@@ -98,7 +98,7 @@ export const Hero = () => {
     </div>
 
     {/* DESKTOP — original sticky/scroll-driven hero */}
-    <div ref={ref as any} className="hidden md:block relative h-[120vh] bg-flow-cream text-flow-ink">
+    <div ref={ref} className="hidden md:block relative h-[120vh] bg-flow-cream text-flow-ink">
       <div className="sticky top-0 h-screen overflow-hidden">
         <WaterParticles />
         <motion.img
