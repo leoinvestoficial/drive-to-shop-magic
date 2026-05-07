@@ -1,50 +1,103 @@
-## O que será feito
+# Plano — Melhorias na Seção Hero (FLOW)
 
-### 1. Remover o espaço branco do hero mobile
-No mobile, o hero ocupa duas telas inteiras (`100svh` + `100svh`), gerando o vazio enorme que aparece entre "ENQUANTO DURAR O ESTOQUE" e "três packs. um preço.".
+Objetivo: elevar o impacto visual do Hero (desktop + mobile) adicionando uma lata FLOW central com flutuação, partículas de água ao fundo, reveal animado palavra-a-palavra no headline, fade-in escalonado para subtexto/CTAs e um scroll indicator mais proeminente — preservando o conceito brand já existente (creme, ink, motion guiado por scroll, sem auto-scroll/parallax que se mexe sozinho fora do conceito).
 
-- Em `src/components/flow/Hero.tsx`, unificar o mobile em **uma única tela**: logo + grafismo no topo, textos/CTAs/badge logo abaixo, sem `min-h-[100svh]` no segundo bloco.
-- Reduzir paddings verticais para que a seção termine perto do fim da viewport e o usuário emende direto na seção dos packs.
+---
 
-### 2. Remover a numeração `/ 02`, `/ 03`, etc.
-Tirar os marcadores de seção que parecem índice editorial interno:
+## 1. Assets necessários
 
-- `src/components/flow/LaunchPacks.tsx`: remover `/ 02 · packs do lançamento`, manter só `packs do lançamento`.
-- Conferir e limpar numerações equivalentes em `Ingredients.tsx`, `Movement.tsx`, `FAQ.tsx` se existirem (`/ 03`, `/ 04`...).
-- Manter o `/ edição 01 · 2026` do hero, pois ali é parte do conceito de "edição de lançamento" e não numeração de seção.
+- **Lata FLOW (PNG transparente ou render 3D leve)**: precisa ser fornecida pelo usuário ou usar placeholder. Caminho previsto: `src/assets/brand/can-flow.png`.
+  - Caso o usuário não tenha agora, uso um placeholder estilizado (silhueta vetorial em SVG amarelo `flow-yellow` + ink) já no commit, fácil de trocar depois.
+- **Partículas de gotas**: SVG inline gerado no componente (círculos + paths simples), sem novo asset.
 
-### 3. Motion design perceptível no banner mobile
-Hoje o mobile só tem fade/scale na entrada. Vamos deixar mais vivo e contínuo:
+## 2. Novo subcomponente: `HeroCan.tsx` (interno ao Hero)
 
-- Grafismo (círculos): rotação lenta infinita + leve pulse de escala (loop, respeitando `prefers-reduced-motion`).
-- Logo `flow`: entrada com leve "breathing" sutil contínuo após aparecer.
-- Texto "/ edição 01 · 2026" e seta "role para descobrir": entrada em sequência, seta com bounce contínuo (já tem, manter/realçar).
-- Tudo via `framer-motion`, sem libs novas, e desabilitado quando `useReducedMotion()` for true.
+- Renderiza a lata centralizada no lado direito (desktop) ou acima do texto (mobile).
+- Animações combinadas:
+  - **Float loop**: keyframe Tailwind custom `float` — `translateY(0) → -8px → 0`, 3s `ease-in-out` infinite.
+  - **Tilt sutil**: `rotate(-4deg)` estático + leve `rotate` reativo ao scroll via `useTransform` (-4° → +2°) para reforçar fluidez sem girar sozinho.
+  - **Entrada**: `opacity 0 → 1`, `scale 0.92 → 1`, duração 1s, delay 0.3s.
+- Respeita `useReducedMotion` (desativa float e tilt).
 
-### 4. Clicar num pack abre a página do produto (não o modal de cupom)
-Hoje o botão "quero esse" em `LaunchPacks.tsx` chama `openLeadCapture()`. Não existe página de produto.
+## 3. Partículas de água (`WaterParticles.tsx`)
 
-- Criar `src/pages/Product.tsx` com layout próprio (Header + Footer da marca, fundo `flow-cream`, tipografia Halfre/Helvena) contendo:
-  - Imagem grande do pack
-  - Nome, subtítulo, preço `R$ 50,00`, badge "frete grátis" quando aplicável
-  - Bloco editável de descrição (placeholders prontos para você editar depois)
-  - Botão "comprar" / "adicionar à sacola"
-- Os 3 packs viram dados em `src/data/packs.ts` (id, nome, subtítulo, imagem, freeShip, descrição) consumidos tanto por `LaunchPacks` quanto pela página.
-- Rota nova em `src/App.tsx`: `/pack/:id` apontando para `Product.tsx`.
-- Em `LaunchPacks.tsx`: o card inteiro vira `<Link to={`/pack/${id}`}>`; o botão "quero esse" também leva para a página do produto. O modal de cupom continua acessível pelo botão "CUPOM 10%" do header e pelo CTA do hero.
+- Camada absoluta atrás do conteúdo (`z-0`, `pointer-events-none`).
+- 12–16 gotas SVG distribuídas, `opacity: 0.15`, cores `flow-water` e `flow-ink/10`.
+- Cada gota com animação CSS própria (`drift` keyframe): translateY suave (loop 6–10s, delays variados) + leve scale.
+- Desliga em `prefers-reduced-motion`.
 
-### 5. Detalhes técnicos
+## 4. Headline com reveal palavra-a-palavra
 
-- Sem mudanças de banco/backend.
+- Quebrar `"sua hidratação funcional chegou."` em palavras via `.split(" ")`.
+- Cada palavra envolvida em `<span className="inline-block overflow-hidden">` com `<motion.span>` interno.
+- Variants:
+  - `hidden`: `y: 30, opacity: 0`
+  - `visible`: `y: 0, opacity: 1`
+  - Container com `staggerChildren: 0.15`, `delayChildren: 0.2`.
+- Trigger: `whileInView` com `once: true` (mobile) e no mount (desktop, já visível).
+- "chegou." mantém destaque `text-flow-green`.
+
+## 5. Subtexto + CTAs com fade-in atrasado
+
+- Wrapper `motion.div` com `initial={{opacity:0, y:16}}`, `animate={{opacity:1, y:0}}`, `transition={{duration:0.7, delay:0.6, ease:[0.22,1,0.36,1]}}`.
+- Aplica-se ao parágrafo e ao bloco de botões (mesmo wrapper).
+
+## 6. Scroll indicator mais proeminente
+
+- Substituir o atual "scroll ↓" pequeno por:
+  - Mini coluna centrada na base: label `role para descobrir` + ícone seta dentro de um círculo fino (`border border-flow-ink/30`, 36px) com pulso (`animate-ripple`-like custom) + bounce vertical contínuo da seta.
+  - Mantém infinite (é o único elemento auto-animado permitido — segue padrão atual).
+- Aparece em desktop e mobile.
+
+## 7. Layout
+
+- **Desktop (`md+`)**: grid 2 colunas no sticky hero. Esquerda: texto (eyebrow + headline + sub + CTAs). Direita: `HeroCan` centralizado verticalmente, com `grafismo` ainda atrás como anel rotativo guiado por scroll (mantém o existente).
+- **Mobile**: empilhado — bloco 1 (boas-vindas) ganha a lata acima do logo? **Não** — manter banner inicial limpo (logo + grafismo) conforme regra já estabelecida pelo usuário. A lata aparece apenas no **bloco 2** (conteúdo), acima do texto.
+
+```text
+Desktop sticky hero:
+┌───────────────────────────────────────────┐
+│ eyebrow                                   │
+│ HEADLINE (reveal palavras)    [grafismo]  │
+│ subtexto                      [  LATA  ]  │
+│ [CTA] [CTA]                   [ float  ]  │
+│                                           │
+│            ↓ (scroll indicator)           │
+└───────────────────────────────────────────┘
+fundo: WaterParticles (opacity 0.15)
+
+Mobile:
+[bloco 1: logo + grafismo + scroll ↓]   ← inalterado
+[bloco 2: LATA (float) → headline reveal → sub → CTAs]
+```
+
+## 8. Tailwind / CSS
+
+Adicionar em `tailwind.config.ts → keyframes/animation`:
+- `float`: `0%,100% { transform: translateY(0) } 50% { transform: translateY(-8px) }` — `float: "float 3s ease-in-out infinite"`.
+- `drift`: leve subida/descida com opacidade variando — usado pelas gotas.
+- `bounce-arrow`: `0%,100%{translateY(0)} 50%{translateY(6px)}` — `bounce-arrow 1.6s ease-in-out infinite`.
+
+(Mantém `animate-ripple` já existente.)
+
+## 9. Arquivos a criar / editar
+
+**Editar**
+- `src/components/flow/Hero.tsx` — integrar tudo (mantém estrutura atual de mobile/desktop e regra de scroll-driven motion).
+- `tailwind.config.ts` — adicionar keyframes/animations.
+
+**Criar**
+- `src/components/flow/HeroCan.tsx` — a lata + animações.
+- `src/components/flow/WaterParticles.tsx` — camada de partículas.
+- `src/assets/brand/can-flow.svg` — placeholder vetorial da lata (substituível por PNG/3D depois).
+
+## 10. Acessibilidade & performance
+
+- Todas as animações respeitam `useReducedMotion` / `prefers-reduced-motion`.
+- Partículas são SVG inline leve (sem libs novas, sem canvas).
+- Lata como `<img loading="eager" />` (acima da dobra) com `alt="lata flow"`.
 - Sem novas dependências.
-- Respeitar tokens do design system (`flow-cream`, `flow-ink`, `flow-yellow`, `flow-green`).
-- Acessibilidade: animações infinitas só rodam se o usuário não pediu `reduce-motion`.
 
-## Arquivos afetados
+## Pergunta antes de executar
 
-- editado: `src/components/flow/Hero.tsx` (mobile compactado + motion contínuo)
-- editado: `src/components/flow/LaunchPacks.tsx` (sem `/ 02`, card vira link)
-- editado: `src/components/flow/Ingredients.tsx`, `Movement.tsx`, `FAQ.tsx` (remover numeração `/ 03`, `/ 04`, `/ 05` se existir)
-- editado: `src/App.tsx` (rota `/pack/:id`)
-- novo: `src/data/packs.ts`
-- novo: `src/pages/Product.tsx`
+Você tem uma imagem/render PNG da lata para usar agora, ou sigo com um **placeholder SVG vetorial** (silhueta da lata em amarelo `flow-yellow` com rótulo "flow") que você troca depois? Posso seguir com o placeholder se preferir.
