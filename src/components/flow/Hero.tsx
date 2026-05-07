@@ -79,7 +79,7 @@ export const Hero = () => {
         className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[120vmin] h-[120vmin] pointer-events-none select-none"
       />
       <div className="relative z-10 flex flex-col items-center px-5 pt-20 pb-6 h-[100svh]">
-        <HeroCan className="w-auto" />
+        <HeroCan className="max-h-[220px] w-auto [&_img]:max-h-[220px] [&_img]:w-auto" />
         <p className="font-sans text-[10px] uppercase tracking-[0.4em] text-flow-ink/60 mt-4 mb-2 text-center">
           / edição <span className="tabular-nums">01</span> · <span className="tabular-nums">2026</span>
         </p>
