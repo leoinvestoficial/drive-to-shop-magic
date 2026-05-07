@@ -93,7 +93,7 @@ export const Ingredients = () => (
             <text x="140" y="180" textAnchor="middle" fill="hsl(var(--flow-yellow))" fontFamily="Helvena, sans-serif" fontSize="22" fontWeight="700">flow</text>
 
             {/* Setas indicadoras */}
-            <g fontFamily="Helvena, sans-serif" fontSize="9" letterSpacing="2" fill="hsl(var(--flow-cream) / 0.6)" textTransform="uppercase">
+            <g fontFamily="Helvena, sans-serif" fontSize="9" letterSpacing="2" fill="hsl(var(--flow-cream) / 0.6)">
               <line x1="80" y1="100" x2="20" y2="100" stroke="hsl(var(--flow-yellow))" strokeWidth="1" />
               <circle cx="20" cy="100" r="2" fill="hsl(var(--flow-yellow))" />
               <text x="18" y="92" textAnchor="end">ELETRÓLITOS</text>
