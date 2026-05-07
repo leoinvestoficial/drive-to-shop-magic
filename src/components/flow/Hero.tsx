@@ -60,7 +60,7 @@ const ScrollIndicator = ({ opacity }: { opacity?: any }) => (
 );
 
 export const Hero = () => {
-  const ref = useRef<HTMLElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const logoScale = useTransform(scrollYProgress, [0, 0.8], [1, reduce ? 1 : 0.55]);
@@ -70,15 +70,15 @@ export const Hero = () => {
   const textOpacity = useTransform(scrollYProgress, [0, 0.4], [1, 0]);
 
   return (
-    <>
+    <section id="hero">
     {/* MOBILE — uma viewport, conteúdo compacto */}
-    <section className="md:hidden relative bg-flow-cream text-flow-ink overflow-hidden" style={{ minHeight: "100svh", maxHeight: "100svh" }}>
+    <div className="md:hidden relative bg-flow-cream text-flow-ink overflow-hidden">
       <img
         src={grafismo} alt="" aria-hidden
         style={{ opacity: 0.3 }}
         className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[120vmin] h-[120vmin] pointer-events-none select-none"
       />
-      <div className="relative z-10 flex flex-col items-center px-5 pt-20 pb-6 h-[100svh]">
+      <div className="relative z-10 flex flex-col items-center px-5 pt-20 pb-12 gap-6">
         <HeroCan className="max-h-[220px] w-auto [&_img]:max-h-[220px] [&_img]:w-auto" />
         <p className="font-sans text-[10px] uppercase tracking-[0.4em] text-flow-ink/60 mt-4 mb-2 text-center">
           / edição <span className="tabular-nums">01</span> · <span className="tabular-nums">2026</span>
@@ -87,15 +87,18 @@ export const Hero = () => {
         <p className="font-sans text-[14px] text-[#666] text-center mt-1 mb-4 px-2">
           Três packs · condição de lançamento · frete grátis no misto.
         </p>
-        <div className="w-full flex flex-col gap-3 mt-auto">
+        <div className="w-full flex flex-col gap-3">
           <a href="#packs" className="w-full h-[52px] inline-flex items-center justify-center bg-flow-ink text-flow-cream font-sans text-[11px] uppercase tracking-[0.25em] font-semibold hover:bg-flow-yellow hover:text-flow-ink transition-colors">ver os packs</a>
           <button onClick={openLeadCapture} className="w-full h-[52px] inline-flex items-center justify-center border border-flow-ink/30 font-sans text-[11px] uppercase tracking-[0.25em] hover:border-flow-ink transition-colors">cupom de <span className="tabular-nums ml-1">10%</span></button>
         </div>
+        <p className="font-sans text-[10px] uppercase tracking-[0.2em] text-flow-yellow text-center">
+          edição limitada · enquanto durar o estoque
+        </p>
       </div>
-    </section>
+    </div>
 
     {/* DESKTOP — original sticky/scroll-driven hero */}
-    <section ref={ref} className="hidden md:block relative h-[120vh] bg-flow-cream text-flow-ink">
+    <div ref={ref} className="hidden md:block relative h-[120vh] bg-flow-cream text-flow-ink">
       <div className="sticky top-0 h-screen overflow-hidden">
         <WaterParticles />
         <motion.img
@@ -121,6 +124,9 @@ export const Hero = () => {
                 <a href="#packs" className="inline-flex items-center justify-center bg-flow-ink text-flow-cream px-6 py-3.5 font-sans text-[10px] uppercase tracking-[0.25em] font-semibold hover:bg-flow-yellow hover:text-flow-ink transition-colors">ver os packs</a>
                 <button onClick={openLeadCapture} className="inline-flex items-center justify-center border border-flow-ink/30 px-6 py-3.5 font-sans text-[10px] uppercase tracking-[0.25em] hover:border-flow-ink transition-colors">cupom de <span className="tabular-nums ml-1">10%</span></button>
               </div>
+              <p className="font-sans text-[11px] uppercase tracking-[0.2em] text-flow-yellow mt-5">
+                edição limitada · enquanto durar o estoque
+              </p>
             </motion.div>
           </motion.div>
 
@@ -130,14 +136,9 @@ export const Hero = () => {
           </div>
         </div>
 
-        <div className="absolute top-10 right-12 font-sans text-[10px] uppercase tracking-[0.3em] text-flow-ink/50 text-right z-20">
-          <p>edição limitada</p>
-          <p className="mt-1 text-flow-yellow">enquanto durar o estoque</p>
-        </div>
-
         <ScrollIndicator opacity={textOpacity} />
       </div>
+    </div>
     </section>
-    </>
   );
 };
