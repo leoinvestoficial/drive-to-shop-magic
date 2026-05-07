@@ -22,7 +22,7 @@ const PackCTA = ({ id }: { id: string }) => {
         setAdded(true);
         setTimeout(() => setAdded(false), 1500);
       }}
-      className={`relative overflow-hidden px-4 py-3.5 font-sans text-[10px] uppercase tracking-[0.25em] font-semibold transition-colors ${
+      className={`relative overflow-hidden w-full md:w-auto h-[48px] md:h-auto px-4 md:py-3.5 font-sans text-[11px] md:text-[10px] uppercase tracking-[0.25em] font-semibold transition-colors flex items-center justify-center ${
         added ? "bg-flow-green text-flow-ink" : "bg-flow-ink text-flow-cream group-hover:bg-flow-yellow group-hover:text-flow-ink"
       }`}
       aria-label={added ? "adicionado" : "adicionar pack"}
