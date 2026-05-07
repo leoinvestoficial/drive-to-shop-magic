@@ -1,4 +1,5 @@
 import { Header } from "@/components/flow/Header";
+import { IntroScreen } from "@/components/flow/IntroScreen";
 import { Hero } from "@/components/flow/Hero";
 import { LaunchPacks } from "@/components/flow/LaunchPacks";
 import { Ingredients } from "@/components/flow/Ingredients";
@@ -12,6 +13,7 @@ const Index = () => (
   <div className="min-h-screen flex flex-col bg-flow-cream">
     <Header />
     <main className="flex-1">
+      <IntroScreen />
       <Hero />
       <LaunchPacks />
       <Ingredients />
