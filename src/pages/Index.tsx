@@ -2,6 +2,7 @@ import { Header } from "@/components/flow/Header";
 import { Hero } from "@/components/flow/Hero";
 import { LaunchPacks } from "@/components/flow/LaunchPacks";
 import { Ingredients } from "@/components/flow/Ingredients";
+import { VideoStory } from "@/components/flow/VideoStory";
 import { Movement } from "@/components/flow/Movement";
 import { FAQ } from "@/components/flow/FAQ";
 import { Footer } from "@/components/flow/Footer";
@@ -14,6 +15,7 @@ const Index = () => (
       <Hero />
       <LaunchPacks />
       <Ingredients />
+      <VideoStory />
       <Movement />
       <FAQ />
     </main>
