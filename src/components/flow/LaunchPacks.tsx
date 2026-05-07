@@ -1,6 +1,45 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Check, Zap } from "lucide-react";
 import { packs } from "@/data/packs";
+
+// estoques fictícios (placeholder — viram dados reais depois)
+const STOCK: Record<string, number> = {
+  "pack-1": 62,
+  "pack-2": 47,
+  "pack-3": 38,
+};
+
+const PackCTA = ({ id }: { id: string }) => {
+  const [added, setAdded] = useState(false);
+  return (
+    <button
+      type="button"
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setAdded(true);
+        setTimeout(() => setAdded(false), 1500);
+      }}
+      className={`relative overflow-hidden px-4 py-3.5 font-sans text-[10px] uppercase tracking-[0.25em] font-semibold transition-colors ${
+        added ? "bg-flow-green text-flow-ink" : "bg-flow-ink text-flow-cream group-hover:bg-flow-yellow group-hover:text-flow-ink"
+      }`}
+      aria-label={added ? "adicionado" : "adicionar pack"}
+    >
+      <span className={`flex items-center gap-2 transition-all duration-300 ${added ? "opacity-100" : "opacity-100"}`}>
+        {added ? (
+          <>
+            adicionado
+            <Check size={12} strokeWidth={2.5} className="animate-in zoom-in-50 duration-300" />
+          </>
+        ) : (
+          "quero esse"
+        )}
+      </span>
+    </button>
+  );
+};
 
 export const LaunchPacks = () => (
   <section id="packs" className="bg-flow-cream text-flow-ink py-16 md:py-28 px-5 md:px-6">
@@ -26,14 +65,31 @@ export const LaunchPacks = () => (
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
-            transition={{ delay: i * 0.1, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ delay: 0.1 + i * 0.15, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
             className={`${p.mdOrder}`}
           >
-          <Link to={`/pack/${p.id}`} className={`group relative bg-background flex flex-col h-full ${p.highlight ? "border-2 border-flow-ink shadow-[0_20px_60px_-20px_hsl(var(--flow-ink)/0.25)] md:-mt-3" : "border border-flow-ink/10"}`}>
+          <Link
+            to={`/pack/${p.id}`}
+            className={`group relative bg-background flex flex-col h-full transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-[0_30px_60px_-20px_hsl(var(--flow-ink)/0.35)] ${
+              p.highlight
+                ? "border-2 border-flow-ink shadow-[0_20px_60px_-20px_hsl(var(--flow-ink)/0.25)] md:-mt-3"
+                : "border border-flow-ink/10"
+            }`}
+          >
             {p.highlight && (
-              <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-flow-yellow text-flow-ink font-sans text-[9px] uppercase tracking-[0.3em] px-3 py-1.5 font-bold whitespace-nowrap z-10">
-                mais escolhido
+              <span className="absolute -top-3 left-1/2 -translate-x-1/2 z-10">
+                <span className="relative inline-flex items-center bg-flow-yellow text-flow-ink font-sans text-[9px] uppercase tracking-[0.3em] px-3 py-1.5 font-bold whitespace-nowrap">
+                  mais escolhido
+                  <span className="absolute inset-0 border-2 border-flow-yellow animate-pulse-ring pointer-events-none" />
+                </span>
               </span>
+            )}
+            {p.highlight && (
+              <div className="absolute top-0 right-0 w-28 h-28 overflow-hidden pointer-events-none z-10">
+                <span className="absolute top-5 right-[-30px] rotate-45 bg-flow-ink text-[hsl(var(--flow-yellow))] font-sans text-[9px] uppercase tracking-[0.3em] font-bold py-1 w-[140px] text-center shadow-md">
+                  frete grátis
+                </span>
+              </div>
             )}
             <div className="relative aspect-square md:aspect-[4/5] overflow-hidden bg-flow-cream">
               <img
@@ -57,10 +113,12 @@ export const LaunchPacks = () => (
                 <div>
                   <p className="font-sans text-[10px] uppercase tracking-widest text-flow-ink/40">por</p>
                   <p className="font-sans font-semibold text-3xl leading-none tracking-tight tabular-nums">R$ 50,00</p>
+                  <p className="font-sans text-[10px] uppercase tracking-[0.25em] text-flow-ink/60 mt-2 flex items-center gap-1.5">
+                    <Zap size={10} className="text-flow-yellow" fill="currentColor" />
+                    apenas <span className="text-flow-yellow font-semibold tabular-nums">{STOCK[p.id] ?? 50}</span> restantes
+                  </p>
                 </div>
-                <span className="bg-flow-ink text-flow-cream px-4 py-3.5 font-sans text-[10px] uppercase tracking-[0.25em] font-semibold group-hover:bg-flow-yellow group-hover:text-flow-ink transition-colors">
-                  quero esse
-                </span>
+                <PackCTA id={p.id} />
               </div>
             </div>
           </Link>
