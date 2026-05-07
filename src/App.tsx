@@ -13,6 +13,7 @@ import Cancelamento from "./pages/legal/Cancelamento.tsx";
 import Contato from "./pages/legal/Contato.tsx";
 import FaqPage from "./pages/Faq.tsx";
 import Product from "./pages/Product.tsx";
+import { BackToTop } from "./components/flow/BackToTop";
 
 const queryClient = new QueryClient();
 
@@ -35,6 +36,7 @@ const App = () => (
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
+        <BackToTop />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
