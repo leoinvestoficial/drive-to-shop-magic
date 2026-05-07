@@ -1,54 +1,50 @@
-## Objetivo
+## O que será feito
 
-Criar páginas institucionais (políticas, termos, FAQ, contato) acessíveis pelo rodapé e atualizar os dados de contato com `contato@bebaflow.com` e WhatsApp `71 99947-0825`.
+### 1. Remover o espaço branco do hero mobile
+No mobile, o hero ocupa duas telas inteiras (`100svh` + `100svh`), gerando o vazio enorme que aparece entre "ENQUANTO DURAR O ESTOQUE" e "três packs. um preço.".
 
-## Páginas novas (rotas em `src/pages/legal/`)
+- Em `src/components/flow/Hero.tsx`, unificar o mobile em **uma única tela**: logo + grafismo no topo, textos/CTAs/badge logo abaixo, sem `min-h-[100svh]` no segundo bloco.
+- Reduzir paddings verticais para que a seção termine perto do fim da viewport e o usuário emende direto na seção dos packs.
 
-Cada página usa o mesmo layout: `Header` no topo, container centralizado com tipografia da marca (Halfre/Helvena, fundo `flow-cream`, texto `flow-ink`), `Footer` no fim. Conteúdo padrão com placeholders editáveis.
+### 2. Remover a numeração `/ 02`, `/ 03`, etc.
+Tirar os marcadores de seção que parecem índice editorial interno:
 
-1. `/politica-de-privacidade` — Coleta de dados (nome, e-mail, telefone), uso dos dados, cookies, direitos LGPD, contato do encarregado.
-2. `/termos-de-uso` — Regras do site, responsabilidade do usuário, propriedade intelectual, foro.
-3. `/politica-de-entrega` — Prazo (2–5 dias úteis), frete (grátis no pack misto), regiões atendidas (todo Brasil).
-4. `/politica-de-troca-e-devolucao` — Prazo de 7 dias (CDC), condições (produto lacrado), processo de reembolso.
-5. `/politica-de-cancelamento` — Janela de cancelamento antes do envio, reembolso parcial/total, prazos.
-6. `/faq` — Reaproveita a seção `FAQ.tsx` ampliada: o que é a FLOW, tem cafeína, quem pode consumir, diferença para energético, prazo de entrega.
-7. `/contato` — WhatsApp clicável (`https://wa.me/5571999470825`), e-mail (`mailto:contato@bebaflow.com`), Instagram `@flow.bebidas`.
+- `src/components/flow/LaunchPacks.tsx`: remover `/ 02 · packs do lançamento`, manter só `packs do lançamento`.
+- Conferir e limpar numerações equivalentes em `Ingredients.tsx`, `Movement.tsx`, `FAQ.tsx` se existirem (`/ 03`, `/ 04`...).
+- Manter o `/ edição 01 · 2026` do hero, pois ali é parte do conceito de "edição de lançamento" e não numeração de seção.
 
-Todas com `Helmet`/`<title>` simples e `meta description` curta.
+### 3. Motion design perceptível no banner mobile
+Hoje o mobile só tem fade/scale na entrada. Vamos deixar mais vivo e contínuo:
 
-## Rodapé (`Footer.tsx`)
+- Grafismo (círculos): rotação lenta infinita + leve pulse de escala (loop, respeitando `prefers-reduced-motion`).
+- Logo `flow`: entrada com leve "breathing" sutil contínuo após aparecer.
+- Texto "/ edição 01 · 2026" e seta "role para descobrir": entrada em sequência, seta com bounce contínuo (já tem, manter/realçar).
+- Tudo via `framer-motion`, sem libs novas, e desabilitado quando `useReducedMotion()` for true.
 
-Reorganizar em 4 colunas no desktop, empilhadas no mobile:
+### 4. Clicar num pack abre a página do produto (não o modal de cupom)
+Hoje o botão "quero esse" em `LaunchPacks.tsx` chama `openLeadCapture()`. Não existe página de produto.
 
-```text
-[ Logo + tagline ]  [ Lançamento ]  [ Institucional ]  [ Contato ]
-                     Packs            Privacidade        WhatsApp
-                     Composição       Termos de Uso      contato@bebaflow.com
-                     FAQ              Entrega            @flow.bebidas
-                                      Troca/Devolução
-                                      Cancelamento
-```
+- Criar `src/pages/Product.tsx` com layout próprio (Header + Footer da marca, fundo `flow-cream`, tipografia Halfre/Helvena) contendo:
+  - Imagem grande do pack
+  - Nome, subtítulo, preço `R$ 50,00`, badge "frete grátis" quando aplicável
+  - Bloco editável de descrição (placeholders prontos para você editar depois)
+  - Botão "comprar" / "adicionar à sacola"
+- Os 3 packs viram dados em `src/data/packs.ts` (id, nome, subtítulo, imagem, freeShip, descrição) consumidos tanto por `LaunchPacks` quanto pela página.
+- Rota nova em `src/App.tsx`: `/pack/:id` apontando para `Product.tsx`.
+- Em `LaunchPacks.tsx`: o card inteiro vira `<Link to={`/pack/${id}`}>`; o botão "quero esse" também leva para a página do produto. O modal de cupom continua acessível pelo botão "CUPOM 10%" do header e pelo CTA do hero.
 
-- Atualizar e-mail para `contato@bebaflow.com`.
-- WhatsApp como link `https://wa.me/5571999470825` exibindo `(71) 99947-0825`.
-- FAQ vira link para `/faq` (mantém a seção na home com `id="faq"` também).
+### 5. Detalhes técnicos
 
-## Roteamento (`src/App.tsx`)
-
-Registrar as 7 novas rotas no `<Routes>` antes do `NotFound`.
-
-## Detalhes técnicos
-
-- Criar `src/components/legal/LegalPage.tsx` (wrapper com Header/Footer/title/intro) para evitar repetição.
-- Tipografia: `font-display lowercase` para títulos, `font-sans` para corpo, `prose`-like spacing manual usando classes Tailwind (sem plugin novo).
-- Datas/versão: rodapé de cada política mostra "atualizado em maio/2026".
-- Sem alterações de banco/backend.
+- Sem mudanças de banco/backend.
+- Sem novas dependências.
+- Respeitar tokens do design system (`flow-cream`, `flow-ink`, `flow-yellow`, `flow-green`).
+- Acessibilidade: animações infinitas só rodam se o usuário não pediu `reduce-motion`.
 
 ## Arquivos afetados
 
-- novo: `src/components/legal/LegalPage.tsx`
-- novo: `src/pages/legal/Privacidade.tsx`, `Termos.tsx`, `Entrega.tsx`, `TrocaDevolucao.tsx`, `Cancelamento.tsx`, `Contato.tsx`
-- novo: `src/pages/Faq.tsx` (página dedicada reaproveitando `FAQ.tsx`)
-- editado: `src/App.tsx` (rotas)
-- editado: `src/components/flow/Footer.tsx` (nova estrutura + contatos)
-- editado: `src/components/flow/FAQ.tsx` (perguntas adicionais)
+- editado: `src/components/flow/Hero.tsx` (mobile compactado + motion contínuo)
+- editado: `src/components/flow/LaunchPacks.tsx` (sem `/ 02`, card vira link)
+- editado: `src/components/flow/Ingredients.tsx`, `Movement.tsx`, `FAQ.tsx` (remover numeração `/ 03`, `/ 04`, `/ 05` se existir)
+- editado: `src/App.tsx` (rota `/pack/:id`)
+- novo: `src/data/packs.ts`
+- novo: `src/pages/Product.tsx`
