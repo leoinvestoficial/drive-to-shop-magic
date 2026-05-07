@@ -1,14 +1,67 @@
 import logo from "@/assets/brand/drive/flow-logo-1.svg";
+import { useEffect, useState } from "react";
 
 export const IntroScreen = () => {
+  const [fading, setFading] = useState(false);
+  const [mounted, setMounted] = useState(true);
+
+  useEffect(() => {
+    if (!mounted) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [mounted]);
+
+  useEffect(() => {
+    if (!mounted) return;
+    const dismiss = () => {
+      if (fading) return;
+      setFading(true);
+      document.body.style.overflow = "";
+      window.setTimeout(() => {
+        setMounted(false);
+        document.getElementById("hero")?.scrollIntoView({ behavior: "smooth" });
+      }, 600);
+    };
+    const onWheel = (e: WheelEvent) => { if (e.deltaY > 0) dismiss(); };
+    const onKey = (e: KeyboardEvent) => {
+      if (["ArrowDown", "PageDown", "Space", " "].includes(e.key)) dismiss();
+    };
+    let touchStartY = 0;
+    const onTouchStart = (e: TouchEvent) => { touchStartY = e.touches[0].clientY; };
+    const onTouchMove = (e: TouchEvent) => {
+      if (touchStartY - e.touches[0].clientY > 10) dismiss();
+    };
+    window.addEventListener("wheel", onWheel, { passive: true });
+    window.addEventListener("keydown", onKey);
+    window.addEventListener("touchstart", onTouchStart, { passive: true });
+    window.addEventListener("touchmove", onTouchMove, { passive: true });
+    return () => {
+      window.removeEventListener("wheel", onWheel);
+      window.removeEventListener("keydown", onKey);
+      window.removeEventListener("touchstart", onTouchStart);
+      window.removeEventListener("touchmove", onTouchMove);
+    };
+  }, [fading, mounted]);
+
+  if (!mounted) return null;
+
   const handleScroll = () => {
-    document.getElementById("hero")?.scrollIntoView({ behavior: "smooth" });
+    if (fading) return;
+    setFading(true);
+    document.body.style.overflow = "";
+    window.setTimeout(() => {
+      setMounted(false);
+      document.getElementById("hero")?.scrollIntoView({ behavior: "smooth" });
+    }, 600);
   };
   return (
     <section
       id="intro"
-      className="relative w-full overflow-hidden flex flex-col items-center justify-center bg-flow-cream"
-      style={{ height: "100vh" }}
+      className="fixed inset-0 z-[200] w-full overflow-hidden flex flex-col items-center justify-center bg-flow-cream transition-opacity duration-[600ms] ease-out"
+      style={{ height: "100vh", opacity: fading ? 0 : 1, pointerEvents: fading ? "none" : "auto" }}
     >
       <img
         src={logo}
