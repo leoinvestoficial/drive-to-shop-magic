@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useReveal } from "@/hooks/useReveal";
 import { CountUp } from "./CountUp";
+import canReal from "@/assets/brand/can-lemon-real.png";
 
 // Ícones SVG line com draw-in via stroke-dasharray
 const DrawIcon = ({ d, delay = 0 }: { d: string; delay?: number }) => (
@@ -95,33 +96,83 @@ export const Ingredients = () => (
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.8, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="hidden md:block md:col-span-4"
+          className="hidden md:block md:col-span-4 relative"
           aria-hidden
         >
-          <svg viewBox="0 0 280 380" className="w-full h-auto">
-            {/* Lata */}
-            <ellipse cx="140" cy="40" rx="60" ry="10" fill="none" stroke="hsl(var(--flow-cream) / 0.4)" strokeWidth="1" />
-            <rect x="80" y="40" width="120" height="280" fill="none" stroke="hsl(var(--flow-cream) / 0.4)" strokeWidth="1" />
-            <ellipse cx="140" cy="320" rx="60" ry="10" fill="none" stroke="hsl(var(--flow-cream) / 0.4)" strokeWidth="1" />
-            <text x="140" y="180" textAnchor="middle" fill="hsl(var(--flow-yellow))" fontFamily="Helvena, sans-serif" fontSize="22" fontWeight="700">flow</text>
-
-            {/* Setas indicadoras */}
-            <g fontFamily="Helvena, sans-serif" fontSize="9" letterSpacing="2" fill="hsl(var(--flow-cream) / 0.6)">
-              <line x1="80" y1="100" x2="20" y2="100" stroke="hsl(var(--flow-yellow))" strokeWidth="1" />
-              <circle cx="20" cy="100" r="2" fill="hsl(var(--flow-yellow))" />
-              <text x="18" y="92" textAnchor="end">ELETRÓLITOS</text>
-
-              <line x1="80" y1="180" x2="20" y2="180" stroke="hsl(var(--flow-yellow))" strokeWidth="1" />
-              <circle cx="20" cy="180" r="2" fill="hsl(var(--flow-yellow))" />
-              <text x="18" y="172" textAnchor="end">CAFEÍNA</text>
-
-              <line x1="80" y1="260" x2="20" y2="260" stroke="hsl(var(--flow-yellow))" strokeWidth="1" />
-              <circle cx="20" cy="260" r="2" fill="hsl(var(--flow-yellow))" />
-              <text x="18" y="252" textAnchor="end">AROMAS</text>
-            </g>
-
-            <text x="140" y="365" textAnchor="middle" fill="hsl(var(--flow-cream) / 0.4)" fontFamily="Helvena, sans-serif" fontSize="8" letterSpacing="3">EDIÇÃO 01 · 269ML</text>
-          </svg>
+          {/* Foto real da lata + contorno técnico com anotações */}
+          <div className="relative w-full aspect-[3/4] flex items-center justify-center">
+            {/* halo sutil atrás */}
+            <div
+              className="absolute inset-0 m-auto w-[70%] h-[70%] rounded-full pointer-events-none"
+              style={{
+                background:
+                  "radial-gradient(circle at center, hsl(var(--flow-yellow) / 0.18) 0%, transparent 65%)",
+              }}
+            />
+            <img
+              src={canReal}
+              alt=""
+              loading="lazy"
+              style={{ mixBlendMode: "lighten" }}
+              className="relative z-[1] h-full w-auto object-contain drop-shadow-[0_20px_30px_rgba(0,0,0,0.5)]"
+            />
+            {/* SVG overlay: contorno + linhas indicativas */}
+            <svg
+              viewBox="0 0 300 400"
+              className="absolute inset-0 w-full h-full pointer-events-none"
+              preserveAspectRatio="xMidYMid meet"
+            >
+              {/* Contorno estilizado da lata */}
+              <g stroke="hsl(var(--flow-yellow))" strokeWidth="1" fill="none" opacity="0.7">
+                <ellipse cx="150" cy="58" rx="48" ry="7" />
+                <path d="M102 58 L102 350 Q102 360 110 362 L190 362 Q198 360 198 350 L198 58" />
+                <ellipse cx="150" cy="350" rx="48" ry="7" opacity="0.4" />
+              </g>
+              {/* Linhas indicativas */}
+              <g
+                fontFamily="Helvena, ui-sans-serif, system-ui, sans-serif"
+                fontSize="8"
+                letterSpacing="2.5"
+                fill="hsl(var(--flow-cream) / 0.85)"
+              >
+                {/* Eletrólitos — topo esquerda */}
+                <g>
+                  <line x1="102" y1="120" x2="40" y2="100" stroke="hsl(var(--flow-yellow))" strokeWidth="0.8" />
+                  <circle cx="102" cy="120" r="2.5" fill="hsl(var(--flow-yellow))" />
+                  <text x="38" y="92" textAnchor="end">ELETRÓLITOS</text>
+                  <text x="38" y="104" textAnchor="end" fill="hsl(var(--flow-cream) / 0.5)" fontSize="7">SÓDIO · POTÁSSIO</text>
+                </g>
+                {/* Cafeína — meio esquerda */}
+                <g>
+                  <line x1="102" y1="210" x2="40" y2="210" stroke="hsl(var(--flow-yellow))" strokeWidth="0.8" />
+                  <circle cx="102" cy="210" r="2.5" fill="hsl(var(--flow-yellow))" />
+                  <text x="38" y="202" textAnchor="end">CAFEÍNA</text>
+                  <text x="38" y="214" textAnchor="end" fill="hsl(var(--flow-cream) / 0.5)" fontSize="7">DO GUARANÁ</text>
+                </g>
+                {/* Aromas naturais — base esquerda */}
+                <g>
+                  <line x1="102" y1="300" x2="40" y2="320" stroke="hsl(var(--flow-yellow))" strokeWidth="0.8" />
+                  <circle cx="102" cy="300" r="2.5" fill="hsl(var(--flow-yellow))" />
+                  <text x="38" y="312" textAnchor="end">AROMAS NATURAIS</text>
+                  <text x="38" y="324" textAnchor="end" fill="hsl(var(--flow-cream) / 0.5)" fontSize="7">SEM ARTIFICIAIS</text>
+                </g>
+                {/* Zero calorias — direita topo */}
+                <g>
+                  <line x1="198" y1="150" x2="260" y2="135" stroke="hsl(var(--flow-yellow))" strokeWidth="0.8" />
+                  <circle cx="198" cy="150" r="2.5" fill="hsl(var(--flow-yellow))" />
+                  <text x="262" y="127" textAnchor="start">ZERO CALORIAS</text>
+                  <text x="262" y="139" textAnchor="start" fill="hsl(var(--flow-cream) / 0.5)" fontSize="7">100% NATURAL</text>
+                </g>
+                {/* 355 ml — direita base */}
+                <g>
+                  <line x1="198" y1="280" x2="260" y2="295" stroke="hsl(var(--flow-yellow))" strokeWidth="0.8" />
+                  <circle cx="198" cy="280" r="2.5" fill="hsl(var(--flow-yellow))" />
+                  <text x="262" y="287" textAnchor="start">355 ML</text>
+                  <text x="262" y="299" textAnchor="start" fill="hsl(var(--flow-cream) / 0.5)" fontSize="7">EDIÇÃO 01</text>
+                </g>
+              </g>
+            </svg>
+          </div>
         </motion.div>
       </div>
 

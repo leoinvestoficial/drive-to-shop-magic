@@ -1,5 +1,5 @@
 import { motion, useReducedMotion, MotionValue, useTransform, useMotionValue } from "framer-motion";
-import canSrc from "@/assets/brand/can-yellow.jpg";
+import canSrc from "@/assets/brand/can-lemon-real.png";
 
 interface HeroCanProps {
   scrollYProgress?: MotionValue<number>;
