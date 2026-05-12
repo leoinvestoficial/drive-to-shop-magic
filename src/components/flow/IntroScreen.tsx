@@ -75,27 +75,33 @@ export const IntroScreen = () => {
           const size = 60 + (i % 4) * 22;
           const rot = (i % 2 === 0 ? -1 : 1) * (4 + (i % 3) * 6);
           return (
-            <img
+            <span
               key={i}
-              src={isOrange ? canOrange : canLemon}
-              alt=""
-              loading="eager"
               style={{
                 left: `${left}%`,
                 width: `${size}px`,
                 animation: `can-fall ${duration}s linear ${delay}s infinite`,
-                transform: `rotate(${rot}deg)`,
-                filter: "drop-shadow(0 12px 16px rgba(15,15,15,0.18))",
               }}
-              className="absolute -top-40 will-change-transform select-none"
-            />
+              className="absolute -top-40 will-change-transform select-none block"
+            >
+              <img
+                src={isOrange ? canOrange : canLemon}
+                alt=""
+                loading="eager"
+                style={{
+                  transform: `rotate(${rot}deg)`,
+                  filter: "drop-shadow(0 12px 16px rgba(15,15,15,0.18))",
+                }}
+                className="w-full h-auto"
+              />
+            </span>
           );
         })}
       </div>
       <style>{`
         @keyframes can-fall {
-          0%   { transform: translate3d(0, -20vh, 0) rotate(var(--r, 0deg)); }
-          100% { transform: translate3d(0, 130vh, 0) rotate(var(--r, 0deg)); }
+          0%   { transform: translate3d(0, -20vh, 0); }
+          100% { transform: translate3d(0, 130vh, 0); }
         }
       `}</style>
 
