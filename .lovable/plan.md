@@ -1,103 +1,65 @@
-# Plano — Melhorias na Seção Hero (FLOW)
+# Plano de correções
 
-Objetivo: elevar o impacto visual do Hero (desktop + mobile) adicionando uma lata FLOW central com flutuação, partículas de água ao fundo, reveal animado palavra-a-palavra no headline, fade-in escalonado para subtexto/CTAs e um scroll indicator mais proeminente — preservando o conceito brand já existente (creme, ink, motion guiado por scroll, sem auto-scroll/parallax que se mexe sozinho fora do conceito).
+## 1. Latas sem fundo (de verdade)
 
----
+**Problema:** os PNGs atuais (`can-lemon-real.png`, `can-orange-real.png`) estão em modo RGB sem canal alpha — o padrão quadriculado é pixel real, não transparência. Por isso aparecem quadriculadas na chuva da intro e no hero.
 
-## 1. Assets necessários
+**O que fazer:**
+- Refazer a remoção de fundo localmente com Pillow (chroma-key do branco com tolerância + suavização das bordas), gerando PNGs RGBA reais.
+- Manter **dois conjuntos** de imagens:
+  - `can-lemon.png` / `can-orange.png` → originais com fundo branco (usados nos cards de pack e na página de produto, como você pediu).
+  - `can-lemon-transparent.png` / `can-orange-transparent.png` → versões realmente transparentes (usadas na chuva da intro e no hero).
+- Atualizar imports:
+  - `IntroScreen.tsx` e `HeroCan.tsx` → versões transparentes.
+  - `data/packs.ts` e `Product.tsx` → versões com fundo branco original.
 
-- **Lata FLOW (PNG transparente ou render 3D leve)**: precisa ser fornecida pelo usuário ou usar placeholder. Caminho previsto: `src/assets/brand/can-flow.png`.
-  - Caso o usuário não tenha agora, uso um placeholder estilizado (silhueta vetorial em SVG amarelo `flow-yellow` + ink) já no commit, fácil de trocar depois.
-- **Partículas de gotas**: SVG inline gerado no componente (círculos + paths simples), sem novo asset.
+## 2. Seção Composição
 
-## 2. Novo subcomponente: `HeroCan.tsx` (interno ao Hero)
+**Problema:** está usando o desenho preto-no-preto (`can-outline.png`), você quer a lata real "no fundo normal".
 
-- Renderiza a lata centralizada no lado direito (desktop) ou acima do texto (mobile).
-- Animações combinadas:
-  - **Float loop**: keyframe Tailwind custom `float` — `translateY(0) → -8px → 0`, 3s `ease-in-out` infinite.
-  - **Tilt sutil**: `rotate(-4deg)` estático + leve `rotate` reativo ao scroll via `useTransform` (-4° → +2°) para reforçar fluidez sem girar sozinho.
-  - **Entrada**: `opacity 0 → 1`, `scale 0.92 → 1`, duração 1s, delay 0.3s.
-- Respeita `useReducedMotion` (desativa float e tilt).
+**O que fazer:**
+- Trocar o fundo da seção `Ingredients` de preto (`bg-flow-ink`) para creme (`bg-flow-cream`), com texto em `flow-ink`.
+- Usar `can-lemon.png` (lata real, fundo branco) — fica integrada porque o branco da lata se funde com o creme da seção.
+- Reescrever as anotações (linhas + rótulos) em tons escuros (cinza/ink) com destaque amarelo, apontando para: ELETRÓLITOS, CAFEÍNA NATURAL, AROMAS NATURAIS, ZERO CALORIAS, 355 ml.
+- Apagar o `can-outline.png` que não será mais usado.
 
-## 3. Partículas de água (`WaterParticles.tsx`)
+## 3. Pack do meio: badges legíveis
 
-- Camada absoluta atrás do conteúdo (`z-0`, `pointer-events-none`).
-- 12–16 gotas SVG distribuídas, `opacity: 0.15`, cores `flow-water` e `flow-ink/10`.
-- Cada gota com animação CSS própria (`drift` keyframe): translateY suave (loop 6–10s, delays variados) + leve scale.
-- Desliga em `prefers-reduced-motion`.
+Já foi ajustado no turno anterior (badge "mais escolhido" centralizado no topo com sombra, "frete grátis" virou um chip preto/amarelo no canto). Vou só revisar no preview e ajustar se ainda estiver cortado em algum breakpoint.
 
-## 4. Headline com reveal palavra-a-palavra
+## 4. Fluxo de compra → Shopify (escolha confirmada)
 
-- Quebrar `"sua hidratação funcional chegou."` em palavras via `.split(" ")`.
-- Cada palavra envolvida em `<span className="inline-block overflow-hidden">` com `<motion.span>` interno.
-- Variants:
-  - `hidden`: `y: 30, opacity: 0`
-  - `visible`: `y: 0, opacity: 1`
-  - Container com `staggerChildren: 0.15`, `delayChildren: 0.2`.
-- Trigger: `whileInView` com `once: true` (mobile) e no mount (desktop, já visível).
-- "chegou." mantém destaque `text-flow-green`.
+**Problema atual:** todos os botões "comprar agora" e "quero esse" abrem o modal de cupom (`openLeadCapture`) em vez de levar ao checkout. Já existe infra de carrinho Shopify (`cartStore`, `lib/shopify`) mas ninguém chama `addItem`.
 
-## 5. Subtexto + CTAs com fade-in atrasado
+**O que fazer:**
 
-- Wrapper `motion.div` com `initial={{opacity:0, y:16}}`, `animate={{opacity:1, y:0}}`, `transition={{duration:0.7, delay:0.6, ease:[0.22,1,0.36,1]}}`.
-- Aplica-se ao parágrafo e ao bloco de botões (mesmo wrapper).
+### 4a. Mapear packs Lovable ↔ produtos Shopify
+- Listar produtos da loja Shopify conectada.
+- Se os 3 packs (lemon, orange, mixed) **não existirem**, criá-los via `shopify--create_product` com preço R$ 50,00, imagens reais e variantes corretas. Se já existirem, só pegar os `variantId` no formato `gid://shopify/ProductVariant/...`.
+- Adicionar um campo `shopifyVariantId` em `src/data/packs.ts` mapeando cada pack ao seu variant Shopify.
 
-## 6. Scroll indicator mais proeminente
+### 4b. Botões de compra reais
+- **`PackCTA` (LaunchPacks)** "quero esse": chamar `useCartStore.addItem(...)` com o variant correspondente e abrir o `CartDrawer` (já existe em `src/components/flow/CartDrawer.tsx`) — não mais um botão decorativo "adicionado".
+- **`Product.tsx` "comprar agora"**: chamar `addItem` e em seguida `window.open(getCheckoutUrl(), '_blank')` para ir direto ao checkout Shopify (com `channel=online_store`). Manter "pedir pelo WhatsApp" como secundário.
+- **Hero "ver os packs"**: continua scroll para `#packs` (não muda).
+- **"cupom de 10%"** continua abrindo o `LeadCaptureModal` — esse é o caminho intencional para o cupom, não o de compra.
 
-- Substituir o atual "scroll ↓" pequeno por:
-  - Mini coluna centrada na base: label `role para descobrir` + ícone seta dentro de um círculo fino (`border border-flow-ink/30`, 36px) com pulso (`animate-ripple`-like custom) + bounce vertical contínuo da seta.
-  - Mantém infinite (é o único elemento auto-animado permitido — segue padrão atual).
-- Aparece em desktop e mobile.
+### 4c. Auto-trigger do modal de lead
+Hoje o modal de cupom abre sozinho 8s depois de carregar a home (e em exit-intent). Isso pode confundir com "compra". **Manter** (é uma boa estratégia de captura), mas garantir que ele nunca abre quando o usuário clica em qualquer CTA de compra.
 
-## 7. Layout
+### 4d. Garantir `useCartSync`
+Conferir que `useCartSync()` é chamado no `App.tsx` para limpar o carrinho quando o usuário volta do checkout.
 
-- **Desktop (`md+`)**: grid 2 colunas no sticky hero. Esquerda: texto (eyebrow + headline + sub + CTAs). Direita: `HeroCan` centralizado verticalmente, com `grafismo` ainda atrás como anel rotativo guiado por scroll (mantém o existente).
-- **Mobile**: empilhado — bloco 1 (boas-vindas) ganha a lata acima do logo? **Não** — manter banner inicial limpo (logo + grafismo) conforme regra já estabelecida pelo usuário. A lata aparece apenas no **bloco 2** (conteúdo), acima do texto.
+## 5. Verificação no navegador
 
-```text
-Desktop sticky hero:
-┌───────────────────────────────────────────┐
-│ eyebrow                                   │
-│ HEADLINE (reveal palavras)    [grafismo]  │
-│ subtexto                      [  LATA  ]  │
-│ [CTA] [CTA]                   [ float  ]  │
-│                                           │
-│            ↓ (scroll indicator)           │
-└───────────────────────────────────────────┘
-fundo: WaterParticles (opacity 0.15)
+Depois de aplicar tudo:
+- Rodar a preview, conferir visualmente: chuva de latas (sem quadriculado), hero (sem fundo branco no can), seção composição (lata real, fundo creme), badges do pack do meio.
+- Testar fluxo: clicar "quero esse" no pack → carrinho abre com item → "checkout" → checkout Shopify abre em nova aba.
+- Reportar achados antes de fechar.
 
-Mobile:
-[bloco 1: logo + grafismo + scroll ↓]   ← inalterado
-[bloco 2: LATA (float) → headline reveal → sub → CTAs]
-```
+## Detalhes técnicos
 
-## 8. Tailwind / CSS
-
-Adicionar em `tailwind.config.ts → keyframes/animation`:
-- `float`: `0%,100% { transform: translateY(0) } 50% { transform: translateY(-8px) }` — `float: "float 3s ease-in-out infinite"`.
-- `drift`: leve subida/descida com opacidade variando — usado pelas gotas.
-- `bounce-arrow`: `0%,100%{translateY(0)} 50%{translateY(6px)}` — `bounce-arrow 1.6s ease-in-out infinite`.
-
-(Mantém `animate-ripple` já existente.)
-
-## 9. Arquivos a criar / editar
-
-**Editar**
-- `src/components/flow/Hero.tsx` — integrar tudo (mantém estrutura atual de mobile/desktop e regra de scroll-driven motion).
-- `tailwind.config.ts` — adicionar keyframes/animations.
-
-**Criar**
-- `src/components/flow/HeroCan.tsx` — a lata + animações.
-- `src/components/flow/WaterParticles.tsx` — camada de partículas.
-- `src/assets/brand/can-flow.svg` — placeholder vetorial da lata (substituível por PNG/3D depois).
-
-## 10. Acessibilidade & performance
-
-- Todas as animações respeitam `useReducedMotion` / `prefers-reduced-motion`.
-- Partículas são SVG inline leve (sem libs novas, sem canvas).
-- Lata como `<img loading="eager" />` (acima da dobra) com `alt="lata flow"`.
-- Sem novas dependências.
-
-## Pergunta antes de executar
-
-Você tem uma imagem/render PNG da lata para usar agora, ou sigo com um **placeholder SVG vetorial** (silhueta da lata em amarelo `flow-yellow` com rótulo "flow") que você troca depois? Posso seguir com o placeholder se preferir.
+- Remoção de fundo: `python3` com `Pillow` — `Image.convert("RGBA")`, threshold em luminosidade > 240 com soft edge de 8 px, salva PNG.
+- Tamanhos: manter ≥ 1000 px de altura para qualidade no hero desktop.
+- Sem novas dependências npm. Sem mudanças em `supabase/`.
+- `CustomCursor` continua removido; nenhuma regressão de performance esperada.
