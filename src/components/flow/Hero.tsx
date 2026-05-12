@@ -1,6 +1,5 @@
 import { motion, useScroll, useTransform, useReducedMotion, Variants } from "framer-motion";
 import { useRef } from "react";
-import grafismo from "@/assets/brand/drive/grafismo-2.svg";
 import logo from "@/assets/brand/drive/flow-logo-1.svg";
 import { openLeadCapture } from "./LeadCaptureModal";
 import { HeroCan } from "./HeroCan";
@@ -63,20 +62,22 @@ export const Hero = () => {
   const ref = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const logoScale = useTransform(scrollYProgress, [0, 0.8], [1, reduce ? 1 : 0.55]);
-  const logoY = useTransform(scrollYProgress, [0, 0.8], [0, reduce ? 0 : -120]);
-  const ringRot = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : 40]);
-  const ringScale = useTransform(scrollYProgress, [0, 1], [1, reduce ? 1 : 1.25]);
   const textOpacity = useTransform(scrollYProgress, [0, 0.4], [1, 0]);
+  const haloOpacity = useTransform(scrollYProgress, [0, 0.6], [0.6, 0]);
+  const haloScale = useTransform(scrollYProgress, [0, 1], [1, reduce ? 1 : 1.15]);
 
   return (
     <section id="hero">
     {/* MOBILE — uma viewport, conteúdo compacto */}
     <div className="md:hidden relative bg-flow-cream text-flow-ink overflow-hidden">
-      <img
-        src={grafismo} alt="" aria-hidden
-        style={{ opacity: 0.3 }}
-        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[120vmin] h-[120vmin] pointer-events-none select-none"
+      {/* Halo radial sutil */}
+      <div
+        aria-hidden
+        className="absolute left-1/2 top-1/3 -translate-x-1/2 -translate-y-1/2 w-[110vmin] h-[110vmin] pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(circle at center, hsl(var(--flow-yellow) / 0.18) 0%, hsl(var(--flow-yellow) / 0.06) 35%, transparent 65%)",
+        }}
       />
       <div className="relative z-10 flex flex-col items-center px-5 pt-20 pb-12 gap-6">
         <HeroCan
@@ -104,11 +105,20 @@ export const Hero = () => {
     <div ref={ref} className="hidden md:block relative h-[120vh] bg-flow-cream text-flow-ink">
       <div className="sticky top-0 h-screen overflow-hidden">
         <WaterParticles />
-        <motion.img
-          src={grafismo} alt="" aria-hidden
-          style={{ rotate: ringRot, scale: ringScale, opacity: 0.18 }}
-          className="absolute right-[-8vw] top-1/2 -translate-y-1/2 w-[80vmin] h-[80vmin] pointer-events-none select-none"
-        />
+        {/* Halo radial elegante atrás da lata */}
+        <motion.div
+          aria-hidden
+          style={{ opacity: haloOpacity, scale: haloScale }}
+          className="absolute right-[5%] top-1/2 -translate-y-1/2 w-[70vmin] h-[70vmin] pointer-events-none rounded-full"
+        >
+          <div
+            className="w-full h-full rounded-full"
+            style={{
+              background:
+                "radial-gradient(circle at center, hsl(var(--flow-yellow) / 0.28) 0%, hsl(var(--flow-yellow) / 0.08) 40%, transparent 70%)",
+            }}
+          />
+        </motion.div>
 
         <div className="relative z-10 h-full grid grid-cols-2 items-center gap-8 px-12 lg:px-20">
           {/* Esquerda: texto */}
