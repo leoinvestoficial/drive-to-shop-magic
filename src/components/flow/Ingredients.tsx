@@ -113,7 +113,8 @@ export const Ingredients = () => (
               src={canReal}
               alt=""
               loading="lazy"
-              className="relative z-[1] h-full w-auto object-contain mix-blend-screen opacity-95 drop-shadow-[0_20px_30px_rgba(0,0,0,0.5)]"
+              style={{ mixBlendMode: "lighten" }}
+              className="relative z-[1] h-full w-auto object-contain drop-shadow-[0_20px_30px_rgba(0,0,0,0.5)]"
             />
             {/* SVG overlay: contorno + linhas indicativas */}
             <svg
