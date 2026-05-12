@@ -70,28 +70,27 @@ export const LaunchPacks = () => (
           >
           <Link
             to={`/pack/${p.id}`}
-            className={`group relative bg-background flex flex-col h-full rounded-2xl md:rounded-none overflow-hidden transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-[0_30px_60px_-20px_hsl(var(--flow-ink)/0.35)] ${
+            className={`group relative bg-background flex flex-col h-full rounded-2xl md:rounded-none transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-[0_30px_60px_-20px_hsl(var(--flow-ink)/0.35)] ${
               p.highlight
-                ? "border-2 border-flow-ink shadow-[0_20px_60px_-20px_hsl(var(--flow-ink)/0.25)] md:-mt-3"
+                ? "border-2 border-flow-ink shadow-[0_20px_60px_-20px_hsl(var(--flow-ink)/0.25)] md:mt-4"
                 : "border border-flow-ink/10"
             }`}
           >
             {p.highlight && (
-              <span className="absolute -top-3 left-1/2 -translate-x-1/2 z-10">
-                <span className="relative inline-flex items-center bg-flow-yellow text-flow-ink font-sans text-[10px] md:text-[9px] uppercase tracking-[0.25em] px-3 py-1.5 font-bold whitespace-nowrap">
+              <span className="absolute -top-4 left-1/2 -translate-x-1/2 z-20">
+                <span className="relative inline-flex items-center bg-flow-yellow text-flow-ink font-sans text-[10px] md:text-[9px] uppercase tracking-[0.25em] px-4 py-1.5 font-bold whitespace-nowrap shadow-[0_6px_18px_-6px_hsl(var(--flow-ink)/0.4)]">
                   mais escolhido
                   <span className="absolute inset-0 border-2 border-flow-yellow animate-pulse-ring pointer-events-none" />
                 </span>
               </span>
             )}
             {p.highlight && (
-              <div className="absolute top-0 right-0 w-28 h-28 overflow-hidden pointer-events-none z-10">
-                <span className="absolute top-5 right-[-30px] rotate-45 bg-flow-ink text-[hsl(var(--flow-yellow))] font-sans text-[9px] uppercase tracking-[0.3em] font-bold py-1 w-[140px] text-center shadow-md">
-                  frete grátis
-                </span>
-              </div>
+              <span className="absolute top-3 right-3 z-20 inline-flex items-center gap-1.5 bg-flow-ink text-flow-yellow font-sans text-[9px] uppercase tracking-[0.25em] font-bold px-2.5 py-1 rounded-sm">
+                <span className="inline-block w-1.5 h-1.5 bg-flow-yellow rounded-full" />
+                frete grátis
+              </span>
             )}
-            <div className="relative h-[200px] md:h-auto md:aspect-[4/5] overflow-hidden bg-flow-cream flex items-center justify-center">
+            <div className="relative h-[200px] md:h-auto md:aspect-[4/5] overflow-hidden bg-flow-cream flex items-center justify-center rounded-t-2xl md:rounded-none">
               <img
                 src={p.img}
                 alt={p.name}
