@@ -1,6 +1,6 @@
-import lemon from "@/assets/brand/pack-lemon.jpg";
-import orange from "@/assets/brand/pack-orange.jpg";
-import mixed from "@/assets/brand/pack-mixed.jpg";
+import lemon from "@/assets/brand/can-lemon-real.png";
+import orange from "@/assets/brand/can-orange-real.png";
+import mixed from "@/assets/brand/can-lemon-real.png";
 
 export type Pack = {
   id: string;

@@ -14,7 +14,6 @@ import Contato from "./pages/legal/Contato.tsx";
 import FaqPage from "./pages/Faq.tsx";
 import Product from "./pages/Product.tsx";
 import { BackToTop } from "./components/flow/BackToTop";
-import { CustomCursor } from "./components/flow/CustomCursor";
 import { LoadingScreen } from "./components/flow/LoadingScreen";
 import { PageTransition } from "./components/flow/PageTransition";
 
@@ -41,7 +40,6 @@ const App = () => (
           <Route path="*" element={<NotFound />} />
         </Routes>
         <BackToTop />
-        <CustomCursor />
       </BrowserRouter>
       <LoadingScreen />
     </TooltipProvider>
