@@ -1,4 +1,6 @@
 import logo from "@/assets/brand/drive/flow-logo-1.svg";
+import canLemon from "@/assets/brand/can-lemon-real.png";
+import canOrange from "@/assets/brand/can-orange-real.png";
 import { useEffect, useState } from "react";
 
 export const IntroScreen = () => {
@@ -63,16 +65,50 @@ export const IntroScreen = () => {
       className="fixed inset-0 z-[200] w-full overflow-hidden flex flex-col items-center justify-center bg-flow-cream transition-opacity duration-[600ms] ease-out"
       style={{ height: "100vh", opacity: fading ? 0 : 1, pointerEvents: fading ? "none" : "auto" }}
     >
+      {/* Chuva de latas */}
+      <div aria-hidden className="absolute inset-0 overflow-hidden pointer-events-none">
+        {Array.from({ length: 9 }).map((_, i) => {
+          const isOrange = i % 2 === 1;
+          const left = (i * 11 + 5) % 95;
+          const delay = (i % 5) * 0.6;
+          const duration = 6 + (i % 3) * 1.2;
+          const size = 60 + (i % 4) * 22;
+          const rot = (i % 2 === 0 ? -1 : 1) * (4 + (i % 3) * 6);
+          return (
+            <img
+              key={i}
+              src={isOrange ? canOrange : canLemon}
+              alt=""
+              loading="eager"
+              style={{
+                left: `${left}%`,
+                width: `${size}px`,
+                animation: `can-fall ${duration}s linear ${delay}s infinite`,
+                transform: `rotate(${rot}deg)`,
+                filter: "drop-shadow(0 12px 16px rgba(15,15,15,0.18))",
+              }}
+              className="absolute -top-40 will-change-transform select-none"
+            />
+          );
+        })}
+      </div>
+      <style>{`
+        @keyframes can-fall {
+          0%   { transform: translate3d(0, -20vh, 0) rotate(var(--r, 0deg)); }
+          100% { transform: translate3d(0, 130vh, 0) rotate(var(--r, 0deg)); }
+        }
+      `}</style>
+
       <img
         src={logo}
         alt="flow"
-        className="w-[140px] md:w-[180px] h-auto opacity-0 animate-[fade-in_0.8s_ease_0.2s_forwards]"
+        className="relative z-10 w-[140px] md:w-[180px] h-auto opacity-0 animate-[fade-in_0.8s_ease_0.2s_forwards]"
       />
       <button
         type="button"
         onClick={handleScroll}
         aria-label="role para descobrir"
-        className="absolute left-1/2 -translate-x-1/2 bottom-8 md:bottom-10 flex flex-col items-center gap-2 min-w-[44px] min-h-[44px] justify-center"
+        className="absolute z-10 left-1/2 -translate-x-1/2 bottom-8 md:bottom-10 flex flex-col items-center gap-2 min-w-[44px] min-h-[44px] justify-center"
       >
         <span
           className="font-sans uppercase"
