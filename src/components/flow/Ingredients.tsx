@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useReveal } from "@/hooks/useReveal";
 import { CountUp } from "./CountUp";
-import canReal from "@/assets/brand/can-lemon-real.png";
+import canOutline from "@/assets/brand/can-outline.png";
 
 // Ícones SVG line com draw-in via stroke-dasharray
 const DrawIcon = ({ d, delay = 0 }: { d: string; delay?: number }) => (
@@ -101,34 +101,19 @@ export const Ingredients = () => (
         >
           {/* Foto real da lata + contorno técnico com anotações */}
           <div className="relative w-full aspect-[3/4] flex items-center justify-center">
-            {/* halo sutil atrás */}
-            <div
-              className="absolute inset-0 m-auto w-[70%] h-[70%] rounded-full pointer-events-none"
-              style={{
-                background:
-                  "radial-gradient(circle at center, hsl(var(--flow-yellow) / 0.18) 0%, transparent 65%)",
-              }}
-            />
             <img
-              src={canReal}
+              src={canOutline}
               alt=""
               loading="lazy"
-              style={{ mixBlendMode: "lighten" }}
-              className="relative z-[1] h-full w-auto object-contain drop-shadow-[0_20px_30px_rgba(0,0,0,0.5)]"
+              style={{ mixBlendMode: "screen" }}
+              className="relative z-[1] h-full w-auto object-contain"
             />
-            {/* SVG overlay: contorno + linhas indicativas */}
+            {/* SVG overlay: linhas indicativas dos ingredientes */}
             <svg
               viewBox="0 0 300 400"
               className="absolute inset-0 w-full h-full pointer-events-none"
               preserveAspectRatio="xMidYMid meet"
             >
-              {/* Contorno estilizado da lata */}
-              <g stroke="hsl(var(--flow-yellow))" strokeWidth="1" fill="none" opacity="0.7">
-                <ellipse cx="150" cy="58" rx="48" ry="7" />
-                <path d="M102 58 L102 350 Q102 360 110 362 L190 362 Q198 360 198 350 L198 58" />
-                <ellipse cx="150" cy="350" rx="48" ry="7" opacity="0.4" />
-              </g>
-              {/* Linhas indicativas */}
               <g
                 fontFamily="Helvena, ui-sans-serif, system-ui, sans-serif"
                 fontSize="8"
