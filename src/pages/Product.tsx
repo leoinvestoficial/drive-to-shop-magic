@@ -1,19 +1,35 @@
 import { Link, useParams, Navigate } from "react-router-dom";
-import { ArrowLeft, MessageCircle } from "lucide-react";
+import { ArrowLeft, MessageCircle, Loader2 } from "lucide-react";
+import { useState } from "react";
 import { Header } from "@/components/flow/Header";
 import { Footer } from "@/components/flow/Footer";
-import { LeadCaptureModal, openLeadCapture } from "@/components/flow/LeadCaptureModal";
+import { LeadCaptureModal } from "@/components/flow/LeadCaptureModal";
 import { getPack } from "@/data/packs";
+import { addPackToCart } from "@/lib/addPackToCart";
+import { useCartStore } from "@/stores/cartStore";
 
 const Product = () => {
   const { id } = useParams();
   const pack = getPack(id);
+  const [loading, setLoading] = useState(false);
+  const getCheckoutUrl = useCartStore((s) => s.getCheckoutUrl);
 
   if (!pack) return <Navigate to="/" replace />;
 
   if (typeof document !== "undefined") {
     document.title = `${pack.name} · flow`;
   }
+
+  const handleBuy = async () => {
+    if (loading) return;
+    setLoading(true);
+    const ok = await addPackToCart(pack);
+    setLoading(false);
+    if (ok) {
+      const url = getCheckoutUrl();
+      if (url) window.open(url, "_blank");
+    }
+  };
 
   return (
     <div className="min-h-screen flex flex-col bg-flow-cream text-flow-ink">
@@ -62,10 +78,11 @@ const Product = () => {
 
               <div className="flex flex-col gap-2">
                 <button
-                  onClick={openLeadCapture}
+                  onClick={handleBuy}
+                  disabled={loading}
                   className="w-full h-[56px] rounded-lg inline-flex items-center justify-center bg-[#0A0A0A] text-white font-sans text-[11px] uppercase tracking-[0.25em] font-semibold hover:bg-flow-yellow hover:text-flow-ink transition-colors"
                 >
-                  comprar agora
+                  {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "comprar agora"}
                 </button>
                 <a
                   href="https://wa.me/5571999470825"

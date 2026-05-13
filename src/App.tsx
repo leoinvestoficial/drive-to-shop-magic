@@ -16,11 +16,13 @@ import Product from "./pages/Product.tsx";
 import { BackToTop } from "./components/flow/BackToTop";
 import { LoadingScreen } from "./components/flow/LoadingScreen";
 import { PageTransition } from "./components/flow/PageTransition";
+import { useCartSync } from "./hooks/useCartSync";
 
 const queryClient = new QueryClient();
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
+const AppInner = () => {
+  useCartSync();
+  return (
     <TooltipProvider>
       <Toaster />
       <Sonner />
@@ -43,6 +45,12 @@ const App = () => (
       </BrowserRouter>
       <LoadingScreen />
     </TooltipProvider>
+  );
+};
+
+const App = () => (
+  <QueryClientProvider client={queryClient}>
+    <AppInner />
   </QueryClientProvider>
 );
 

@@ -1,6 +1,6 @@
 import logo from "@/assets/brand/drive/flow-logo-1.svg";
-import canLemon from "@/assets/brand/can-lemon-real.png";
-import canOrange from "@/assets/brand/can-orange-real.png";
+import canLemon from "@/assets/brand/can-lemon-transparent.png";
+import canOrange from "@/assets/brand/can-orange-transparent.png";
 import { useEffect, useState } from "react";
 
 export const IntroScreen = () => {

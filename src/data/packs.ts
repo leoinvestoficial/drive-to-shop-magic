@@ -1,6 +1,6 @@
-import lemon from "@/assets/brand/can-lemon-real.png";
-import orange from "@/assets/brand/can-orange-real.png";
-import mixed from "@/assets/brand/can-lemon-real.png";
+import lemon from "@/assets/brand/can-lemon.png";
+import orange from "@/assets/brand/can-orange.png";
+import mixed from "@/assets/brand/can-lemon.png";
 
 export type Pack = {
   id: string;
@@ -13,6 +13,8 @@ export type Pack = {
   price: string;
   description: string;
   details: string[];
+  shopifyHandle: string;
+  shopifyVariantId: string;
 };
 
 export const packs: Pack[] = [
@@ -32,6 +34,8 @@ export const packs: Pack[] = [
       "Frete grátis incluso",
       "Edição limitada — enquanto durar o estoque",
     ],
+    shopifyHandle: "flow-pack-misto",
+    shopifyVariantId: "gid://shopify/ProductVariant/46535347306695",
   },
   {
     id: "lemon",
@@ -49,6 +53,8 @@ export const packs: Pack[] = [
       "Sem cafeína",
       "Edição limitada",
     ],
+    shopifyHandle: "flow-pack-fresh-lemon",
+    shopifyVariantId: "gid://shopify/ProductVariant/46535347568839",
   },
   {
     id: "orange",
@@ -66,6 +72,8 @@ export const packs: Pack[] = [
       "Sem cafeína",
       "Edição limitada",
     ],
+    shopifyHandle: "flow-pack-laranja",
+    shopifyVariantId: "gid://shopify/ProductVariant/46535347601607",
   },
 ];
 
