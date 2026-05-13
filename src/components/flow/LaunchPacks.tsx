@@ -1,8 +1,10 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { Check, Zap } from "lucide-react";
+import { Check, Zap, Loader2 } from "lucide-react";
 import { packs } from "@/data/packs";
+import { addPackToCart } from "@/lib/addPackToCart";
+import { useCartStore } from "@/stores/cartStore";
 
 // estoques fictícios (placeholder — viram dados reais depois)
 const STOCK: Record<string, number> = {
@@ -13,22 +15,37 @@ const STOCK: Record<string, number> = {
 
 const PackCTA = ({ id }: { id: string }) => {
   const [added, setAdded] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const isLoadingCart = useCartStore((s) => s.isLoading);
+  const pack = packs.find((p) => p.id === id);
   return (
     <button
       type="button"
-      onClick={(e) => {
+      onClick={async (e) => {
         e.preventDefault();
         e.stopPropagation();
-        setAdded(true);
-        setTimeout(() => setAdded(false), 1500);
+        if (!pack || loading) return;
+        setLoading(true);
+        const ok = await addPackToCart(pack);
+        setLoading(false);
+        if (ok) {
+          setAdded(true);
+          setTimeout(() => setAdded(false), 1800);
+        }
       }}
+      disabled={loading || isLoadingCart}
       className={`relative overflow-hidden w-full md:w-auto h-[48px] md:h-auto px-4 md:py-3.5 font-sans text-[11px] md:text-[10px] uppercase tracking-[0.25em] font-semibold transition-colors flex items-center justify-center ${
         added ? "bg-flow-green text-flow-ink" : "bg-flow-ink text-flow-cream group-hover:bg-flow-yellow group-hover:text-flow-ink"
-      }`}
-      aria-label={added ? "adicionado" : "adicionar pack"}
+      } disabled:opacity-70`}
+      aria-label={added ? "adicionado" : loading ? "adicionando" : "adicionar pack"}
     >
       <span className={`flex items-center gap-2 transition-all duration-300 ${added ? "opacity-100" : "opacity-100"}`}>
-        {added ? (
+        {loading ? (
+          <>
+            adicionando
+            <Loader2 size={12} className="animate-spin" />
+          </>
+        ) : added ? (
           <>
             adicionado
             <Check size={12} strokeWidth={2.5} className="animate-in zoom-in-50 duration-300" />

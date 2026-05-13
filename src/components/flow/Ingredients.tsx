@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useReveal } from "@/hooks/useReveal";
 import { CountUp } from "./CountUp";
-import canOutline from "@/assets/brand/can-outline.png";
+import canPhoto from "@/assets/brand/can-lemon.png";
 
 // Ícones SVG line com draw-in via stroke-dasharray
 const DrawIcon = ({ d, delay = 0 }: { d: string; delay?: number }) => (
@@ -40,32 +40,32 @@ const IngredientRow = ({ r, i }: { r: typeof rows[number]; i: number }) => {
         transform: "translateX(-40px)",
         transition: "opacity 0.7s ease, transform 0.7s ease",
       }}
-      className="reveal-x py-4 md:py-8 md:grid md:grid-cols-12 md:gap-4 md:items-center border-b border-[#222] md:border-flow-cream/15"
+      className="reveal-x py-4 md:py-8 md:grid md:grid-cols-12 md:gap-4 md:items-center border-b border-flow-ink/10"
     >
       {/* Mobile compact card */}
       <div className="md:hidden flex flex-col gap-2">
         <div className="flex items-center gap-3">
-          <span className="font-sans text-[11px] uppercase tracking-widest text-flow-cream/40 tabular-nums">
+          <span className="font-sans text-[11px] uppercase tracking-widest text-flow-ink/40 tabular-nums">
             <CountUp to={i + 1} />
           </span>
           <DrawIcon d={r.icon} delay={i * 0.12} />
           <span className="font-display lowercase text-[20px] tracking-tight">{r.ingredient}</span>
         </div>
-        <p className="font-sans text-[13px] text-[#888] pl-9">{r.function}</p>
-        <span className="self-start ml-9 font-sans text-[10px] uppercase tracking-[0.2em] text-flow-yellow border border-flow-yellow/30 px-2 py-1">
+        <p className="font-sans text-[13px] text-flow-ink/65 pl-9">{r.function}</p>
+        <span className="self-start ml-9 font-sans text-[10px] uppercase tracking-[0.2em] text-flow-ink bg-flow-yellow px-2 py-1">
           {r.benefit}
         </span>
       </div>
       {/* Desktop layout */}
-      <span className="hidden md:inline md:col-span-1 font-sans text-[10px] uppercase tracking-widest text-flow-cream/40 tabular-nums">
+      <span className="hidden md:inline md:col-span-1 font-sans text-[10px] uppercase tracking-widest text-flow-ink/40 tabular-nums">
         <CountUp to={i + 1} />
       </span>
       <div className="hidden md:flex md:col-span-4 items-center gap-3">
         <DrawIcon d={r.icon} delay={i * 0.12} />
         <span className="font-display lowercase text-3xl tracking-tight">{r.ingredient}</span>
       </div>
-      <span className="hidden md:inline md:col-span-4 font-sans text-sm text-flow-cream/60">{r.function}</span>
-      <span className="hidden md:inline md:col-span-3 font-sans text-sm uppercase tracking-widest text-flow-yellow text-right animate-highlight-pulse px-2 py-1">
+      <span className="hidden md:inline md:col-span-4 font-sans text-sm text-flow-ink/65">{r.function}</span>
+      <span className="hidden md:inline md:col-span-3 font-sans text-sm uppercase tracking-widest text-flow-ink bg-flow-yellow text-right px-2 py-1">
         {r.benefit}
       </span>
     </div>
@@ -73,24 +73,24 @@ const IngredientRow = ({ r, i }: { r: typeof rows[number]; i: number }) => {
 };
 
 export const Ingredients = () => (
-  <section id="science" className="bg-flow-ink text-flow-cream py-16 md:py-28 px-5 md:px-6 overflow-hidden">
+  <section id="science" className="bg-flow-cream text-flow-ink py-16 md:py-28 px-5 md:px-6 overflow-hidden">
     <style>{`.reveal-x.is-visible { opacity: 1 !important; transform: translateX(0) !important; }`}</style>
     <div className="max-w-6xl mx-auto">
       <div className="grid md:grid-cols-12 gap-3 md:gap-8 mb-6 md:mb-12">
-        <p className="md:col-span-3 font-sans text-[10px] uppercase tracking-[0.4em] text-flow-yellow">composição</p>
+        <p className="md:col-span-3 font-sans text-[10px] uppercase tracking-[0.4em] text-flow-ink/60">composição</p>
         <h2 className="md:col-span-9 font-display lowercase text-[28px] sm:text-5xl md:text-6xl leading-[1.05] md:leading-[0.95] tracking-tight">
-          composição limpa.<br/><span className="text-flow-cream/40">decisões claras.</span>
+          composição limpa.<br/><span className="text-flow-ink/40">decisões claras.</span>
         </h2>
       </div>
 
       <div className="grid md:grid-cols-12 gap-8 md:gap-12 items-start">
-        <div className="md:col-span-8 border-t border-flow-cream/15">
+        <div className="md:col-span-8 border-t border-flow-ink/10">
           {rows.map((r, i) => (
             <IngredientRow key={r.ingredient} r={r} i={i} />
           ))}
         </div>
 
-        {/* Diagrama infográfico da lata */}
+        {/* Foto da lata real com anotações */}
         <motion.div
           initial={{ opacity: 0, x: 30 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -99,14 +99,12 @@ export const Ingredients = () => (
           className="hidden md:block md:col-span-4 relative"
           aria-hidden
         >
-          {/* Foto real da lata + contorno técnico com anotações */}
           <div className="relative w-full aspect-[3/4] flex items-center justify-center">
             <img
-              src={canOutline}
+              src={canPhoto}
               alt=""
               loading="lazy"
-              style={{ mixBlendMode: "screen" }}
-              className="relative z-[1] h-full w-auto object-contain"
+              className="relative z-[1] h-full w-auto object-contain drop-shadow-[0_30px_40px_rgba(15,15,15,0.18)]"
             />
             {/* SVG overlay: linhas indicativas dos ingredientes */}
             <svg
@@ -118,42 +116,38 @@ export const Ingredients = () => (
                 fontFamily="Helvena, ui-sans-serif, system-ui, sans-serif"
                 fontSize="8"
                 letterSpacing="2.5"
-                fill="hsl(var(--flow-cream) / 0.85)"
+                fill="hsl(var(--flow-ink) / 0.9)"
               >
                 {/* Eletrólitos — topo esquerda */}
                 <g>
-                  <line x1="102" y1="120" x2="40" y2="100" stroke="hsl(var(--flow-yellow))" strokeWidth="0.8" />
-                  <circle cx="102" cy="120" r="2.5" fill="hsl(var(--flow-yellow))" />
+                  <line x1="102" y1="120" x2="40" y2="100" stroke="hsl(var(--flow-ink))" strokeWidth="0.8" />
+                  <circle cx="102" cy="120" r="2.5" fill="hsl(var(--flow-ink))" />
                   <text x="38" y="92" textAnchor="end">ELETRÓLITOS</text>
-                  <text x="38" y="104" textAnchor="end" fill="hsl(var(--flow-cream) / 0.5)" fontSize="7">SÓDIO · POTÁSSIO</text>
+                  <text x="38" y="104" textAnchor="end" fill="hsl(var(--flow-ink) / 0.55)" fontSize="7">SÓDIO · POTÁSSIO</text>
                 </g>
-                {/* Cafeína — meio esquerda */}
                 <g>
-                  <line x1="102" y1="210" x2="40" y2="210" stroke="hsl(var(--flow-yellow))" strokeWidth="0.8" />
-                  <circle cx="102" cy="210" r="2.5" fill="hsl(var(--flow-yellow))" />
+                  <line x1="102" y1="210" x2="40" y2="210" stroke="hsl(var(--flow-ink))" strokeWidth="0.8" />
+                  <circle cx="102" cy="210" r="2.5" fill="hsl(var(--flow-ink))" />
                   <text x="38" y="202" textAnchor="end">CAFEÍNA</text>
-                  <text x="38" y="214" textAnchor="end" fill="hsl(var(--flow-cream) / 0.5)" fontSize="7">DO GUARANÁ</text>
+                  <text x="38" y="214" textAnchor="end" fill="hsl(var(--flow-ink) / 0.55)" fontSize="7">DO GUARANÁ</text>
                 </g>
-                {/* Aromas naturais — base esquerda */}
                 <g>
-                  <line x1="102" y1="300" x2="40" y2="320" stroke="hsl(var(--flow-yellow))" strokeWidth="0.8" />
-                  <circle cx="102" cy="300" r="2.5" fill="hsl(var(--flow-yellow))" />
+                  <line x1="102" y1="300" x2="40" y2="320" stroke="hsl(var(--flow-ink))" strokeWidth="0.8" />
+                  <circle cx="102" cy="300" r="2.5" fill="hsl(var(--flow-ink))" />
                   <text x="38" y="312" textAnchor="end">AROMAS NATURAIS</text>
-                  <text x="38" y="324" textAnchor="end" fill="hsl(var(--flow-cream) / 0.5)" fontSize="7">SEM ARTIFICIAIS</text>
+                  <text x="38" y="324" textAnchor="end" fill="hsl(var(--flow-ink) / 0.55)" fontSize="7">SEM ARTIFICIAIS</text>
                 </g>
-                {/* Zero calorias — direita topo */}
                 <g>
-                  <line x1="198" y1="150" x2="260" y2="135" stroke="hsl(var(--flow-yellow))" strokeWidth="0.8" />
-                  <circle cx="198" cy="150" r="2.5" fill="hsl(var(--flow-yellow))" />
+                  <line x1="198" y1="150" x2="260" y2="135" stroke="hsl(var(--flow-ink))" strokeWidth="0.8" />
+                  <circle cx="198" cy="150" r="2.5" fill="hsl(var(--flow-ink))" />
                   <text x="262" y="127" textAnchor="start">ZERO CALORIAS</text>
-                  <text x="262" y="139" textAnchor="start" fill="hsl(var(--flow-cream) / 0.5)" fontSize="7">100% NATURAL</text>
+                  <text x="262" y="139" textAnchor="start" fill="hsl(var(--flow-ink) / 0.55)" fontSize="7">100% NATURAL</text>
                 </g>
-                {/* 355 ml — direita base */}
                 <g>
-                  <line x1="198" y1="280" x2="260" y2="295" stroke="hsl(var(--flow-yellow))" strokeWidth="0.8" />
-                  <circle cx="198" cy="280" r="2.5" fill="hsl(var(--flow-yellow))" />
+                  <line x1="198" y1="280" x2="260" y2="295" stroke="hsl(var(--flow-ink))" strokeWidth="0.8" />
+                  <circle cx="198" cy="280" r="2.5" fill="hsl(var(--flow-ink))" />
                   <text x="262" y="287" textAnchor="start">355 ML</text>
-                  <text x="262" y="299" textAnchor="start" fill="hsl(var(--flow-cream) / 0.5)" fontSize="7">EDIÇÃO 01</text>
+                  <text x="262" y="299" textAnchor="start" fill="hsl(var(--flow-ink) / 0.55)" fontSize="7">EDIÇÃO 01</text>
                 </g>
               </g>
             </svg>
@@ -161,7 +155,7 @@ export const Ingredients = () => (
         </motion.div>
       </div>
 
-      <p className="font-sans text-[12px] font-normal text-[#555] mt-8 max-w-md">
+      <p className="font-sans text-[12px] font-normal text-flow-ink/55 mt-8 max-w-md">
         Composição funcional. Não substitui alimentação balanceada nem orientação médica.
       </p>
     </div>
