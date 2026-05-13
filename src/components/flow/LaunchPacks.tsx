@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { useState } from "react";
-import { Check, Zap, Loader2 } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+import { Check, Zap, Loader2, ChevronRight } from "lucide-react";
 import { packs } from "@/data/packs";
 import { addPackToCart } from "@/lib/addPackToCart";
 import { useCartStore } from "@/stores/cartStore";
@@ -58,7 +58,25 @@ const PackCTA = ({ id }: { id: string }) => {
   );
 };
 
-export const LaunchPacks = () => (
+export const LaunchPacks = () => {
+  const scrollerRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [hintVisible, setHintVisible] = useState(true);
+
+  useEffect(() => {
+    const el = scrollerRef.current;
+    if (!el) return;
+    const onScroll = () => {
+      if (el.scrollLeft > 20) setHintVisible(false);
+      const cardWidth = el.scrollWidth / packs.length;
+      const idx = Math.round(el.scrollLeft / cardWidth);
+      setActiveIndex(Math.max(0, Math.min(packs.length - 1, idx)));
+    };
+    el.addEventListener("scroll", onScroll, { passive: true });
+    return () => el.removeEventListener("scroll", onScroll);
+  }, []);
+
+  return (
   <section id="packs" className="bg-flow-cream text-flow-ink py-16 md:py-28 px-0 md:px-6">
     <div className="max-w-7xl mx-auto">
       <div className="flex flex-col md:flex-row md:flex-wrap md:items-end md:justify-between gap-4 md:gap-6 mb-8 md:mb-12 px-5 md:px-0">
@@ -75,7 +93,7 @@ export const LaunchPacks = () => (
         </p>
       </div>
 
-      <div className="flex md:grid md:grid-cols-3 gap-4 md:gap-4 md:items-start overflow-x-auto md:overflow-visible snap-x snap-mandatory scroll-px-5 px-5 md:px-0 pb-4 md:pb-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+      <div ref={scrollerRef} className="relative flex md:grid md:grid-cols-3 gap-4 md:gap-4 md:items-start overflow-x-auto md:overflow-visible snap-x snap-mandatory scroll-px-5 px-5 md:px-0 pt-6 md:pt-0 pb-4 md:pb-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
         {packs.map((p, i) => (
           <motion.div
             key={p.id}
@@ -94,15 +112,15 @@ export const LaunchPacks = () => (
             }`}
           >
             {p.highlight && (
-              <span className="absolute -top-4 left-1/2 -translate-x-1/2 z-20">
-                <span className="relative inline-flex items-center bg-flow-yellow text-flow-ink font-sans text-[10px] md:text-[9px] uppercase tracking-[0.25em] px-4 py-1.5 font-bold whitespace-nowrap shadow-[0_6px_18px_-6px_hsl(var(--flow-ink)/0.4)]">
+              <span className="absolute -top-3 md:-top-4 left-1/2 -translate-x-1/2 z-20">
+                <span className="relative inline-flex items-center bg-flow-yellow text-flow-ink font-sans text-[9px] md:text-[9px] uppercase tracking-[0.2em] md:tracking-[0.25em] px-3 md:px-4 py-1 md:py-1.5 font-bold whitespace-nowrap shadow-[0_6px_18px_-6px_hsl(var(--flow-ink)/0.4)]">
                   mais escolhido
                   <span className="absolute inset-0 border-2 border-flow-yellow animate-pulse-ring pointer-events-none" />
                 </span>
               </span>
             )}
             {p.highlight && (
-              <span className="absolute top-3 right-3 z-20 inline-flex items-center gap-1.5 bg-flow-ink text-flow-yellow font-sans text-[9px] uppercase tracking-[0.25em] font-bold px-2.5 py-1 rounded-sm">
+              <span className="absolute top-2 right-2 md:top-3 md:right-3 z-20 inline-flex items-center gap-1 md:gap-1.5 bg-flow-ink text-flow-yellow font-sans text-[8px] md:text-[9px] uppercase tracking-[0.2em] md:tracking-[0.25em] font-bold px-2 py-0.5 md:px-2.5 md:py-1 rounded-sm">
                 <span className="inline-block w-1.5 h-1.5 bg-flow-yellow rounded-full" />
                 frete grátis
               </span>
@@ -132,7 +150,7 @@ export const LaunchPacks = () => (
                   <p className="font-sans font-bold text-[28px] md:text-3xl leading-none tracking-tight tabular-nums">R$ 50,00</p>
                   <p className="font-sans text-[11px] md:text-[10px] uppercase tracking-[0.2em] text-flow-ink/60 mt-2 flex items-center gap-1.5 whitespace-nowrap">
                     <Zap size={10} className="text-flow-yellow" fill="currentColor" />
-                    apenas <span className="text-flow-yellow font-semibold tabular-nums">{STOCK[p.id] ?? 50}</span> restantes
+                    apenas <span className="text-flow-ink font-bold tabular-nums">{STOCK[p.id] ?? 50}</span> restantes
                   </p>
                   </div>
                 </div>
@@ -142,6 +160,23 @@ export const LaunchPacks = () => (
           </Link>
           </motion.div>
         ))}
+        {hintVisible && (
+          <span aria-hidden className="md:hidden pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 z-10 bg-flow-ink/85 text-flow-cream rounded-full p-2 shadow-lg animate-pulse">
+            <ChevronRight size={18} strokeWidth={2} />
+          </span>
+        )}
+      </div>
+
+      {/* Dots indicador (mobile) */}
+      <div className="md:hidden flex items-center justify-center gap-2 mt-4" aria-hidden>
+        {packs.map((_, i) => (
+          <span
+            key={i}
+            className={`h-1.5 rounded-full transition-all duration-300 ${
+              i === activeIndex ? "w-5 bg-flow-ink" : "w-1.5 bg-flow-ink/25"
+            }`}
+          />
+        ))}
       </div>
 
       <p className="font-sans text-[10px] uppercase tracking-[0.3em] text-flow-ink/40 text-center mt-10 px-5 md:px-0">
@@ -149,4 +184,5 @@ export const LaunchPacks = () => (
       </p>
     </div>
   </section>
-);
+  );
+};
