@@ -1,65 +1,37 @@
-# Plano de correções
+## Ajustes de feedback
 
-## 1. Latas sem fundo (de verdade)
+### 1. IntroScreen (chuva de latas + logo)
+- Aumentar logo Flow: `w-[140px] md:w-[180px]` → `w-[220px] md:w-[320px]`.
+- "role para descobrir": subir do `bottom-8/10` para `bottom-16/20` (mais centralizado verticalmente, longe da borda), aumentar tipografia (`fontSize: 10` → `12`, letterSpacing `3px` → `4px`), aumentar seta (16 → 22) e trocar cor de `#999` para `hsl(var(--flow-ink))` com opacidade 0.8 para ficar legível no creme.
 
-**Problema:** os PNGs atuais (`can-lemon-real.png`, `can-orange-real.png`) estão em modo RGB sem canal alpha — o padrão quadriculado é pixel real, não transparência. Por isso aparecem quadriculadas na chuva da intro e no hero.
+### 2. LaunchPacks — indicador de scroll horizontal (mobile)
+- Adicionar dots estilo Instagram abaixo do carrossel (visível só em mobile, `md:hidden`).
+- Implementação: state `activeIndex` controlado por `IntersectionObserver` em cada card do scroller, ou mais simples — ouvir `scroll` no container e calcular `Math.round(scrollLeft / cardWidth)`.
+- 3 dots `w-1.5 h-1.5 rounded-full`, ativo `bg-flow-ink`, inativo `bg-flow-ink/25`, com transição.
+- Adicionar também uma seta sutil animada `→` no canto direito do primeiro card no mobile, que desaparece após o primeiro scroll (hint inicial).
 
-**O que fazer:**
-- Refazer a remoção de fundo localmente com Pillow (chroma-key do branco com tolerância + suavização das bordas), gerando PNGs RGBA reais.
-- Manter **dois conjuntos** de imagens:
-  - `can-lemon.png` / `can-orange.png` → originais com fundo branco (usados nos cards de pack e na página de produto, como você pediu).
-  - `can-lemon-transparent.png` / `can-orange-transparent.png` → versões realmente transparentes (usadas na chuva da intro e no hero).
-- Atualizar imports:
-  - `IntroScreen.tsx` e `HeroCan.tsx` → versões transparentes.
-  - `data/packs.ts` e `Product.tsx` → versões com fundo branco original.
+### 3. Contraste do amarelo no fundo creme
+- Trocar "apenas X restantes": número amarelo → `text-flow-ink font-bold` (mais escuro, destaque pelo peso). O ícone `Zap` continua amarelo preenchido.
+- Auditar outros usos de `text-flow-yellow` sobre fundo claro (Ingredients badges já têm `bg-flow-yellow text-flow-ink`, OK). Manter amarelo só como background ou sobre fundo escuro (`bg-flow-ink`).
 
-## 2. Seção Composição
+### 4. Mobile — badges "mais escolhido" / "frete grátis" cortados
+- O badge "mais escolhido" está em `-top-4 left-1/2`: dentro do scroller horizontal com `overflow-x-auto`, o `-top-4` corta. Solução: aumentar `padding-top` do container do card (ex.: wrapper ganha `pt-5` no mobile) e/ou mudar para `top-2` posicionado dentro do card no mobile, mantendo `-top-4` flutuante só no desktop.
+- "frete grátis" no `top-3 right-3`: no mobile o card tem largura maior (85vw), então o badge fica OK, mas pode sobrepor o "mais escolhido". Reposicionar no mobile para `top-2 right-2` com texto menor (`text-[8px]`) ou empilhar abaixo do "mais escolhido".
+- Dar uma revisada geral de paddings/clipping no mobile do `LaunchPacks` e `Product.tsx`.
 
-**Problema:** está usando o desenho preto-no-preto (`can-outline.png`), você quer a lata real "no fundo normal".
+### 5. Composição (Ingredients) — voltar a lata outline
+- O usuário mandou a imagem da lata em outline preto com detalhes amarelos (a versão antiga removida). Copiar `user-uploads://ChatGPT_Image_12_de_mai._de_2026_19_11_59-2.png` para `src/assets/brand/can-outline.png`.
+- A imagem tem fundo preto sólido. Precisamos remover o fundo preto e deixar transparente (ou inverter as linhas para escuro sobre creme). Como a seção `Ingredients` está em fundo creme (`bg-flow-cream`), a melhor abordagem:
+  - Processar a imagem com Pillow: inverter cores (linhas brancas → linhas escuras `#0F0F0F`, mantendo amarelos amarelos), e remover o fundo preto (alpha = 0 onde preto puro). Salvar como `can-outline-light.png` (transparente).
+  - Substituir `<img src={canPhoto}>` em `Ingredients.tsx` por `<img src={canOutlineLight}>`.
+- Manter o overlay SVG com as linhas/anotações já existentes (ELETRÓLITOS, CAFEÍNA, etc.), apenas reposicionar pontos para alinhar com a lata outline.
 
-**O que fazer:**
-- Trocar o fundo da seção `Ingredients` de preto (`bg-flow-ink`) para creme (`bg-flow-cream`), com texto em `flow-ink`.
-- Usar `can-lemon.png` (lata real, fundo branco) — fica integrada porque o branco da lata se funde com o creme da seção.
-- Reescrever as anotações (linhas + rótulos) em tons escuros (cinza/ink) com destaque amarelo, apontando para: ELETRÓLITOS, CAFEÍNA NATURAL, AROMAS NATURAIS, ZERO CALORIAS, 355 ml.
-- Apagar o `can-outline.png` que não será mais usado.
+### Arquivos a editar
+- `src/components/flow/IntroScreen.tsx` — tamanho logo + scroll hint.
+- `src/components/flow/LaunchPacks.tsx` — dots indicador, contraste do "restantes", reposicionar badges no mobile.
+- `src/components/flow/Ingredients.tsx` — trocar foto da lata por outline transparente.
+- `src/pages/Product.tsx` — revisar badges no mobile.
+- `src/assets/brand/can-outline.png` (novo) — imagem do usuário processada.
 
-## 3. Pack do meio: badges legíveis
-
-Já foi ajustado no turno anterior (badge "mais escolhido" centralizado no topo com sombra, "frete grátis" virou um chip preto/amarelo no canto). Vou só revisar no preview e ajustar se ainda estiver cortado em algum breakpoint.
-
-## 4. Fluxo de compra → Shopify (escolha confirmada)
-
-**Problema atual:** todos os botões "comprar agora" e "quero esse" abrem o modal de cupom (`openLeadCapture`) em vez de levar ao checkout. Já existe infra de carrinho Shopify (`cartStore`, `lib/shopify`) mas ninguém chama `addItem`.
-
-**O que fazer:**
-
-### 4a. Mapear packs Lovable ↔ produtos Shopify
-- Listar produtos da loja Shopify conectada.
-- Se os 3 packs (lemon, orange, mixed) **não existirem**, criá-los via `shopify--create_product` com preço R$ 50,00, imagens reais e variantes corretas. Se já existirem, só pegar os `variantId` no formato `gid://shopify/ProductVariant/...`.
-- Adicionar um campo `shopifyVariantId` em `src/data/packs.ts` mapeando cada pack ao seu variant Shopify.
-
-### 4b. Botões de compra reais
-- **`PackCTA` (LaunchPacks)** "quero esse": chamar `useCartStore.addItem(...)` com o variant correspondente e abrir o `CartDrawer` (já existe em `src/components/flow/CartDrawer.tsx`) — não mais um botão decorativo "adicionado".
-- **`Product.tsx` "comprar agora"**: chamar `addItem` e em seguida `window.open(getCheckoutUrl(), '_blank')` para ir direto ao checkout Shopify (com `channel=online_store`). Manter "pedir pelo WhatsApp" como secundário.
-- **Hero "ver os packs"**: continua scroll para `#packs` (não muda).
-- **"cupom de 10%"** continua abrindo o `LeadCaptureModal` — esse é o caminho intencional para o cupom, não o de compra.
-
-### 4c. Auto-trigger do modal de lead
-Hoje o modal de cupom abre sozinho 8s depois de carregar a home (e em exit-intent). Isso pode confundir com "compra". **Manter** (é uma boa estratégia de captura), mas garantir que ele nunca abre quando o usuário clica em qualquer CTA de compra.
-
-### 4d. Garantir `useCartSync`
-Conferir que `useCartSync()` é chamado no `App.tsx` para limpar o carrinho quando o usuário volta do checkout.
-
-## 5. Verificação no navegador
-
-Depois de aplicar tudo:
-- Rodar a preview, conferir visualmente: chuva de latas (sem quadriculado), hero (sem fundo branco no can), seção composição (lata real, fundo creme), badges do pack do meio.
-- Testar fluxo: clicar "quero esse" no pack → carrinho abre com item → "checkout" → checkout Shopify abre em nova aba.
-- Reportar achados antes de fechar.
-
-## Detalhes técnicos
-
-- Remoção de fundo: `python3` com `Pillow` — `Image.convert("RGBA")`, threshold em luminosidade > 240 com soft edge de 8 px, salva PNG.
-- Tamanhos: manter ≥ 1000 px de altura para qualidade no hero desktop.
-- Sem novas dependências npm. Sem mudanças em `supabase/`.
-- `CustomCursor` continua removido; nenhuma regressão de performance esperada.
+### Verificação
+- Preview em mobile (375px) e desktop (1280px) confirmando: intro com logo grande e CTA visível, dots aparecem no carrossel de packs, badges não cortados, número "50" legível, lata outline na composição com fundo transparente sobre o creme.
