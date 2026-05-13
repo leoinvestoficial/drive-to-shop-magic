@@ -14,7 +14,7 @@ export const VideoStory = ({
   title = "uma bebida pensada para o seu ritmo.",
   description = "Conheça a história e o propósito por trás da edição 01. Hidratação funcional, ingredientes selecionados e um conceito que acompanha o seu movimento — do treino ao café.",
   ctaLabel = "conheça a marca",
-  ctaHref = "#movimento",
+  ctaHref = "#movement",
 }: VideoStoryProps) => {
   return (
     <section className="bg-flow-cream text-flow-ink py-16 md:py-28 px-5 md:px-6">

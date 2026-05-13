@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import canSrc from "@/assets/brand/can-flow.svg";
+import canSrc from "@/assets/brand/can-lemon-transparent.png";
 
 const STORAGE_KEY = "flow_lead_v1";
 const SESSION_KEY = "flow_lead_session_v1";
