@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useReveal } from "@/hooks/useReveal";
 import { CountUp } from "./CountUp";
-import canOutline from "@/assets/brand/can-outline.png";
+import canPhoto from "@/assets/brand/can-lemon-transparent.png";
 
 // Ícones SVG line com draw-in via stroke-dasharray
 const DrawIcon = ({ d, delay = 0 }: { d: string; delay?: number }) => (
@@ -79,7 +79,7 @@ export const Ingredients = () => (
       <div className="grid md:grid-cols-12 gap-3 md:gap-8 mb-6 md:mb-12">
         <p className="md:col-span-3 font-sans text-[10px] uppercase tracking-[0.4em] text-flow-ink/60">composição</p>
         <h2 className="md:col-span-9 font-display lowercase text-[28px] sm:text-5xl md:text-6xl leading-[1.05] md:leading-[0.95] tracking-tight">
-          composição limpa.<br/><span className="text-flow-ink/40">decisões claras.</span>
+          composição limpa.<br/><span className="text-flow-yellow">decisões claras.</span>
         </h2>
       </div>
 
@@ -101,56 +101,11 @@ export const Ingredients = () => (
         >
           <div className="relative w-full aspect-[3/4] flex items-center justify-center">
             <img
-              src={canOutline}
-              alt=""
+              src={canPhoto}
+              alt="lata flow"
               loading="lazy"
               className="relative z-[1] h-full w-auto object-contain"
             />
-            {/* SVG overlay: linhas indicativas dos ingredientes */}
-            <svg
-              viewBox="0 0 300 400"
-              className="absolute inset-0 w-full h-full pointer-events-none"
-              preserveAspectRatio="xMidYMid meet"
-            >
-              <g
-                fontFamily="Helvena, ui-sans-serif, system-ui, sans-serif"
-                fontSize="8"
-                letterSpacing="2.5"
-                fill="hsl(var(--flow-ink) / 0.9)"
-              >
-                {/* Eletrólitos — topo esquerda */}
-                <g>
-                  <line x1="102" y1="120" x2="40" y2="100" stroke="hsl(var(--flow-ink))" strokeWidth="0.8" />
-                  <circle cx="102" cy="120" r="2.5" fill="hsl(var(--flow-ink))" />
-                  <text x="38" y="92" textAnchor="end">ELETRÓLITOS</text>
-                  <text x="38" y="104" textAnchor="end" fill="hsl(var(--flow-ink) / 0.55)" fontSize="7">SÓDIO · POTÁSSIO</text>
-                </g>
-                <g>
-                  <line x1="102" y1="210" x2="40" y2="210" stroke="hsl(var(--flow-ink))" strokeWidth="0.8" />
-                  <circle cx="102" cy="210" r="2.5" fill="hsl(var(--flow-ink))" />
-                  <text x="38" y="202" textAnchor="end">CAFEÍNA</text>
-                  <text x="38" y="214" textAnchor="end" fill="hsl(var(--flow-ink) / 0.55)" fontSize="7">DO GUARANÁ</text>
-                </g>
-                <g>
-                  <line x1="102" y1="300" x2="40" y2="320" stroke="hsl(var(--flow-ink))" strokeWidth="0.8" />
-                  <circle cx="102" cy="300" r="2.5" fill="hsl(var(--flow-ink))" />
-                  <text x="38" y="312" textAnchor="end">AROMAS NATURAIS</text>
-                  <text x="38" y="324" textAnchor="end" fill="hsl(var(--flow-ink) / 0.55)" fontSize="7">SEM ARTIFICIAIS</text>
-                </g>
-                <g>
-                  <line x1="198" y1="150" x2="260" y2="135" stroke="hsl(var(--flow-ink))" strokeWidth="0.8" />
-                  <circle cx="198" cy="150" r="2.5" fill="hsl(var(--flow-ink))" />
-                  <text x="262" y="127" textAnchor="start">ZERO CALORIAS</text>
-                  <text x="262" y="139" textAnchor="start" fill="hsl(var(--flow-ink) / 0.55)" fontSize="7">100% NATURAL</text>
-                </g>
-                <g>
-                  <line x1="198" y1="280" x2="260" y2="295" stroke="hsl(var(--flow-ink))" strokeWidth="0.8" />
-                  <circle cx="198" cy="280" r="2.5" fill="hsl(var(--flow-ink))" />
-                  <text x="262" y="287" textAnchor="start">355 ML</text>
-                  <text x="262" y="299" textAnchor="start" fill="hsl(var(--flow-ink) / 0.55)" fontSize="7">EDIÇÃO 01</text>
-                </g>
-              </g>
-            </svg>
           </div>
         </motion.div>
       </div>
