@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useReveal } from "@/hooks/useReveal";
 import { CountUp } from "./CountUp";
-import canPhoto from "@/assets/brand/can-lemon.png";
+import canOutline from "@/assets/brand/can-outline.png";
 
 // Ícones SVG line com draw-in via stroke-dasharray
 const DrawIcon = ({ d, delay = 0 }: { d: string; delay?: number }) => (
@@ -101,10 +101,10 @@ export const Ingredients = () => (
         >
           <div className="relative w-full aspect-[3/4] flex items-center justify-center">
             <img
-              src={canPhoto}
+              src={canOutline}
               alt=""
               loading="lazy"
-              className="relative z-[1] h-full w-auto object-contain drop-shadow-[0_30px_40px_rgba(15,15,15,0.18)]"
+              className="relative z-[1] h-full w-auto object-contain"
             />
             {/* SVG overlay: linhas indicativas dos ingredientes */}
             <svg

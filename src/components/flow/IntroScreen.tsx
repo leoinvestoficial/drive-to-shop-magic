@@ -108,26 +108,26 @@ export const IntroScreen = () => {
       <img
         src={logo}
         alt="flow"
-        className="relative z-10 w-[140px] md:w-[180px] h-auto opacity-0 animate-[fade-in_0.8s_ease_0.2s_forwards]"
+        className="relative z-10 w-[240px] md:w-[340px] h-auto opacity-0 animate-[fade-in_0.8s_ease_0.2s_forwards]"
       />
       <button
         type="button"
         onClick={handleScroll}
         aria-label="role para descobrir"
-        className="absolute z-10 left-1/2 -translate-x-1/2 bottom-8 md:bottom-10 flex flex-col items-center gap-2 min-w-[44px] min-h-[44px] justify-center"
+        className="absolute z-10 left-1/2 -translate-x-1/2 bottom-16 md:bottom-20 flex flex-col items-center gap-2.5 min-w-[44px] min-h-[44px] justify-center"
       >
         <span
           className="font-sans uppercase"
-          style={{ fontSize: 10, letterSpacing: "3px", color: "#999", fontWeight: 400 }}
+          style={{ fontSize: 12, letterSpacing: "4px", color: "hsl(var(--flow-ink) / 0.85)", fontWeight: 500 }}
         >
           role para descobrir
         </span>
         <svg
-          width="16"
-          height="16"
+          width="22"
+          height="22"
           viewBox="0 0 24 24"
           fill="none"
-          stroke="#999"
+          stroke="hsl(var(--flow-ink) / 0.85)"
           strokeWidth="1.8"
           strokeLinecap="round"
           strokeLinejoin="round"

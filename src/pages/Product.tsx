@@ -44,8 +44,13 @@ const Product = () => {
             <div className="relative w-full aspect-square md:aspect-[4/5] overflow-hidden bg-[#f5f3ee] md:bg-background border border-flow-ink/10 rounded-2xl md:rounded-none">
               <img src={pack.img} alt={pack.name} className="absolute inset-0 w-full h-full object-cover" />
               {pack.highlight && (
-                <span className="absolute top-4 left-4 bg-flow-yellow text-flow-ink font-sans text-[9px] uppercase tracking-[0.3em] px-3 py-1.5 font-bold">
+                <span className="absolute top-3 left-3 md:top-4 md:left-4 bg-flow-yellow text-flow-ink font-sans text-[9px] uppercase tracking-[0.25em] md:tracking-[0.3em] px-2.5 py-1 md:px-3 md:py-1.5 font-bold max-w-[calc(100%-1.5rem)]">
                   mais escolhido
+                </span>
+              )}
+              {pack.freeShip && (
+                <span className="absolute top-3 right-3 md:top-4 md:right-4 bg-flow-ink text-flow-yellow font-sans text-[9px] uppercase tracking-[0.25em] md:tracking-[0.3em] px-2.5 py-1 md:px-3 md:py-1.5 font-bold rounded-sm">
+                  frete grátis
                 </span>
               )}
             </div>
